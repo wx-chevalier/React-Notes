@@ -46,7 +46,7 @@
 - 🌟 Footer 支持传入 props。 [#17](https://github.com/ant-design/ant-design-pro-layout/pull/17) [@zzh1991](https://github.com/zzh1991)
 - 🌟 RouteContext 增加了 isMobile 的值。
 - 🐞 修复 [ant-design/ant-design-pro#4532](https://github.com/ant-design/ant-design-pro/issues/4532)，修复 icon 大小错位的问题。
-- 🐞 修复 [ant-design/ant-design-pro#4482](https://github.com/ant-design/ant-design-pro/pull/4482)， 修复 menuData 未判断空值的问题。
+- 🐞 修复 [ant-design/ant-design-pro#4482](https://github.com/ant-design/ant-design-pro/pull/4482)，修复 menuData 未判断空值的问题。
 
 ### 4.5.4
 

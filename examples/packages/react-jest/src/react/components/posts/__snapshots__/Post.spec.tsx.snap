@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Post renders a post's title and body 1`] = `
+<tr>
+  <td>
+    Hello World!
+  </td>
+  <td>
+    Learning about tests 💯
+  </td>
+  <td>
+    <button
+      id="reverse"
+      onClick={[Function]}
+    >
+      Reverse Title
+    </button>
+  </td>
+  <td>
+    <button
+      id="delete"
+      onClick={[Function]}
+    >
+      Delete Post
+    </button>
+  </td>
+</tr>
+`;

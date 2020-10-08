@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewPost renders empty by default 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <input
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </td>
+      <td>
+        <input
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </td>
+      <td>
+        <button
+          onClick={[Function]}
+        >
+          Create Post
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

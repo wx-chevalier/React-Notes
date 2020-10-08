@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostsList correctly renders posts in order received 1`] = `
+<table>
+  <tbody>
+    <Post
+      body="Body 1"
+      index={0}
+      key="Test 1-Body 1-0"
+      title="Test 1"
+    />
+    <Post
+      body="Body 2"
+      index={1}
+      key="Test 2-Body 2-1"
+      title="Test 2"
+    />
+  </tbody>
+</table>
+`;

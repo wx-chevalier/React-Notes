@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "sourceRoot": "src",
+    "lib": ["es6", "es7", "dom"],
+    "jsx": "react",
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "allowJs": true,
+    "outDir": "build/dist",
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "allowUnusedLabels": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
+  "exclude": ["assets", "node_modules", "dist", "build", "test", "dev-config", "ssr", "stories"]
+}

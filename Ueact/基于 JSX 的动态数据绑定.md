@@ -149,14 +149,14 @@ import { createElement } from "../../../src/dom/jsx/createElement";
 
 // 页面内状态
 const state = {
-  count: 0
+  count: 0,
 };
 
 /**
  * Description 点击事件处理
  * @param e
  */
-const handleClick = e => {
+const handleClick = (e) => {
   state.count++;
   document.querySelector("#count").innerText = state.count;
 };
@@ -173,7 +173,7 @@ export default (
         </button>
         <input
           type="text"
-          onChange={e => {
+          onChange={(e) => {
             console.log(e);
           }}
         />
@@ -181,9 +181,12 @@ export default (
       </section>{" "}
     </section>
     <svg>
-      <circle cx="64" cy="64" r="64" style="fill: #00ccff;" /> {" "}
+      <circle cx="64" cy="64" r="64" style="fill: #00ccff;" />
+       {" "}
     </svg>
-    <br />  <span id="count" style={{ color: "red" }}>
+    <br />
+     {" "}
+    <span id="count" style={{ color: "red" }}>
       {state.count} {" "}
     </span>{" "}
   </div>
@@ -201,8 +204,6 @@ document.querySelector("#root").appendChild(App);
 
 当我们使用 Webpack 在后端编译 JSX 时，会将其直接转化为 JavaScript 中函数调用，因此可以自然地在作用域中声明变量然后在 JSX 中直接引用；不过笔者在设计 Ueact 时考虑到，为了方便快速上手或者简单的 H5 页面开发或者已有的代码库的升级，还是需要支持运行时动态编译的方式；本部分我们即讨论如何编写 JSX 格式的 HTML 模板并且进行数据动态绑定。本部分我们的 HTML 模板即是上文使用的 JSX 代码，不同的是我们还需要引入 babel-standalone 以及 Ueact 的 umd 模式库：
 
-![](https://coding.net/u/hoteam/p/Cache/git/raw/master/2017/8/1/WX20170804-142918.png)
-
 然后在本页面的 script 标签中，我们可以对模板进行渲染并且绑定数据：
 
 ```html
@@ -215,28 +216,28 @@ document.querySelector("#root").appendChild(App);
       state: {
         count: 0,
         delta: 1,
-        items: [1, 2, 3]
+        items: [1, 2, 3],
       },
       methods: {
-        handleClick: function() {
+        handleClick: function () {
           this.state.count += this.state.delta;
           this.state.items.push(this.state.count);
         },
-        handleChange: function(e) {
+        handleChange: function (e) {
           let value = parseInt(e.target.value);
           if (!Number.isNaN(value)) {
             this.state.delta = value;
           }
-        }
+        },
       },
       hooks: {
-        mounted: function() {
+        mounted: function () {
           console.log("mounted");
         },
-        updated: function() {
+        updated: function () {
           console.log("updated");
-        }
-      }
+        },
+      },
     },
     Babel
   );
@@ -254,10 +255,10 @@ let output = Babel.transform(input, {
     [
       "transform-react-jsx",
       {
-        pragma: "Ueact.createElement"
-      }
-    ]
-  ]
+        pragma: "Ueact.createElement",
+      },
+    ],
+  ],
 }).code;
 ```
 
@@ -304,13 +305,13 @@ import { observe } from "../../dist/observer-x";
 const obj = observe(
   {},
   {
-    recursive: true
+    recursive: true,
   }
 );
 
 obj.property = {};
 
-obj.property.listen(changes => {
+obj.property.listen((changes) => {
   console.log(changes);
   console.log("changes in obj");
 });
@@ -319,7 +320,7 @@ obj.property.name = 1;
 
 obj.property.arr = [];
 
-obj.property.arr.listen(changes => {
+obj.property.arr.listen((changes) => {
   // console.log('changes in obj.arr');
 });
 
@@ -340,7 +341,7 @@ setTimeout(() => {
 // ...
 // 将内部状态转化为可观测变量
 let state = observe(innerContext.state); // ...
-state.listen(changes => {
+state.listen((changes) => {
   renderFromStr(innerContext);
   innerContext.hooks.updated && innerContext.hooks.updated();
 }); // ...

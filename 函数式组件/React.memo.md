@@ -17,6 +17,6 @@ const Button = React.memo((props: ButtonProps) => (
 ));
 ```
 
-# 链接
+# TBD
 
 - https://dmitripavlutin.com/use-react-memo-wisely/

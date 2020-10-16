@@ -35,7 +35,7 @@ Work-in-Progress Tree
 
 React 另一个存在的问题就是初次渲染缓慢，目前 React 在渲染之前需要抓取到完整的代码文件(不考虑异步加载的情形)，而利用 Streaming Rendering 技术，React 允许
 
-# 链接
+# TBD
 
 - https://medium.com/@chang_yan/get-started-with-react-fiber-ea30e597aad0
 - https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e

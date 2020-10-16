@@ -45,6 +45,6 @@ function useInterval(callback, delay) {
 
 useInterval 还能够来暂停、终止定时器
 
-# 链接
+# TBD
 
 - https://medium.com/trabe/react-useeffect-hook-44d8aa7cccd0

@@ -60,6 +60,6 @@ export declare const connect: Connect;
 
 # 状态管理
 
-# 链接
+# TBD
 
 - https://medium.com/@rossbulat/how-to-use-typescript-with-react-and-redux-a118b1e02b76

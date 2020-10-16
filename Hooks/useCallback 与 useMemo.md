@@ -15,10 +15,10 @@ let Test = () => {
     let fetchParams = { searchID };
     fetch(fetchUrl, {
       method: "POST",
-      body: JSON.stringify(fetchParams)
+      body: JSON.stringify(fetchParams),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         console.log(res);
       });
   }, []);
@@ -81,7 +81,7 @@ function useState(init) {
     storage.data = init;
   }
 
-  return [storage.data, value => (storage.data = value)];
+  return [storage.data, (value) => (storage.data = value)];
 }
 
 function useCallback(fn) {
@@ -103,7 +103,7 @@ function MyComponent() {
   console.log("callback:", callback());
 
   return {
-    increase: () => setData(data + 1)
+    increase: () => setData(data + 1),
   };
 }
 
@@ -141,7 +141,7 @@ let Test = () => {
   const fetchRef: IRef = useRef(); // hooks为我们提供的一个通用容器，里面有一个current属性
   fetchRef.current = {
     //  为current这个属性添加一个searchID，每当searchID状态变更的时候，Test都会进行重新渲染，从而current能拿到最新的值
-    searchID
+    searchID,
   };
 
   /** Search info action */
@@ -150,10 +150,10 @@ let Test = () => {
     let fetchParams = { ...fetchRef.current }; // 解构参数，这里拿到的是外层fetchRef的引用
     fetch(fetchUrl, {
       method: "POST",
-      body: JSON.stringify(fetchParams)
+      body: JSON.stringify(fetchParams),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         console.log(res);
       });
   }, []);
@@ -179,7 +179,7 @@ let Test = () => {
 };
 ```
 
-# 链接
+# TBD
 
 - https://blog.csdn.net/sinat_17775997/article/details/94453167
 - https://nikgrozev.com/2019/04/07/reacts-usecallback-and-usememo-hooks-by-example/

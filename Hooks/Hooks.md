@@ -54,7 +54,7 @@ const ref = React.createRef();
 
 ```jsx
 const defaultProps = {
-  formData: {}
+  formData: {},
 };
 
 export function VCForm({ formData = defaultProps.formData }) {
@@ -73,7 +73,7 @@ export function VCForm({ formData = defaultProps.formData }) {
   return (
     <Form
       value={innerFormDaat}
-      onChange={newData => {
+      onChange={(newData) => {
         setInnerFormData(newData);
       }}
     />
@@ -125,7 +125,7 @@ resolve: {
 },
 ```
 
-# 链接
+# TBD
 
 - https://reactjs.org/docs/hooks-faq.html
 - https://reactjs.org/blog/2019/02/06/react-v16.8.0.html

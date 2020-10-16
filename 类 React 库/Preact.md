@@ -43,6 +43,6 @@ class Clock extends Component {
 render(<Clock />, document.body);
 ```
 
-# 链接
+# TBD
 
 — https://www.axihe.com/react/preact/home.html#linkstate Preact 学习笔记

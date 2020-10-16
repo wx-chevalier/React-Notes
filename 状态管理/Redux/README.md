@@ -27,14 +27,14 @@ export default class Counter extends Component {
 // 哪些 Redux 全局的 state 是我们组件想要通过 props 获取的？
 function mapStateToProps(state) {
   return {
-    value: state.counter
+    value: state.counter,
   };
 }
 
 // 哪些 action 创建函数是我们想要通过 props 获取的？
 function mapDispatchToProps(dispatch) {
   return {
-    onIncrement: () => dispatch(increment())
+    onIncrement: () => dispatch(increment()),
   };
 }
 
@@ -54,10 +54,7 @@ function mapDispatchToProps(dispatch) {
 // 或者如果你想省略 `mapDispatchToProps`，你可以通过传递一个 `dispatch` 作为一个 props：
 // export default connect(mapStateToProps)(Counter);
 
-let App = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Counter);
+let App = connect(mapStateToProps, mapDispatchToProps)(Counter);
 const targetEl = document.getElementById("root");
 const store = configureStore({ counter: 0 }); //初始化Store
 
@@ -84,12 +81,7 @@ ReactDOM.render(
 # connect：连接 React 组件与 Redux store。
 
 ```js
-connect(
-  [mapStateToProps],
-  [mapDispatchToProps],
-  [mergeProps],
-  [options]
-);
+connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options]);
 ```
 
 连接操作不会改变原来的组件类，反而返回一个新的已与 Redux store 连接的组件类。
@@ -113,6 +105,6 @@ connect(
 - [pure = true](Boolean): 如果为 true，connector 将执行 shouldComponentUpdate 并且浅对比 mergeProps 的结果，避免不必要的更新，前提是当前组件是一个“纯”组件，它不依赖于任何的输入或 state 而只依赖于 props 和 Redux store 的 state。默认值为 true。
 - [withRef = false](Boolean): 如果为 true，connector 会保存一个对被包装组件实例的引用，该引用通过 getWrappedInstance() 方法获得。默认值为 false
 
-# 链接
+# TBD
 
 - https://mp.weixin.qq.com/s/axauH4xpq-ZV3FFHI9XWLg 动手实现一个 react-redux

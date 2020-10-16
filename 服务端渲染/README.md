@@ -10,7 +10,7 @@
 
 总结而言，服务端渲染与客户端渲染是相辅相成的，在 React 等框架的协助下我们也可以很方便地为开发阶段的纯客户端渲染应用添加服务端渲染支持。
 
-# 链接
+# TBD
 
 - https://zhuanlan.zhihu.com/p/76967335
 - 提取最后的对比表格 https://dev.to/ahoy/messages/pmrF7ZcvQR0aCGcy81L4O1BBSb6kLSiy/click?signature=ea4086a4f3854a99f89606fe5739a276708af9b7&url=https%3A%2F%2Fdev.to%2Fkefranabg%2Fdemystifying-ssr-csr-universal-and-static-rendering-with-animations-m7d%3Futm_source%3Ddigest_mailer%26utm_medium%3Demail%26utm_campaign%3Ddigest_email

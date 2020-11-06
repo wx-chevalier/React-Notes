@@ -38,7 +38,7 @@ const addItem = () => {
 };
 ```
 
-- 想同时获取值和可以更新值 `const [todoList, setTodoList] = useRecoilState(todoListState);`，类似 react useState ，其中 todolist 是 state 值，这个没什么好说，setTodoList 也是直接把值设置进去，注意跟上面 useSetRecoilState 产出的 setTodoList 的区别，
+- 想同时获取值和可以更新值 `const [todoList, setTodoList] = useRecoilState(todoListState);`，类似 react useState，其中 todolist 是 state 值，这个没什么好说，setTodoList 也是直接把值设置进去，注意跟上面 useSetRecoilState 产出的 setTodoList 的区别，
 
 # Selectors
 

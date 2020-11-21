@@ -1,5 +1,22 @@
 # useCallback 与 useMemo
 
+```js
+function Button({ onClick, color, children }) {
+  const textColor = slowlyCalculateTextColor(this.props.color);
+  return (
+    <button
+      onClick={onClick}
+      className={"Button-" + color + " Button-text-" + textColor}
+    >
+      {children}
+    </button>
+  );
+}
+export default React.memo(Button); // ✅ Uses shallow comparison
+```
+
+不过在实际场景下，很多的 Callback 还是会被重新生成，我们还是需要在子组件中进行精细地 shouldComponentUpdate 控制。
+
 # 闭包冻结
 
 在 useCallback 的使用中，有时候我们会碰到所谓的闭包冻结的现象，即如下所示：
@@ -177,6 +194,16 @@ let Test = () => {
     </>
   );
 };
+```
+
+# useMemo
+
+useMemo 的用法类似 useEffect，常常用于缓存一些复杂计算的结果。useMemo 接收一个函数和依赖数组，当数组中依赖项变化的时候，这个函数就会执行，返回新的值。
+
+```js
+const sum = useMemo(() => {
+  // 一系列计算
+}, [count]);
 ```
 
 # TBD

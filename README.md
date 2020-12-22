@@ -32,9 +32,9 @@
 
 # Nav | 导读
 
-- 如果你是颇有经验的开发者，想要了解前端工程化与架构方面的知识，那么建议阅读《[Web-Series](https://github.com/wx-chevalier/Web-Series)》一文。
+- 如果你是颇有经验的开发者，想要了解前端工程化与架构方面的知识，那么建议阅读[《Web-Series](https://github.com/wx-chevalier/Web-Series)》一文。
 
-- 如果你希望了解 Node.js 全栈开发，可以参阅 《[Node-Series](https://github.com/wx-chevalier/Node-Series)》。
+- 如果你希望了解 Node.js 全栈开发，可以参阅 [《Node-Series](https://github.com/wx-chevalier/Node-Series)》。
 
 # About
 

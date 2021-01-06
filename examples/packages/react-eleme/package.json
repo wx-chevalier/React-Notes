@@ -65,7 +65,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "better-scroll": "^1.10.2",
     "classnames": "^2.2.5",
     "lodash.omit": "^4.5.0",

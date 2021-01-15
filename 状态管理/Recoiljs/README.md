@@ -15,7 +15,7 @@ const todoListState = atom({
 
 当我们在 app 里面使用的时候，从官网的 todo list 项目来看，有三种使用方式
 
-- 单纯去使用它的值 `const todoList = useRecoilValue(todoListState);` , 如下
+- 单纯去使用它的值 `const todoList = useRecoilValue(todoListState);`, 如下
 
 ```js
 {todoList.map((todoItem) => (

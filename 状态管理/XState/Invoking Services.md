@@ -4,7 +4,7 @@
 
 对于状态机之间的通信，父状态机调用子状态机，并通过 sendParent(...)监听子状态机发送的事件，或者等待子状态机达到最终状态，然后将引起 onDone 过渡。我们可以调用如下类型：
 
-- Promises： 将在 resolve 时采用 onDone 转换，或在 reject 时采用 onError 转换。
+- Promises：将在 resolve 时采用 onDone 转换，或在 reject 时采用 onError 转换。
 - Callbacks：可以向父机发送事件和从父机接收事件。
 - Observables：可以向父机发送事件，以及完成后的信号。
 - Machines：它还可以发送/接收事件，并在达到最终状态时通知父机。

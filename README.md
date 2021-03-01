@@ -30,7 +30,7 @@
 
 ![Think React](https://i.postimg.cc/TwTRt2Wy/image.png)
 
-# Nav | 导读
+# Nav | 关联导航
 
 - 如果你是颇有经验的开发者，想要了解前端工程化与架构方面的知识，那么建议阅读[《Web-Series](https://github.com/wx-chevalier/Web-Series)》一文。
 

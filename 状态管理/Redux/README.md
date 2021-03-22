@@ -105,6 +105,6 @@ connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options]);
 - [pure = true](Boolean): 如果为 true，connector 将执行 shouldComponentUpdate 并且浅对比 mergeProps 的结果，避免不必要的更新，前提是当前组件是一个“纯”组件，它不依赖于任何的输入或 state 而只依赖于 props 和 Redux store 的 state。默认值为 true。
 - [withRef = false](Boolean): 如果为 true，connector 会保存一个对被包装组件实例的引用，该引用通过 getWrappedInstance() 方法获得。默认值为 false
 
-# TBD
+# Links
 
 - https://mp.weixin.qq.com/s/axauH4xpq-ZV3FFHI9XWLg 动手实现一个 react-redux

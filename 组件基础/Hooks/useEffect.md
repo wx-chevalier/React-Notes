@@ -135,6 +135,6 @@ export function useInterval(
 
 useInterval 还能够来暂停、终止定时器。
 
-# TBD
+# Links
 
 - https://medium.com/trabe/react-useeffect-hook-44d8aa7cccd0

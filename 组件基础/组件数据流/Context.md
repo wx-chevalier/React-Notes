@@ -102,7 +102,7 @@ MessageList.childContextTypes = {
 
 - `Context` 并不会触发组件重渲染，如果组件树中的某个组件的 `shouldComponentUpdate` 函数返回 `false` 而避免了子层组件的重渲染，那么新的 Context 值也就无法传递到子层组件，而导致目标组件无法保证自己每次都可以接收到更新后的 Context 值。
 
-# TBD
+# Links
 
 - https://juejin.im/post/5a90e0545188257a63112977
 - https://www.techiediaries.com/react-context-api-tutorial/

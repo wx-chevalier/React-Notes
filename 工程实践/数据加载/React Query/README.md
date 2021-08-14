@@ -119,7 +119,7 @@ function Example() {
 如果希望在类组件中使用，可以采取如下方式：
 
 ```tsx
-function UseQuery (props) {
+function UseQuery(props) {
   return props.children(useQuery(props.key, props.fn, props.options))
 }
 

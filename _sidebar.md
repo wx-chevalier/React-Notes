@@ -1,137 +1,140 @@
   - [1 INTRODUCTION](/INTRODUCTION.md)
-  - [2 快速开始](/快速开始/README.md)
+  - [2 快速开始 [3]](/快速开始/README.md)
     - [2.1 create react app](/快速开始/create-react-app.md)
     - [2.2 函数式编程](/快速开始/函数式编程.md)
     - [2.3 设计理念与生态体系](/快速开始/设计理念与生态体系.md)
-  - 3 组件基础
-    - [3.1 Storybook](/组件基础/Storybook/README.md)
+  - 3 组件基础 [12]
+    - [3.1 Storybook [3]](/组件基础/Storybook/README.md)
       - [3.1.1 扩展](/组件基础/Storybook/扩展.md)
       - [3.1.2 用例](/组件基础/Storybook/用例.md)
       - [3.1.3 配置](/组件基础/Storybook/配置.md)
-    - 3.2 类组件
+    - 3.2 类组件 [4]
       - [3.2.1 DOM 操作](/组件基础/类组件/DOM%20操作.md)
       - [3.2.2 JSX](/组件基础/类组件/JSX.md)
       - [3.2.3 生命周期与异常边界](/组件基础/类组件/生命周期与异常边界.md)
       - [3.2.4 组件声明](/组件基础/类组件/组件声明.md)
-    - 3.3 组件样式
+    - 3.3 组件样式 [2]
       - [3.3.1 CSS in JS](/组件基础/组件样式/CSS-in-JS.md)
       - [3.3.2 样式定义与引入](/组件基础/组件样式/样式定义与引入.md)
-    - [3.4 组件数据流](/组件基础/组件数据流/README.md)
+    - [3.4 组件数据流 [4]](/组件基础/组件数据流/README.md)
       - [3.4.1 Context](/组件基础/组件数据流/Context.md)
       - [3.4.2 Props](/组件基础/组件数据流/Props.md)
       - [3.4.3 State](/组件基础/组件数据流/State.md)
       - [3.4.4 不可变操作](/组件基础/组件数据流/不可变操作.md)
-    - 3.5 事件系统
+    - 3.5 事件系统 [3]
       - [3.5.1 合成事件](/组件基础/事件系统/合成事件.md)
       - [3.5.2 拖拽效果](/组件基础/事件系统/拖拽效果.md)
       - [3.5.3 界面事件](/组件基础/事件系统/界面事件.md)
-    - [3.6 函数式组件](/组件基础/函数式组件/README.md)
+    - [3.6 函数式组件 [2]](/组件基础/函数式组件/README.md)
       - [3.6.1 React.memo](/组件基础/函数式组件/React.memo.md)
       - [3.6.2 函数式 React 开发](/组件基础/函数式组件/函数式%20React%20开发.md)
-    - [3.7 Hooks](/组件基础/Hooks/README.md)
-      - 3.7.1 Hooks 扩展
+    - [3.7 Hooks [4]](/组件基础/Hooks/README.md)
+      - 3.7.1 Hooks 扩展 [1]
         - [3.7.1.1 AHook](/组件基础/Hooks/Hooks%20扩展/AHook.md)
-      - 3.7.2 基础元语
+      - 3.7.2 基础元语 [5]
         - [3.7.2.1 useCallback & useMemo](/组件基础/Hooks/基础元语/useCallback%20&%20useMemo.md)
         - [3.7.2.2 useEffect](/组件基础/Hooks/基础元语/useEffect.md)
         - [3.7.2.3 useReducer](/组件基础/Hooks/基础元语/useReducer.md)
         - [3.7.2.4 useState & useRef](/组件基础/Hooks/基础元语/useState%20&%20useRef.md)
         - [3.7.2.5 useSubscription](/组件基础/Hooks/基础元语/useSubscription.md)
-      - 3.7.3 机制解析
+      - 3.7.3 机制解析 [2]
         - [3.7.3.1 Hooks Scratch](/组件基础/Hooks/机制解析/Hooks%20Scratch.md)
         - [3.7.3.2 源码解析](/组件基础/Hooks/机制解析/源码解析.md)
-      - 3.7.4 设计模式
+      - 3.7.4 设计模式 [1]
         - [3.7.4.1 优化数据流](/组件基础/Hooks/设计模式/优化数据流.md)
-    - [3.8 React Router](/组件基础/React%20Router/README.md)
+    - [3.8 React Router [5]](/组件基础/React%20Router/README.md)
       - [3.8.1 Hooks Api](/组件基础/React%20Router/Hooks%20Api.md)
       - [3.8.2 控制与切换](/组件基础/React%20Router/控制与切换.md)
       - [3.8.3 框架集成](/组件基础/React%20Router/框架集成.md)
       - [3.8.4 路由即组件](/组件基础/React%20Router/路由即组件.md)
       - [3.8.5 配置与匹配](/组件基础/React%20Router/配置与匹配.md)
-    - [3.9 过渡与动画](/组件基础/过渡与动画/README.md)
+    - [3.9 过渡与动画 [1]](/组件基础/过渡与动画/README.md)
       - [3.9.1 TransitionGroup](/组件基础/过渡与动画/TransitionGroup.md)
-    - 3.10 组件范式
+    - 3.10 组件范式 [4]
       - [3.10.1 Formik](/组件基础/组件范式/Formik.md)
       - [3.10.2 Svg](/组件基础/组件范式/Svg.md)
       - [3.10.3 列表组件](/组件基础/组件范式/列表组件.md)
       - [3.10.4 表单组件](/组件基础/组件范式/表单组件.md)
-    - [3.11 Antd](/组件基础/Antd/README.md)
+    - [3.11 Antd [3]](/组件基础/Antd/README.md)
       - [3.11.1 应用配置](/组件基础/Antd/应用配置.md)
       - [3.11.2 文件上传](/组件基础/Antd/文件上传.md)
       - [3.11.3 表单](/组件基础/Antd/表单.md)
-    - [3.12 组件测试](/组件基础/组件测试/README.md)
+    - [3.12 组件测试 [2]](/组件基础/组件测试/README.md)
       - [3.12.1 Enzyme](/组件基础/组件测试/Enzyme.md)
       - [3.12.2 Jest](/组件基础/组件测试/Jest.md)
-  - [4 状态管理](/状态管理/README.md)
-    - 4.1 Context
+  - [4 状态管理 [8]](/状态管理/README.md)
+    - 4.1 Context [1]
       - [4.1.1 Context](/状态管理/Context/Context.md)
-    - 4.2 Form
+    - 4.2 Form [1]
       - [4.2.1 React Hook Form](/状态管理/Form/React%20Hook%20Form.md)
     - [4.3 GraphQL](/状态管理/GraphQL/README.md)
       
-    - [4.4 Hooks](/状态管理/Hooks/README.md)
+    - [4.4 Hooks [1]](/状态管理/Hooks/README.md)
       - [4.4.1 Bistate](/状态管理/Hooks/Bistate.md)
-    - [4.5 MobX](/状态管理/MobX/README.md)
+    - [4.5 MobX [4]](/状态管理/MobX/README.md)
       - [4.5.1 响应式界面](/状态管理/MobX/响应式界面.md)
       - [4.5.2 实践调优](/状态管理/MobX/实践调优.md)
       - [4.5.3 异步事件](/状态管理/MobX/异步事件.md)
       - [4.5.4 数据存储](/状态管理/MobX/数据存储.md)
     - [4.6 Recoiljs](/状态管理/Recoiljs/README.md)
       
-    - [4.7 Redux](/状态管理/Redux/README.md)
-      - [4.7.1 Dva](/状态管理/Redux/Dva/README.md)
+    - [4.7 Redux [4]](/状态管理/Redux/README.md)
+      - [4.7.1 Dva [1]](/状态管理/Redux/Dva/README.md)
         - [4.7.1.1 快速开始](/状态管理/Redux/Dva/快速开始.md)
       - [4.7.2 Redux Hooks](/状态管理/Redux/Redux%20Hooks.md)
       - [4.7.3 State 结构设计](/状态管理/Redux/State%20结构设计.md)
       - [4.7.4 redux form](/状态管理/Redux/redux-form.md)
-    - [4.8 XState](/状态管理/XState/README.md)
+    - [4.8 XState [4]](/状态管理/XState/README.md)
       - [4.8.1 Context & Actions](/状态管理/XState/Context%20&%20Actions.md)
       - [4.8.2 Invoking Services](/状态管理/XState/Invoking%20Services.md)
       - [4.8.3 React](/状态管理/XState/React.md)
       - [4.8.4 有限状态机](/状态管理/XState/有限状态机.md)
-  - 5 工程实践
-    - 5.1 静态类型
+  - 5 工程实践 [8]
+    - 5.1 静态类型 [2]
       - [5.1.1 Flow](/工程实践/静态类型/Flow.md)
       - [5.1.2 TypeScript](/工程实践/静态类型/TypeScript.md)
-    - [5.2 数据加载](/工程实践/数据加载/README.md)
-      - [5.2.1 React Query](/工程实践/数据加载/React%20Query/README.md)
+    - [5.2 数据加载 [5]](/工程实践/数据加载/README.md)
+      - [5.2.1 React Query [2]](/工程实践/数据加载/React%20Query/README.md)
         - [5.2.1.1 快速开始](/工程实践/数据加载/React%20Query/快速开始.md)
         - [5.2.1.2 高级查询](/工程实践/数据加载/React%20Query/高级查询.md)
       - [5.2.2 Suspense](/工程实践/数据加载/Suspense.md)
       - [5.2.3 异步渲染](/工程实践/数据加载/异步渲染.md)
       - [5.2.4 数据请求](/工程实践/数据加载/数据请求.md)
       - [5.2.5 组件间通信](/工程实践/数据加载/组件间通信.md)
-    - [5.3 设计模式](/工程实践/设计模式/README.md)
+    - [5.3 设计模式 [4]](/工程实践/设计模式/README.md)
       - [5.3.1 renderProps](/工程实践/设计模式/renderProps.md)
       - [5.3.2 其他技巧](/工程实践/设计模式/其他技巧.md)
       - [5.3.3 组件划分](/工程实践/设计模式/组件划分.md)
       - [5.3.4 高阶组件](/工程实践/设计模式/高阶组件.md)
-    - [5.4 类 React 库](/工程实践/类%20React%20库/README.md)
-      - [5.4.1 Inferno](/工程实践/类%20React%20库/Inferno.md)
-      - [5.4.2 Preact](/工程实践/类%20React%20库/Preact.md)
-    - [5.5 服务端渲染](/工程实践/服务端渲染/README.md)
-      - [5.5.1 React Router](/工程实践/服务端渲染/React%20Router.md)
-      - [5.5.2 搭建渲染服务器](/工程实践/服务端渲染/搭建渲染服务器.md)
-      - [5.5.3 服务端渲染性能浅析](/工程实践/服务端渲染/服务端渲染性能浅析.md)
-    - [5.6 性能优化](/工程实践/性能优化/README.md)
-      - [5.6.1 代码分割与异步加载](/工程实践/性能优化/代码分割与异步加载.md)
-      - [5.6.2 异步碎片化状态更新](/工程实践/性能优化/异步碎片化状态更新.md)
-      - [5.6.3 性能评测与分析](/工程实践/性能优化/性能评测与分析.md)
-      - [5.6.4 组件渲染优化](/工程实践/性能优化/组件渲染优化.md)
-    - [5.7 服务端组件](/工程实践/服务端组件/README.md)
-      - [5.7.1 服务端组件的优势](/工程实践/服务端组件/服务端组件的优势.md)
-  - 6 架构机制
+    - 5.4 风格指南 [1]
+      - 5.4.1 参考资料 [1]
+        - [5.4.1.1 React Philosophies](/工程实践/风格指南/.more/2021-React%20Philosophies.md)
+    - [5.5 类 React 库 [2]](/工程实践/类%20React%20库/README.md)
+      - [5.5.1 Inferno](/工程实践/类%20React%20库/Inferno.md)
+      - [5.5.2 Preact](/工程实践/类%20React%20库/Preact.md)
+    - [5.6 服务端渲染 [3]](/工程实践/服务端渲染/README.md)
+      - [5.6.1 React Router](/工程实践/服务端渲染/React%20Router.md)
+      - [5.6.2 搭建渲染服务器](/工程实践/服务端渲染/搭建渲染服务器.md)
+      - [5.6.3 服务端渲染性能浅析](/工程实践/服务端渲染/服务端渲染性能浅析.md)
+    - [5.7 性能优化 [4]](/工程实践/性能优化/README.md)
+      - [5.7.1 代码分割与异步加载](/工程实践/性能优化/代码分割与异步加载.md)
+      - [5.7.2 异步碎片化状态更新](/工程实践/性能优化/异步碎片化状态更新.md)
+      - [5.7.3 性能评测与分析](/工程实践/性能优化/性能评测与分析.md)
+      - [5.7.4 组件渲染优化](/工程实践/性能优化/组件渲染优化.md)
+    - [5.8 服务端组件 [1]](/工程实践/服务端组件/README.md)
+      - [5.8.1 服务端组件的优势](/工程实践/服务端组件/服务端组件的优势.md)
+  - 6 架构机制 [5]
     - [6.1 Fiber](/架构机制/Fiber/README.md)
       
-    - 6.2 Scratch
+    - 6.2 Scratch [1]
       - [6.2.1 Didact](/架构机制/Scratch/Didact.md)
     - [6.3 Stack](/架构机制/Stack/README.md)
       
-    - [6.4 Ueact](/架构机制/Ueact/README.md)
+    - [6.4 Ueact [3]](/架构机制/Ueact/README.md)
       - [6.4.1 VirtualDOM 算法详解与实现](/架构机制/Ueact/VirtualDOM%20算法详解与实现.md)
       - [6.4.2 基于 JSX 的动态数据绑定](/架构机制/Ueact/基于%20JSX%20的动态数据绑定.md)
       - [6.4.3 组件系统设计](/架构机制/Ueact/组件系统设计.md)
-    - 6.5 组件系统
+    - 6.5 组件系统 [5]
       - [6.5.1 VDOM](/架构机制/组件系统/VDOM.md)
       - [6.5.2 setState](/架构机制/组件系统/setState.md)
       - [6.5.3 事务机制](/架构机制/组件系统/事务机制.md)

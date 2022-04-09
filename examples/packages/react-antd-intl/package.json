@@ -39,7 +39,7 @@
   "dependencies": {
     "antd": "^3.21.4",
     "lego-form-core": "^0.1.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",

@@ -89,6 +89,9 @@
       - [4.8.2 Invoking Services](/状态管理/XState/Invoking%20Services.md)
       - [4.8.3 React](/状态管理/XState/React.md)
       - [4.8.4 有限状态机](/状态管理/XState/有限状态机.md)
+    - [4.9 zustand](/状态管理/zustand/README.md)
+      - [4.9.1 基础使用](/状态管理/zustand/基础使用.md)
+      - [4.9.2 源码解析](/状态管理/zustand/源码解析.md)
   - 5 工程实践
     - 5.1 静态类型
       - [5.1.1 Flow](/工程实践/静态类型/Flow.md)

@@ -4,7 +4,7 @@
 
 React Hooks 是 React 16.8 引入的新特性，允许我们在不使用 Class 的前提下使用 state 和其他特性。React Hooks 要解决的问题是状态共享，是继 render-props 和 higher-order components 之后的第三种状态逻辑复用方案，不会产生 JSX 嵌套地狱问题。
 
-[![image.png](https://i.postimg.cc/G2cQwFB2/image.png)](https://postimg.cc/zLcWTRFZ)
+![image.png](https://i.postimg.cc/G2cQwFB2/image.png)
 
 Hooks 的优势在于：
 

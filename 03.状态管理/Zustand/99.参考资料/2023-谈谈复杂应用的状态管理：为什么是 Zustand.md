@@ -57,9 +57,7 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
 
 由于这一版是 Context 一杆推到底，这造成了一些很离谱的交互反馈，就是每一次点击其他任何地方（例如画布代码、组件的配置项），都会造成面板的 Tabs 重新渲染（左下图）。右下图是相应的重渲染分析图，可以看到任何动作都造成了重新所有页面元素的重渲染。而这还是最早期的 demo 版本，功能和数据量的才实现到 20% 左右。所以可以预见到如果不做任何优化，使用体验会差到什么程度。
 
-![动图封面](https://assets.ng-tech.icu/item/v2-ae99855c2a9696fce27c8afe8edb6963_b.jpg)
-
-![动图封面](https://assets.ng-tech.icu/item/v2-32073a495dedb1e6bd632c5e2c90c481_b.jpg)
+![动图封面](https://assets.ng-tech.icu/gif/v2-ae99855c2a9696fce27c8afe8edb6963_b.webp)
 
 **❷ 需要进行复杂的数据处理**
 
@@ -173,10 +171,6 @@ const useTableStore = (state: Partial<Omit<ProTableConfigStore, 'columns' | 'dat
 
 **复杂应用的状态管理真的不能裸写 hooks！**
 
-**复杂应用的状态管理真的不能裸写 hooks！**
-
-**复杂应用的状态管理真的不能裸写 hooks！**
-
 那些鼓吹裸写 hooks 的人大概率是没遇到过复杂 case，性能优化、受控、action 互调、数据切片、状态调试等坑，每一项都不是好惹的主，够人喝上一壶。
 
 ![img](https://assets.ng-tech.icu/item/v2-45aafb15ee043899edeba77fa720c708_1440w.webp)
@@ -188,8 +182,6 @@ const useTableStore = (state: Partial<Omit<ProTableConfigStore, 'columns' | 'dat
 我相信通过以下这一串分析，你会发现 zustand 是真真正正满足「几乎所有」状态管理需求的工具，并且在很多细节上做到了体验更优。
 
 ![img](https://assets.ng-tech.icu/item/v2-e632cd069391fd85654bb9ea76bd0400_1440w.webp)
-
-官网： https://zustand-demo.pmnd.rs/
 
 ### ❶ 状态共享
 
@@ -751,7 +743,7 @@ iconfont 的添加、切换、删除
 
 首先拿最简单的 tabs 切换做一个组件 tabs 切换的功能。新建一个 `store.ts` 文件，然后写下如下代码：
 
-```text
+```ts
 import create from 'zustand';
 
 // 注意一个小细节，建议直接将该变量直接称为 useStore
@@ -762,10 +754,10 @@ export const useStore = create(() => ({
 
 在相应的组件（`PickerPanel`）中引入 `useStore` ，用 hooks 的方式即可解构获得 `panelTabKey`。而需要修改状态时，可直接使用 `useStore.setState` 即可对 `panelTabKey` 进行修改。这样， zustand 最简单的状态管理方法就完成了~
 
-```text
-import { Segmented } from 'antd';
+```ts
+import { Segmented } from "antd";
 
-import { useStore } from '../store';
+import { useStore } from "../store";
 
 const PickerPanel = () => {
   const { panelTabKey } = useStore();
@@ -777,12 +769,11 @@ const PickerPanel = () => {
       onChange={(key) => {
         useStore.setState({ panelTabKey: key });
       }}
-
       // 其他配置
-      size={'small'}
+      size={"small"}
       options={[
-        { label: 'Ant Design', value: 'antd' },
-        { label: 'Iconfont', value: 'iconfont' },
+        { label: "Ant Design", value: "antd" },
+        { label: "Iconfont", value: "iconfont" },
       ]}
       block
     />
@@ -802,7 +793,7 @@ const PickerPanel = () => {
 
 因此我们首先在 store 中添加三个状态：
 
-```text
+```ts
 import create from 'zustand';
 
 
@@ -818,7 +809,7 @@ export const useStore = create(() => ({
 
 如果我们直接用 Step1 的方式，大致的写法如下：
 
-```text
+```ts
 import { useStore } from '../store';
 
 const IconList = () => {
@@ -837,7 +828,7 @@ const IconList = () => {
 
 但此时会遇到新的问题，如果我在另外一个地方也需要使用这样一段操作逻辑时，我要写两次么？当然不，这既不利于开发，也不利于维护。 所以，在这里我们需要抽取一个 `selectIcon` 方法专门用于选择图标这个操作，相关的状态只要都写在那里即可。而这就引出了状态管理的第二步：**自定义 Action**。 在 `store.ts` 中直接声明并定义 `selectIcon` 函数，然后第一个入参改为 set，就可以在 store.ts 的方法内部直接修改状态了，代码如下所示：
 
-```text
+```ts
 import create from 'zustand';
 
 
@@ -859,8 +850,8 @@ export const useStore = create((set) => ({
 
 对应在 `IconList` 中，只需引入 `selectIcon` 方法即可。
 
-```text
-import { useStore } from '../store';
+```ts
+import { useStore } from "../store";
 
 const IconList = () => {
   const { iconList, selectIcon } = useStore();
@@ -887,7 +878,7 @@ const IconList = () => {
 
 那在 zustand 的 Store 中，这个 iconList 是怎么实现的呢？在这里就要介绍 zustand 的又一个利器： **Selector** 。 此 selector 和 redux 的 selector 的理念基本上是一致的，因此如果之前了解过 zustand 的 selector， zustand 的也一样很容易理解。但从使用上来说，我认为 zustand 的 selector 更加灵活易用。 首先是定义 selector， selector 的入参是完整的 store （包含 state 和 action ），出参是目标对象。
 
-```text
+```ts
 import create from 'zustand';
 
 
@@ -926,8 +917,8 @@ export const displayListSelector = (s: typeof useStore) => {
 
 当定义完成 selector 后，在组件层面作为 useStore 的第一个入参即可：
 
-```text
-import { useStore, displayListSelector } from '../store';
+```ts
+import { useStore, displayListSelector } from "../store";
 
 const IconList = () => {
   const { selectIcon } = useStore();
@@ -955,14 +946,14 @@ Selector 间的组合
 
 另外，如果用 selector 选择出来的变量也属于 react 世界中的状态，因此为了避免不必要的重复渲染，可以对复杂的对象或者数组使用 isEqual 方法做比较，保证它的不变性。
 
-```text
-import { useStore, displayListSelector } from '../store';
-import { isEqual } from 'lodash';
+```ts
+import { useStore, displayListSelector } from "../store";
+import { isEqual } from "lodash";
 
 const IconList = () => {
   const { selectIcon } = useStore();
   // 通过加入 isEqual 方法即可实现对 iconList 的性能优化
-    const iconList = useStore(displayListSelector, isEqual);
+  const iconList = useStore(displayListSelector, isEqual);
 
   return (
     <div>
@@ -980,7 +971,7 @@ const IconList = () => {
 
 经过一部分功能开发，一开始简单的 `store.ts` 文件开始变得很长了，同时估计也开始遇到类型定义不准确或找不到的情况了。那这对于后续项目的规模化发展非常不利，是时候做一次组织与整理了。
 
-```text
+```ts
 import create from 'zustand';
 
 
@@ -1059,9 +1050,14 @@ export const displayListSelector = (s: typeof useStore) => {
 
 首先来看看 `initialState` ，这个文件中主要用于定于并导出后续在 Store 所有需要的状态。导出的部分包含两个： `State` 类型定义与 初始状态 `initialState`。将 State 和 initialState 定义在一个文件中会有一个好处：类型跳转会直接指向到这里，方便添加类型与类型的初始值。 由于 state 单独新建了一个文件，因此哪怕后续状态再多，也能在这一个文件中看得清清楚楚。
 
-```text
-import type { ExternalScripts, IconfontIcon, IconUnit, ReactIcon } from '../types';
-import { antdIconList } from '../contents/antdIcons';
+```ts
+import type {
+  ExternalScripts,
+  IconfontIcon,
+  IconUnit,
+  ReactIcon,
+} from "../types";
+import { antdIconList } from "../contents/antdIcons";
 
 export interface State {
   iconfontScripts: ExternalScripts[];
@@ -1069,7 +1065,7 @@ export interface State {
   showEditor: boolean;
 
   open: boolean;
-  panelTabKey: 'antd' | 'iconfont';
+  panelTabKey: "antd" | "iconfont";
   filterKeywords?: string;
 
   activeIconfontScript?: string;
@@ -1080,8 +1076,8 @@ export interface State {
 export const initialState: State = {
   open: false,
   showEditor: false,
-  panelTabKey: 'antd',
-  filterKeywords: '',
+  panelTabKey: "antd",
+  filterKeywords: "",
   antdIconList,
 
   iconfontScripts: [],
@@ -1092,11 +1088,11 @@ export const initialState: State = {
 
 再来看看 `createStore` ，这个文件由于包含了 Action 和 Store，会稍显复杂一点，但是核心逻辑还是比较简单的。
 
-```text
-import create from 'zustand';
+```ts
+import create from "zustand";
 
-import type { State } from './initialState';
-import { initialState } from './initialState';
+import type { State } from "./initialState";
+import { initialState } from "./initialState";
 
 interface Action {
   resetIcon: () => void;
@@ -1122,10 +1118,18 @@ export const useStore = create<Store>((set, get) => ({
     set({ icon, open: false, filterKeywords: undefined });
   },
 
-  addSript:()=>{ /*...*/ },
-  updateScripts:()=>{ /*...*/ },
-  removeScripts:()=>{ /*...*/ },
-  selectScript:async (url)=>{ /*...*/ }
+  addSript: () => {
+    /*...*/
+  },
+  updateScripts: () => {
+    /*...*/
+  },
+  removeScripts: () => {
+    /*...*/
+  },
+  selectScript: async (url) => {
+    /*...*/
+  },
 }));
 ```
 
@@ -1140,16 +1144,18 @@ export const useStore = create<Store>((set, get) => ({
 
 接下来再看下 selectors，这个文件很简单，只需要导入 Store 的类型，然后逐一导出相应的 selector 即可。
 
-```text
-import type { Store } from './createStore';
-import type { IconUnit } from '../types';
+```ts
+import type { Store } from "./createStore";
+import type { IconUnit } from "../types";
 
-export const isEmptyIconfontScripts = (s: Store) => s.iconfontScripts.length === 0;
+export const isEmptyIconfontScripts = (s: Store) =>
+  s.iconfontScripts.length === 0;
 
 export const selectedListSelector = (s: Store): IconUnit[] =>
-  s.panelTabKey === 'iconfont' ? s.iconfontIconList : s.antdIconList;
+  s.panelTabKey === "iconfont" ? s.iconfontIconList : s.antdIconList;
 
-export const isEmptyIconListSelector = (s: Store) => selectedListSelector(s).length === 0;
+export const isEmptyIconListSelector = (s: Store) =>
+  selectedListSelector(s).length === 0;
 
 export const displayListSelector = (s: Store) => {
   const list = selectedListSelector(s);
@@ -1159,11 +1165,13 @@ export const displayListSelector = (s: Store) => {
     if (!filterKeywords) return true;
 
     switch (i.type) {
-      case 'antd':
-      case 'internal':
-        return i.componentName.toLowerCase().includes(filterKeywords.toLowerCase());
+      case "antd":
+      case "internal":
+        return i.componentName
+          .toLowerCase()
+          .includes(filterKeywords.toLowerCase());
 
-      case 'iconfont':
+      case "iconfont":
         return i.props.type.toLowerCase().includes(filterKeywords.toString());
     }
   });
@@ -1172,11 +1180,11 @@ export const displayListSelector = (s: Store) => {
 
 最后在 `index.ts` 中输出相应的方法和类型即可：
 
-```text
-export { useStore } from './createStore';
-export type { Store } from './createStore';
-export type { State } from './initialState';
-export * from './selectors';
+```ts
+export { useStore } from "./createStore";
+export type { Store } from "./createStore";
+export type { State } from "./initialState";
+export * from "./selectors";
 ```
 
 如此一来，我们通过 将 store.ts 单一职责的文件，拆分成各司其职的多个文件后，就初步解决了接下来可能的状态大量扩展的问题与类型定义不准确的问题，基本上可以保证项目的可维护性。
@@ -1221,11 +1229,11 @@ Step1~Step3 可能在很大程度上就能满足大部分场景的状态管理�
 
 所以我们在 store 中定义这些这些方法：
 
-```text
-import create from 'zustand';
+```ts
+import create from "zustand";
 
-import type { State } from './initialState';
-import { initialState } from './initialState';
+import type { State } from "./initialState";
+import { initialState } from "./initialState";
 
 interface Action {
   /* 一级 action */
@@ -1243,7 +1251,7 @@ export type Store = State & Action;
 
 来看下具体的实现，在 zustand 中能实现上述架构的核心能力在于一个 `get()` 方法，能从自身中拿到所有的状态（State & Action）。
 
-```text
+```ts
 // ...
 
 export type Store = State & Action;
@@ -1267,13 +1275,13 @@ export const useStore = create<Store>((set, get) => ({
         if (!draft.find((i) => i.url === script.url)) {
           draft.push(script);
         }
-      }),
+      })
     );
 
-        // 3. 选择脚本
+    // 3. 选择脚本
     selectScript(script.url);
   },
-  removeScripts:(url)=>{
+  removeScripts: (url) => {
     const { iconfontScripts, selectScript, updateScripts } = get();
 
     const nextIconfontScripts = iconfontScripts.filter((i) => i.url !== url);
@@ -1296,18 +1304,20 @@ export const useStore = create<Store>((set, get) => ({
     selectScript(nextScript);
   },
 
-
   // 原子操作方法 //
 
   toggleForm: (visible) => {
-    set((s) => ({ ...s, showForm: typeof visible === 'undefined' ? !s.showForm : visible }));
+    set((s) => ({
+      ...s,
+      showForm: typeof visible === "undefined" ? !s.showForm : visible,
+    }));
   },
-    selectScript:async (url)=>{
+  selectScript: async (url) => {
     // 如果没有 url ，就说明是取消选择
     if (!url) {
-        set({ activeIconfontScript: '', iconfontIconList: [] });
-        return;
-      }
+      set({ activeIconfontScript: "", iconfontIconList: [] });
+      return;
+    }
 
     // 2. 一个异步方法获取脚本中的图标列表
     const iconfontList = await fetchIconList(url);
@@ -1316,13 +1326,13 @@ export const useStore = create<Store>((set, get) => ({
     set({
       activeIconfontScript: url,
       iconfontIconList: iconfontList.map((i) => ({
-        type: 'iconfont',
+        type: "iconfont",
         componentName: iconfontScripts.name,
         scriptUrl: url,
         props: { type: i },
       })),
     });
-    },
+  },
   updateScripts: (scripts) => {
     const { iconfontScripts } = get();
 
@@ -1334,7 +1344,7 @@ export const useStore = create<Store>((set, get) => ({
 
 当完成相应的功能实现后，只需要在相应的触发入口中添加方法即可。
 
-```text
+```ts
 const IconfontScripts: FC = memo(() => {
   const {
     iconfontScripts,
@@ -1350,7 +1360,10 @@ const IconfontScripts: FC = memo(() => {
     <Flexbox gap={8}>
       <Flexbox gap={4} horizontal>
         {showForm ? (
-          <ActionIcon onClick={() => toggleEditor(false)} icon={<UpOutlined />} />
+          <ActionIcon
+            onClick={() => toggleEditor(false)}
+            icon={<UpOutlined />}
+          />
         ) : (
           <Tag
             onClick={() => {
@@ -1370,7 +1383,7 @@ const IconfontScripts: FC = memo(() => {
                   removeScripts(s.url);
                 }}
                 onClick={() => {
-                  selectScript(checked ? '' : s.url);
+                  selectScript(checked ? "" : s.url);
                 }}
               >
                 {s.name}
@@ -1403,7 +1416,7 @@ export default IconfontScripts;
 
 第一步： **创建 Context 并添加 Provider** 先在 `createStore.ts` 下
 
-```text
+```ts
 import create from 'zustand';
 import createContext from 'zustand/context';
 import type { StoreApi } from 'zustand';
@@ -1459,14 +1472,14 @@ export default memo(IconPicker);
 
 首先在组件入口处添加 `StoreUpdater` 组件。
 
-```text
-import type { FC } from 'react';
-import React, { memo } from 'react';
-import App from './App';
-import StoreUpdater from './StoreUpdater';
-import type { StoreUpdaterProps } from './StoreUpdater';
+```ts
+import type { FC } from "react";
+import React, { memo } from "react";
+import App from "./App";
+import StoreUpdater from "./StoreUpdater";
+import type { StoreUpdaterProps } from "./StoreUpdater";
 
-import { Provider, createStore } from '../store';
+import { Provider, createStore } from "../store";
 
 type IconPickerProps = StoreUpdaterProps;
 const IconPicker: FC<IconPickerProps> = (props) => {
@@ -1490,33 +1503,37 @@ export default memo(IconPicker);
 
 具体来看看代码：
 
-```text
-import type { FC } from 'react';
+```ts
+import type { FC } from "react";
 
-import type { State } from '../store';
-import type { IconUnit, ExternalScripts } from '../types';
+import type { State } from "../store";
+import type { IconUnit, ExternalScripts } from "../types";
 
-import { useStoreApi } from '../store';
-
+import { useStoreApi } from "../store";
 
 /**
  * 更新方法
  */
-export const useStoreUpdater =
-  (key: keyof T, value: any, deps = [value], updater?) => {
-    const store = useStoreApi();
+export const useStoreUpdater = (
+  key: keyof T,
+  value: any,
+  deps = [value],
+  updater?
+) => {
+  const store = useStoreApi();
 
-    useEffect(() => {
-      if (typeof value !== 'undefined') {
-        store.setState({ [key]: value });
-      }
-    }, deps);
-  };
-
+  useEffect(() => {
+    if (typeof value !== "undefined") {
+      store.setState({ [key]: value });
+    }
+  }, deps);
+};
 
 export interface StoreUpdaterProps
-  extends Partial<Pick<
-      State, | 'icon' | 'onIconChange' | 'iconfontScripts' | 'onIconfontScriptsChange'
+  extends Partial<
+    Pick<
+      State,
+      "icon" | "onIconChange" | "iconfontScripts" | "onIconfontScriptsChange"
     >
   > {
   defaultIcon?: IconUnit;
@@ -1533,13 +1550,13 @@ const StoreUpdater: FC<StoreUpdaterProps> = ({
   onIconChange,
   onIconfontScriptsChange,
 }) => {
-  useStoreUpdater('icon', defaultIcon, []);
-  useStoreUpdater('icon', icon);
-  useStoreUpdater('onIconChange', onIconChange);
+  useStoreUpdater("icon", defaultIcon, []);
+  useStoreUpdater("icon", icon);
+  useStoreUpdater("onIconChange", onIconChange);
 
-  useStoreUpdater('iconfontScripts', iconfontScripts);
-  useStoreUpdater('iconfontScripts', defaultIconfontScripts, []);
-  useStoreUpdater('onIconfontScriptsChange', onIconfontScriptsChange);
+  useStoreUpdater("iconfontScripts", iconfontScripts);
+  useStoreUpdater("iconfontScripts", defaultIconfontScripts, []);
+  useStoreUpdater("onIconfontScriptsChange", onIconfontScriptsChange);
 
   return null;
 };
@@ -1560,9 +1577,14 @@ export default StoreUpdater;
 
 第三步：**在相应的 Action 里添加 onChange 方法** 在第二步中看到，我们需要在 Store 的 State 中把 onChange 方法作为状态自持，因此在 initalState 文件中，就需要补充相应的类型定义和初始值：
 
-```text
-import type { ExternalScripts, IconfontIcon, IconUnit, ReactIcon } from '../types';
-import { antdIconList } from '../contents/antdIcons';
+```ts
+import type {
+  ExternalScripts,
+  IconfontIcon,
+  IconUnit,
+  ReactIcon,
+} from "../types";
+import { antdIconList } from "../contents/antdIcons";
 
 export interface State {
   iconfontScripts: ExternalScripts[];
@@ -1572,7 +1594,7 @@ export interface State {
    * 开启面板
    */
   open: boolean;
-  panelTabKey: 'antd' | 'iconfont';
+  panelTabKey: "antd" | "iconfont";
 
   filterKeywords?: string;
 
@@ -1588,122 +1610,126 @@ export interface State {
 export const initialState: State = {
   open: false,
   showForm: false,
-  panelTabKey: 'antd',
-  filterKeywords: '',
+  panelTabKey: "antd",
+  filterKeywords: "",
   antdIconList,
 
   iconfontScripts: [],
   iconfontIconList: [],
 
   onIconChange: null,
-  onIconfontScriptsChange: null
+  onIconfontScriptsChange: null,
 };
 ```
 
 而因为我们在 Step5 中通过收敛了一些原子级的 Action，基本做到了一个 State 有一个对应的 Action，因此只需要相应的 Action 处添加受控更新的 onChange 方法即可。
 
-```text
+```ts
 // ...
 
 export type Store = State & Action;
 
-export const createStore = ()=> create<Store>((set, get) => ({
-  ...initialState,
+export const createStore = () =>
+  create<Store>((set, get) => ({
+    ...initialState,
 
     selectIcon: (icon) => {
-    set({ icon, open: false, filterKeywords: undefined });
+      set({ icon, open: false, filterKeywords: undefined });
 
-    // 受控更新 icon
-    get().onIconChange?.(icon);
-  },
-  // 用户行为 action //
+      // 受控更新 icon
+      get().onIconChange?.(icon);
+    },
+    // 用户行为 action //
 
-  addScript: (script) => {
-    // 从 get() 中就可以拿到这个 store 的所有的状态与方法
-    const { selectScript, iconfontScripts, updateScripts, toggleForm } = get();
+    addScript: (script) => {
+      // 从 get() 中就可以拿到这个 store 的所有的状态与方法
+      const { selectScript, iconfontScripts, updateScripts, toggleForm } =
+        get();
 
-    // 1. 隐藏 Form
-    toggleForm(false);
+      // 1. 隐藏 Form
+      toggleForm(false);
 
-    // 2. 更新数据源
-    updateScripts(
-      produce(iconfontScripts, (draft) => {
-        if (!draft.find((i) => i.url === script.url)) {
-          draft.push(script);
-        }
-      }),
-    );
+      // 2. 更新数据源
+      updateScripts(
+        produce(iconfontScripts, (draft) => {
+          if (!draft.find((i) => i.url === script.url)) {
+            draft.push(script);
+          }
+        })
+      );
 
-        // 3. 选择脚本
-    selectScript(script.url);
-  },
-  removeScripts:(url)=>{
-    const { iconfontScripts, selectScript, updateScripts } = get();
+      // 3. 选择脚本
+      selectScript(script.url);
+    },
+    removeScripts: (url) => {
+      const { iconfontScripts, selectScript, updateScripts } = get();
 
-    const nextIconfontScripts = iconfontScripts.filter((i) => i.url !== url);
+      const nextIconfontScripts = iconfontScripts.filter((i) => i.url !== url);
 
-    // 找到临近的图标库并选中
+      // 找到临近的图标库并选中
 
-    const currentIndex = iconfontScripts.findIndex((i) => i.url === url);
+      const currentIndex = iconfontScripts.findIndex((i) => i.url === url);
 
-    const nextIndex =
-      currentIndex === 0
-        ? 0
-        : nextIconfontScripts.length <= currentIndex + 1
-        ? currentIndex - 1
-        : currentIndex;
+      const nextIndex =
+        currentIndex === 0
+          ? 0
+          : nextIconfontScripts.length <= currentIndex + 1
+          ? currentIndex - 1
+          : currentIndex;
 
-    const nextScript = nextIconfontScripts[nextIndex]?.url;
+      const nextScript = nextIconfontScripts[nextIndex]?.url;
 
-    updateScripts(nextIconfontScripts);
+      updateScripts(nextIconfontScripts);
 
-    selectScript(nextScript);
-  },
+      selectScript(nextScript);
+    },
 
+    // 原子操作方法 //
 
-  // 原子操作方法 //
-
-  toggleForm: (visible) => {
-    set((s) => ({ ...s, showForm: typeof visible === 'undefined' ? !s.showForm : visible }));
-  },
-    selectScript:async (url)=>{
-    // 如果没有 url ，就说明是取消选择
-    if (!url) {
-        set({ activeIconfontScript: '', iconfontIconList: [] });
+    toggleForm: (visible) => {
+      set((s) => ({
+        ...s,
+        showForm: typeof visible === "undefined" ? !s.showForm : visible,
+      }));
+    },
+    selectScript: async (url) => {
+      // 如果没有 url ，就说明是取消选择
+      if (!url) {
+        set({ activeIconfontScript: "", iconfontIconList: [] });
         return;
       }
 
-    // 2. 一个异步方法获取脚本中的图标列表
-    const iconfontList = await fetchIconList(url);
+      // 2. 一个异步方法获取脚本中的图标列表
+      const iconfontList = await fetchIconList(url);
 
-    // 3. 设定选中后的数据更新
-    set({
-      activeIconfontScript: url,
-      iconfontIconList: iconfontList.map((i) => ({
-        type: 'iconfont',
-        componentName: iconfontScripts.name,
-        scriptUrl: url,
-        props: { type: i },
-      })),
-    });
+      // 3. 设定选中后的数据更新
+      set({
+        activeIconfontScript: url,
+        iconfontIconList: iconfontList.map((i) => ({
+          type: "iconfont",
+          componentName: iconfontScripts.name,
+          scriptUrl: url,
+          props: { type: i },
+        })),
+      });
     },
-  updateScripts: (scripts) => {
-    const { iconfontScripts } = get();
+    updateScripts: (scripts) => {
+      const { iconfontScripts } = get();
 
-    if (isEqual(iconfontScripts, scripts)) return;
-    set({ iconfontScripts: scripts });
+      if (isEqual(iconfontScripts, scripts)) return;
+      set({ iconfontScripts: scripts });
 
-    // 受控更新 IconfontScripts
-    get().onIconfontScriptsChange?.(scripts);
-  },
-}));
+      // 受控更新 IconfontScripts
+      get().onIconfontScriptsChange?.(scripts);
+    },
+  }));
 ```
 
 如此一来，组件的受控就完成了。
 
 （可选）第四步：**查找 useStore.setState 用法，补充 useStoreApi** 如果有一些状态非常简单，从写下的一开始就始终是 `useStore.setState` 的写法，那么这些写法在组件化之后需要做一点点小调整。因为 useStore 是完全来自于 context 下的 useStore，因此会丢失 setState 的相关方法。因此需要额外引入 `useStoreApi` ，并用 storeApi 来实施 setState。这可能算是算 zustand 从应用迁移到组件的一点点小瑕疵。
 
-```text
+```ts
 import { useStore, useStoreApi } from '../store';
 
 const IconList = () => {
@@ -1751,7 +1777,7 @@ PS：这个 `StoreUpdater` 的用法我也是翻了 react-flow 才了解到的�
 
 PickerPanel 优化前：
 
-```text
+```ts
 import { useStore, useStoreApi } from '../store';
 
 
@@ -1766,7 +1792,7 @@ const PickerPanel = () => {
 
 PickerPanel 优化后：
 
-```text
+```ts
 import shallow from 'zustand/shallow';
 
 import type { Store } from '../store';
@@ -1797,19 +1823,24 @@ const PickerPanel = () => {
 
 当 Store 复杂度到现在这样之后，接下来每一步 debug 都有可能变得比较麻烦，因此我们可以集成一下 devtools，将 Store 研发模式变得更加可视化，做到可控。 而写法也非常简单，只需在 create 方法下包一个 devtools 即可，并在 create 后多一个 () 执行。
 
-```text
+```ts
 // ...
-import { devtools } from 'zustand/middleware';
+import { devtools } from "zustand/middleware";
 
 export type Store = State & Action;
 
 // 多一个函数执行，然后包裹 devtools
-export const createStore = ()=> create<Store>()(devtools((set, get) => ({
-  ...initialState,
+export const createStore = () =>
+  create<Store>()(
+    devtools(
+      (set, get) => ({
+        ...initialState,
 
-  // ... action
-
-}),{ name: 'IconPicker' }));
+        // ... action
+      }),
+      { name: "IconPicker" }
+    )
+  );
 ```
 
 如此一来，我们就能够使用 redux-dev-tools 可视化地查看 IconPicker 的数据流了。
@@ -1820,23 +1851,33 @@ image.png
 
 不过大家可能会发现，这个时候每一次的数据变更，都是是 anoymous 的变更说明，那有没有可能让每条变更都更加语义化呢？可以！ 只需在 set 方法的第三个参数中添加更新说明文本，就可以让 devtools 识别到这项状态变更。
 
-```text
+```ts
 // ...
-import ""
+import "";
 
 export type Store = State & Action;
 
 // 多一个函数执行，然后包裹 devtools
-export const createStore = ()=> create<Store>()(devtools((set, get) => ({
-  ...initialState,
+export const createStore = () =>
+  create<Store>()(
+    devtools(
+      (set, get) => ({
+        ...initialState,
 
-  // ... action
-  selectIcon: (icon) => {
-    set({ icon, open: false, filterKeywords: undefined },false, "选择 Icon");
+        // ... action
+        selectIcon: (icon) => {
+          set(
+            { icon, open: false, filterKeywords: undefined },
+            false,
+            "选择 Icon"
+          );
 
-    get().onIconChange?.(icon);
-  },
-}),{ name: 'IconPicker' }));
+          get().onIconChange?.(icon);
+        },
+      }),
+      { name: "IconPicker" }
+    )
+  );
 ```
 
 ![img](https://assets.ng-tech.icu/item/v2-b57c5a667d0a393e9a9ba2df6688ebff_1440w.webp)

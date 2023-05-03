@@ -79,24 +79,28 @@
       - [3.4.4 数据存储](/03.状态管理/MobX/数据存储.md)
     - [3.5 Recoiljs](/03.状态管理/Recoiljs/README.md)
       
-    - [3.6 Redux [4]](/03.状态管理/Redux/README.md)
-      - [3.6.1 Dva [1]](/03.状态管理/Redux/Dva/README.md)
-        - [3.6.1.1 快速开始](/03.状态管理/Redux/Dva/快速开始.md)
-      - [3.6.2 Redux Hooks](/03.状态管理/Redux/Redux%20Hooks.md)
-      - [3.6.3 State 结构设计](/03.状态管理/Redux/State%20结构设计.md)
-      - [3.6.4 redux form](/03.状态管理/Redux/redux-form.md)
+    - [3.6 Redux [5]](/03.状态管理/Redux/README.md)
+      - 3.6.1 99.参考资料 [1]
+        - [3.6.1.1 Stale props and zombie children in Redux](/03.状态管理/Redux/99.参考资料/2020-Stale%20props%20and%20zombie%20children%20in%20Redux.md)
+      - [3.6.2 Dva [1]](/03.状态管理/Redux/Dva/README.md)
+        - [3.6.2.1 快速开始](/03.状态管理/Redux/Dva/快速开始.md)
+      - [3.6.3 Redux Hooks](/03.状态管理/Redux/Redux%20Hooks.md)
+      - [3.6.4 State 结构设计](/03.状态管理/Redux/State%20结构设计.md)
+      - [3.6.5 redux form](/03.状态管理/Redux/redux-form.md)
     - [3.7 XState [4]](/03.状态管理/XState/README.md)
       - [3.7.1 Context & Actions](/03.状态管理/XState/Context%20&%20Actions.md)
       - [3.7.2 Invoking Services](/03.状态管理/XState/Invoking%20Services.md)
       - [3.7.3 React](/03.状态管理/XState/React.md)
       - [3.7.4 有限状态机](/03.状态管理/XState/有限状态机.md)
-    - [3.8 Zustand [4]](/03.状态管理/Zustand/README.md)
+    - [3.8 Zustand [6]](/03.状态管理/Zustand/README.md)
       - [3.8.1 00.状态更新](/03.状态管理/Zustand/00.状态更新.md)
       - [3.8.2 01.状态派生与 Selector](/03.状态管理/Zustand/01.状态派生与%20Selector.md)
       - [3.8.3 02.状态分形与 Slice](/03.状态管理/Zustand/02.状态分形与%20Slice.md)
-      - 3.8.4 99.参考资料 [2]
-        - [3.8.4.1 精读 zustand 源码](/03.状态管理/Zustand/99.参考资料/2022-精读%20zustand%20源码.md)
-        - [3.8.4.2 谈谈复杂应用的状态管理：为什么是 Zustand](/03.状态管理/Zustand/99.参考资料/2023-谈谈复杂应用的状态管理：为什么是%20Zustand.md)
+      - [3.8.4 03.状态持久化](/03.状态管理/Zustand/03.状态持久化.md)
+      - [3.8.5 04.状态重置](/03.状态管理/Zustand/04.状态重置.md)
+      - 3.8.6 99.参考资料 [2]
+        - [3.8.6.1 精读 zustand 源码](/03.状态管理/Zustand/99.参考资料/2022-精读%20zustand%20源码.md)
+        - [3.8.6.2 谈谈复杂应用的状态管理：为什么是 Zustand](/03.状态管理/Zustand/99.参考资料/2023-谈谈复杂应用的状态管理：为什么是%20Zustand.md)
   - 4 04.工程实践 [9]
     - 4.1 01.静态类型 [2]
       - [4.1.1 Flow](/04.工程实践/01.静态类型/Flow.md)

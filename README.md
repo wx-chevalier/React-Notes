@@ -7,12 +7,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/wx-chevalier/React-Series">
+  <a href="https://github.com/wx-chevalier/React-Notes">
     <img src="https://assets.ng-tech.icu/item/header.svg" alt="Logo" style="width: 100vw;height: 400px" />
   </a>
 
   <p align="center">
-    <a href="https://ng-tech.icu/books/React-Series"><strong>在线阅读 >> </strong></a>
+    <a href="https://ng-tech.icu/books/React-Notes"><strong>在线阅读 >> </strong></a>
     <br />
     <br />
     <a href="https://github.com/wx-chevalier">代码案例</a>
@@ -24,15 +24,15 @@
 
 # React Series - React 入门与工程实践篇
 
-本篇归属于 [Web Series，Web 开发入门与工程实践](https://github.com/wx-chevalier/Web-Series)，其主要以 React 为核心的技术体系为主线，为读者构建完整的前端技术知识体系，探讨前端工程化的思想，并且能使不同技术水准的读者都有所得。传统上，Web 应用的 UI 是使用模板或 HTML 构建的。这些模板就是你可以用来构建 UI 的全套抽象。React 将用户界面分解为各个组件，发展出了构建 UI 的全新途径。构建可以管理自己状态的封装组件，然后将它们组合起来制作成复杂的 UI。
+本篇归属于 [Web Series，Web 开发入门与工程实践](https://github.com/wx-chevalier/Web-Notes)，其主要以 React 为核心的技术体系为主线，为读者构建完整的前端技术知识体系，探讨前端工程化的思想，并且能使不同技术水准的读者都有所得。传统上，Web 应用的 UI 是使用模板或 HTML 构建的。这些模板就是你可以用来构建 UI 的全套抽象。React 将用户界面分解为各个组件，发展出了构建 UI 的全新途径。构建可以管理自己状态的封装组件，然后将它们组合起来制作成复杂的 UI。
 
 ![Think React](https://assets.ng-tech.icu/item/20230417210044.png)
 
 # Nav | 关联导航
 
-- 如果你是颇有经验的开发者，想要了解前端工程化与架构方面的知识，那么建议阅读[《Web-Series](https://github.com/wx-chevalier/Web-Series)》一文。
+- 如果你是颇有经验的开发者，想要了解前端工程化与架构方面的知识，那么建议阅读[《Web-Notes](https://github.com/wx-chevalier/Web-Notes)》一文。
 
-- 如果你希望了解 Node.js 全栈开发，可以参阅 [《Node-Series](https://github.com/wx-chevalier/Node-Series)》。
+- 如果你希望了解 Node.js 全栈开发，可以参阅 [《Node-Notes](https://github.com/wx-chevalier/Node-Notes)》。
 
 # About
 

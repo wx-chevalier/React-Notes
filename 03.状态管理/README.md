@@ -1,4 +1,4 @@
-> 参考 [《Web-Engineering-Series》](https://github.com/wx-chevalier/Web-Engineering-Series) 中的状态管理；
+> 参考 [《Web-Engineering-Notes》](https://github.com/wx-chevalier/Web-Engineering-Notes) 中的状态管理；
 
 # 状态管理
 

@@ -600,7 +600,6 @@ const useBoundStore = create<BearSlice & FishSlice>()((...a) => ({
 
 ```js
 // 使用自带的 Persist Middleware
-
 import create from 'zustand'
 import {  persist } from 'zustand/middleware'
 
@@ -614,7 +613,7 @@ const useBearStore = create<BearState>(
     bears: 0,
     increase: (by) => set((state) => ({ bears: state.bears + by })),
   }))
-)
+);
 ```
 
 在 ProEditor 中，我使用最多的就是 `devtools` 这个中间件。这个中间件具有的功能就是：将这个 Store 和 Redux Devtools 绑定。
@@ -936,13 +935,9 @@ const IconList = () => {
 
 如此一来，就完成了复杂状态的派生实现。因为 useStore 可以像多个 hooks 一样进行引入，因此我们就可以利用 selector 选出自己需要的各种状态，也可以多个 selector 间进行组合，复用通用逻辑。
 
-![img](https://assets.ng-tech.icu/item/v2-24e9ade8a8503459ecf51945a42b01da_1440w.webp)
+![多组 selector](https://assets.ng-tech.icu/item/v2-24e9ade8a8503459ecf51945a42b01da_1440w.webp)
 
-多组 selector
-
-![img](https://assets.ng-tech.icu/item/v2-ab192080d1d12a904795a6f9c0d0c0ef_1440w.webp)
-
-Selector 间的组合
+![Selector 间的组合](https://assets.ng-tech.icu/item/v2-ab192080d1d12a904795a6f9c0d0c0ef_1440w.webp)
 
 另外，如果用 selector 选择出来的变量也属于 react 世界中的状态，因此为了避免不必要的重复渲染，可以对复杂的对象或者数组使用 isEqual 方法做比较，保证它的不变性。
 
@@ -1344,7 +1339,7 @@ export const useStore = create<Store>((set, get) => ({
 
 当完成相应的功能实现后，只需要在相应的触发入口中添加方法即可。
 
-```ts
+```tsx
 const IconfontScripts: FC = memo(() => {
   const {
     iconfontScripts,

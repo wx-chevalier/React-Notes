@@ -64,8 +64,10 @@
         - [2.6.1.1 应用配置](/02.组件基础/06.组件库/Antd/应用配置.md)
         - [2.6.1.2 文件上传](/02.组件基础/06.组件库/Antd/文件上传.md)
         - [2.6.1.3 表单](/02.组件基础/06.组件库/Antd/表单.md)
-      - 2.6.2 Form [1]
-        - [2.6.2.1 React Hook Form](/02.组件基础/06.组件库/Form/React%20Hook%20Form.md)
+      - 2.6.2 Form [2]
+        - 2.6.2.1 99.参考资料 [1]
+          - [2.6.2.1.1 Some Thoughts On Forms in React](/02.组件基础/06.组件库/Form/99.参考资料/2017-Some%20Thoughts%20On%20Forms%20in%20React.md)
+        - [2.6.2.2 React Hook Form](/02.组件基础/06.组件库/Form/React%20Hook%20Form.md)
       - 2.6.3 组件范式 [4]
         - [2.6.3.1 Formik](/02.组件基础/06.组件库/组件范式/Formik.md)
         - [2.6.3.2 Svg](/02.组件基础/06.组件库/组件范式/Svg.md)

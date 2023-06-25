@@ -8,7 +8,7 @@
 
 至今 Kitchen3 里仍然躺着用 dva 做状态管理的功能模块，写于 2020 年
 
-直到 hooks 横空出世， TypeScript 逐步流行。一方面，从 react hooks 出来以后，大量的文章开始鼓吹「你不需要 Redux」、「useState + Context」完全可用、「next-unstated」YYDS 等等。另一方面，由于 Dva 不再维护，其在 ts 下的都没有任何提示的问题也逐步暴露。
+直到 hooks 横空出世，TypeScript 逐步流行。一方面，从 react hooks 出来以后，大量的文章开始鼓吹「你不需要 Redux」、「useState + Context」完全可用、「next-unstated」YYDS 等等。另一方面，由于 Dva 不再维护，其在 ts 下的都没有任何提示的问题也逐步暴露。
 
 在尝试一些小项目中使用 hooks 后感觉还行之后，作为小萌新的我也全面转向了 hooks 的怀抱。中间其实一直没怎么遇到问题，因为大部分前端应用的复杂度也就那样，hooks 问题不大。然后呢？然后从去年开始就在复杂应用里踩坑了。
 
@@ -124,7 +124,7 @@ export default () => {
 
 ![动图](https://assets.ng-tech.icu/item/v2-450ae687d1643806d45c2d673d114217_b.webp)
 
-对，你没看错，**死循环了**。 遇到这个问题时让人头极度秃，因为原本以为是个很简单的功能，但是在 React 生命周期里的表现让人费解，尤其是使用 useEffect 做状态管理的时候。
+对，你没看错，**死循环了**。遇到这个问题时让人头极度秃，因为原本以为是个很简单的功能，但是在 React 生命周期里的表现让人费解，尤其是使用 useEffect 做状态管理的时候。
 
 ```js
 // 导致死循环的写法
@@ -185,7 +185,7 @@ const useTableStore = (state: Partial<Omit<ProTableConfigStore, 'columns' | 'dat
 
 ### ❶ 状态共享
 
-**状态管理最必要的一点就是状态共享**。这也是 context 出来以后，大部分文章说不需要 redux 的根本原因。因为 context 可以实现最最基础的状态共享。但这种方法（包括 redux 在内），都需要在最外层包一个 Provider。 Context 中的值都在 Provider 的作用域下有效。
+**状态管理最必要的一点就是状态共享**。这也是 context 出来以后，大部分文章说不需要 redux 的根本原因。因为 context 可以实现最最基础的状态共享。但这种方法（包括 redux 在内），都需要在最外层包一个 Provider。Context 中的值都在 Provider 的作用域下有效。
 
 ```js
 // Context 状态共享
@@ -258,7 +258,7 @@ function Counter() {
 }
 ```
 
-由于没有 Provider 的存在，所以声明的 useStore 默认都是单实例，如果需要多实例的话，zustand 也提供了对应的 Provider 的[书写方式](https://link.zhihu.com/?target=https%3A//github.com/pmndrs/zustand%23react-contexthttps%3A//github.com/pmndrs/zustand%23react-context)，这种方式在组件库中比较常用。 ProEditor 也是用的这种方式做到了多实例。
+由于没有 Provider 的存在，所以声明的 useStore 默认都是单实例，如果需要多实例的话，zustand 也提供了对应的 Provider 的[书写方式](https://link.zhihu.com/?target=https%3A//github.com/pmndrs/zustand%23react-contexthttps%3A//github.com/pmndrs/zustand%23react-context)，这种方式在组件库中比较常用。ProEditor 也是用的这种方式做到了多实例。
 
 此外，zustand 的 store 状态既可以在 react 世界中消费，也可以在 react 世界外消费。
 
@@ -419,7 +419,7 @@ export const useStore = create((set, get) => ({
 })
 ```
 
-可以明显看到，光是从代码量上 zustand 的 store 比 hooks 减少了 30% 。不过另外容易被大家忽略，但其实更重要的是， **hooks 版本中互调带来了引用变更的问题**。
+可以明显看到，光是从代码量上 zustand 的 store 比 hooks 减少了 30% 。不过另外容易被大家忽略，但其实更重要的是，**hooks 版本中互调带来了引用变更的问题**。
 
 由于 `deprecateDraft` 和 `refetch` 都调用了 `designId`，这就会使得当 `designId` 发生变更时，`deprecateDraft` 和 `refetch` 的引用会发生变更，致使 react 触发刷新。而这在有性能优化需求的场景下非常阴间，会让不该渲染的组件重新渲染。那这也是为什么 react 要搞一个 `useEvent` 的原因（[RFC](https://link.zhihu.com/?target=https%3A//github.com/reactjs/rfcs/blob/useevent/text/0000-useevent.md)）。
 
@@ -543,7 +543,7 @@ const TableConfig: FC = () => {
 
 ![img](https://assets.ng-tech.icu/item/v2-214b6be53fd846b007cb18eb4c8cda35_1440w.webp)
 
-就我个人的感受上， zustand 使用 selector 来作为性能优化的思路真的很精巧，就像是给函数式的数据流加上了一点点主观意愿上的响应式能力，堪称优雅。
+就我个人的感受上，zustand 使用 selector 来作为性能优化的思路真的很精巧，就像是给函数式的数据流加上了一点点主观意愿上的响应式能力，堪称优雅。
 
 ![img](https://assets.ng-tech.icu/item/v2-832bf6d03d1b0fc6f99e07f6fd75b1ec_1440w.webp)
 
@@ -596,7 +596,7 @@ const useBoundStore = create<BearSlice & FishSlice>()((...a) => ({
 }))
 ```
 
-**我用的更多的是基于这种分形架构下的各种中间件**。由于这种分形架构，状态就具有了很灵活的组合性，例如将当前状态直接缓存到 localStorage。在 zustand 的架构下， 不用额外改造，直接加个 `persist` 中间件就好。
+**我用的更多的是基于这种分形架构下的各种中间件**。由于这种分形架构，状态就具有了很灵活的组合性，例如将当前状态直接缓存到 localStorage。在 zustand 的架构下，不用额外改造，直接加个 `persist` 中间件就好。
 
 ```js
 // 使用自带的 Persist Middleware
@@ -715,7 +715,7 @@ const Component = () => {
 
 ### 基于 Zustand 的渐进式状态管理
 
-最近在给 ProEditor 做 ProLayout 的可视化装配器。其中一个很重要的编辑能力就是图标的选择。而这个组件也存在一点点复杂度，刚好拿来作为 Zustand 用法的案例，可谓是**「真·实战案例」**。 首先简单介绍一下图标选择器这个组件。它的核心用途就是让用户可以快速选择所需的图标。用户可以选择内置的 Ant Design 的图标，也可以使用 Iconfont 的图标。简单的演示如下：
+最近在给 ProEditor 做 ProLayout 的可视化装配器。其中一个很重要的编辑能力就是图标的选择。而这个组件也存在一点点复杂度，刚好拿来作为 Zustand 用法的案例，可谓是**「真·实战案例」**。首先简单介绍一下图标选择器这个组件。它的核心用途就是让用户可以快速选择所需的图标。用户可以选择内置的 Ant Design 的图标，也可以使用 Iconfont 的图标。简单的演示如下：
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-8eafbed4f073c4bc901b27e15185a2a2_b.jpg)
 
@@ -751,7 +751,7 @@ export const useStore = create(() => ({
 })
 ```
 
-在相应的组件（`PickerPanel`）中引入 `useStore` ，用 hooks 的方式即可解构获得 `panelTabKey`。而需要修改状态时，可直接使用 `useStore.setState` 即可对 `panelTabKey` 进行修改。这样， zustand 最简单的状态管理方法就完成了~
+在相应的组件（`PickerPanel`）中引入 `useStore` ，用 hooks 的方式即可解构获得 `panelTabKey`。而需要修改状态时，可直接使用 `useStore.setState` 即可对 `panelTabKey` 进行修改。这样，zustand 最简单的状态管理方法就完成了~
 
 ```ts
 import { Segmented } from "antd";
@@ -782,11 +782,11 @@ const PickerPanel = () => {
 };
 ```
 
-:::info 为了续统一心智，我在这里先将 create 中声明的状态部分，都称为 **State**。 ::: 由于 zustand 默认全局单例，因此只要声明一个 useStore 即可在所有地方使用，不用在外层套一个 Context ，非常舒心。同时 `useStore` 又包含了一个 `setState` 的方法，因此在需要 React 中修改状态时，可以直接使用 `setState` 进行状态修改。 这是 zustand 的最最简单的使用方式，在场景初始化的时候，这样就能直接上手使用，非常简单，直接干掉 useStore + Context 妥妥的。
+:::info 为了续统一心智，我在这里先将 create 中声明的状态部分，都称为 **State**。::: 由于 zustand 默认全局单例，因此只要声明一个 useStore 即可在所有地方使用，不用在外层套一个 Context ，非常舒心。同时 `useStore` 又包含了一个 `setState` 的方法，因此在需要 React 中修改状态时，可以直接使用 `setState` 进行状态修改。这是 zustand 的最最简单的使用方式，在场景初始化的时候，这样就能直接上手使用，非常简单，直接干掉 useStore + Context 妥妥的。
 
 ### Step 2: 状态变更方法：Action
 
-在 Step 1 中，我们用 `setState` 来管理非常简单的状态，这些状态基本上用不着为其单独设定相应的变更功能。但是随着业务场景的复杂性增多，我们不可避免地会遇到存在一次操作需要变更多个状态的场景。 :::info 而这些具有特定功能的状态变更方法，我统一称之为 **Action**。 ::: 在图标选择器中，Action 其中之一的体现就是选择图标的操作。选择图标这个操作，除了设定当前选中的图标以外，还需要关闭 popover、清除筛选关键词（否则下次打开还是有筛选词的）。
+在 Step 1 中，我们用 `setState` 来管理非常简单的状态，这些状态基本上用不着为其单独设定相应的变更功能。但是随着业务场景的复杂性增多，我们不可避免地会遇到存在一次操作需要变更多个状态的场景。:::info 而这些具有特定功能的状态变更方法，我统一称之为 **Action**。::: 在图标选择器中，Action 其中之一的体现就是选择图标的操作。选择图标这个操作，除了设定当前选中的图标以外，还需要关闭 popover、清除筛选关键词（否则下次打开还是有筛选词的）。
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-6516c4a0a72c12650e0fd1ecd569354f_b.jpg)
 
@@ -825,7 +825,7 @@ const IconList = () => {
 };
 ```
 
-但此时会遇到新的问题，如果我在另外一个地方也需要使用这样一段操作逻辑时，我要写两次么？当然不，这既不利于开发，也不利于维护。 所以，在这里我们需要抽取一个 `selectIcon` 方法专门用于选择图标这个操作，相关的状态只要都写在那里即可。而这就引出了状态管理的第二步：**自定义 Action**。 在 `store.ts` 中直接声明并定义 `selectIcon` 函数，然后第一个入参改为 set，就可以在 store.ts 的方法内部直接修改状态了，代码如下所示：
+但此时会遇到新的问题，如果我在另外一个地方也需要使用这样一段操作逻辑时，我要写两次么？当然不，这既不利于开发，也不利于维护。所以，在这里我们需要抽取一个 `selectIcon` 方法专门用于选择图标这个操作，相关的状态只要都写在那里即可。而这就引出了状态管理的第二步：**自定义 Action**。在 `store.ts` 中直接声明并定义 `selectIcon` 函数，然后第一个入参改为 set，就可以在 store.ts 的方法内部直接修改状态了，代码如下所示：
 
 ```ts
 import create from 'zustand';
@@ -871,11 +871,11 @@ const IconList = () => {
 
 ### Step 3: 复杂状态派生：Selector
 
-在 Step2 中大家应该有看到 iconList 这个状态，在上例中由于 iconList 并不是重点，因此简化了写法。但事实上在图标选择器组件中， iconList 并不是一个简简单单的状态，而是一个复合的派生状态。 在选择器组件中， iconList 首先需要基于 是 Ant Design 的 tab 或者 Iconfont 的 tabs 做原始图标数据源的进行切换，同时还需要支持相应的检索能力。而由于 Ant Design Tab 和 Iconfont 下的 list 具有不同的数据结构，因此筛选逻辑的实现也是不同的。
+在 Step2 中大家应该有看到 iconList 这个状态，在上例中由于 iconList 并不是重点，因此简化了写法。但事实上在图标选择器组件中，iconList 并不是一个简简单单的状态，而是一个复合的派生状态。在选择器组件中，iconList 首先需要基于 是 Ant Design 的 tab 或者 Iconfont 的 tabs 做原始图标数据源的进行切换，同时还需要支持相应的检索能力。而由于 Ant Design Tab 和 Iconfont 下的 list 具有不同的数据结构，因此筛选逻辑的实现也是不同的。
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-5a76a8a6c646f06422eed0ca1e6b3b05_b.jpg)
 
-那在 zustand 的 Store 中，这个 iconList 是怎么实现的呢？在这里就要介绍 zustand 的又一个利器： **Selector** 。 此 selector 和 redux 的 selector 的理念基本上是一致的，因此如果之前了解过 zustand 的 selector， zustand 的也一样很容易理解。但从使用上来说，我认为 zustand 的 selector 更加灵活易用。 首先是定义 selector， selector 的入参是完整的 store （包含 state 和 action ），出参是目标对象。
+那在 zustand 的 Store 中，这个 iconList 是怎么实现的呢？在这里就要介绍 zustand 的又一个利器： **Selector** 。此 selector 和 redux 的 selector 的理念基本上是一致的，因此如果之前了解过 zustand 的 selector，zustand 的也一样很容易理解。但从使用上来说，我认为 zustand 的 selector 更加灵活易用。首先是定义 selector，selector 的入参是完整的 store （包含 state 和 action ），出参是目标对象。
 
 ```ts
 import create from 'zustand';
@@ -1025,7 +1025,7 @@ export const displayListSelector = (s: typeof useStore) => {
 };
 ```
 
-所以在我建议在 Step4 开始，就要对 Zustand 的 Store 进行更加合理地划分。 首先是从 `store.ts` 重构为 `store` 文件夹，目录结构如下：
+所以在我建议在 Step4 开始，就要对 Zustand 的 Store 进行更加合理地划分。首先是从 `store.ts` 重构为 `store` 文件夹，目录结构如下：
 
 ```bash
 ./store
@@ -1043,7 +1043,7 @@ export const displayListSelector = (s: typeof useStore) => {
 
 ---
 
-首先来看看 `initialState` ，这个文件中主要用于定于并导出后续在 Store 所有需要的状态。导出的部分包含两个： `State` 类型定义与 初始状态 `initialState`。将 State 和 initialState 定义在一个文件中会有一个好处：类型跳转会直接指向到这里，方便添加类型与类型的初始值。 由于 state 单独新建了一个文件，因此哪怕后续状态再多，也能在这一个文件中看得清清楚楚。
+首先来看看 `initialState` ，这个文件中主要用于定于并导出后续在 Store 所有需要的状态。导出的部分包含两个： `State` 类型定义与 初始状态 `initialState`。将 State 和 initialState 定义在一个文件中会有一个好处：类型跳转会直接指向到这里，方便添加类型与类型的初始值。由于 state 单独新建了一个文件，因此哪怕后续状态再多，也能在这一个文件中看得清清楚楚。
 
 ```ts
 import type {
@@ -1186,7 +1186,7 @@ export * from "./selectors";
 
 ### Step 5: 复杂 Action 交互：get()
 
-Step1~Step3 可能在很大程度上就能满足大部分场景的状态管理诉求，从 Step4 开始，其实意味着状态管理的复杂性开始上升，因此 Step4 也是为了驾驭复杂性而做的一个铺垫。 在图标选择器这个组件中，ant design 的图标选择部分并没有太复杂的逻辑，最复杂的部分也只是关键词搜索的展示。但 iconfont 部分的图标不同，这一部分由于存在用户的输入和多个数据源的配置、切换，复杂性是急剧上升的。 譬如存在的展示状态就有：空数据、空数据但要添加数据源、有数据未选中态、有数据选中态等总共 7 种状态。所以在状态管理的复杂性也是急剧上升。
+Step1~Step3 可能在很大程度上就能满足大部分场景的状态管理诉求，从 Step4 开始，其实意味着状态管理的复杂性开始上升，因此 Step4 也是为了驾驭复杂性而做的一个铺垫。在图标选择器这个组件中，ant design 的图标选择部分并没有太复杂的逻辑，最复杂的部分也只是关键词搜索的展示。但 iconfont 部分的图标不同，这一部分由于存在用户的输入和多个数据源的配置、切换，复杂性是急剧上升的。譬如存在的展示状态就有：空数据、空数据但要添加数据源、有数据未选中态、有数据选中态等总共 7 种状态。所以在状态管理的复杂性也是急剧上升。
 
 ![img](https://assets.ng-tech.icu/item/v2-eae60a73d306aed8aad9a8ddc470e0a8_1440w.webp)
 
@@ -1204,7 +1204,7 @@ Step1~Step3 可能在很大程度上就能满足大部分场景的状态管理�
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-e14b070e335320d4554c338c4ea1b306_b.jpg)
 
-- 最后再看下「移除数据源」：移除数据源看似很简单，但是其实也存在坑。即：移除当前选中的数据源时，怎么处理选中态的逻辑？基于良好的用户体验考虑，我们会自动帮用户切换一个选中的数据源。但这里就会有边界问题：如果删除的数据源第一个，那么应该往后选择，如果删除的是最后一个数据源，那么应该往前选择。 |
+- 最后再看下「移除数据源」：移除数据源看似很简单，但是其实也存在坑。即：移除当前选中的数据源时，怎么处理选中态的逻辑？基于良好的用户体验考虑，我们会自动帮用户切换一个选中的数据源。但这里就会有边界问题：如果删除的数据源第一个，那么应该往后选择，如果删除的是最后一个数据源，那么应该往前选择。|
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-dd7bf30129bd4e1f2e9f5b5e17a413ae_b.jpg)
 
@@ -1405,7 +1405,7 @@ export default IconfontScripts;
 
 ### Step 6: 从应用迈向组件：Context 与 StoreUpdater
 
-不知道有没有小伙伴从 Step1 开始就在纳闷，你不是说这是个组件吗？为啥一直没提受控模式呢？在你这个模式下，不是就变成全局单例了么？怎么搞成组件？那这一步不就来了么，就让我们来看看在 zustand 模式下，一个已经略显复杂的应用，如何轻轻松松变成一个受控的业务组件。 因为 zustand 是默认全局单例，所以如果需要变成组件，那么一定需要使用 Context 来隔离多个实例。而 这其中的关键，就是 zustand 提供的 `createContext` 方法。 这个改造分为四步：
+不知道有没有小伙伴从 Step1 开始就在纳闷，你不是说这是个组件吗？为啥一直没提受控模式呢？在你这个模式下，不是就变成全局单例了么？怎么搞成组件？那这一步不就来了么，就让我们来看看在 zustand 模式下，一个已经略显复杂的应用，如何轻轻松松变成一个受控的业务组件。因为 zustand 是默认全局单例，所以如果需要变成组件，那么一定需要使用 Context 来隔离多个实例。而 这其中的关键，就是 zustand 提供的 `createContext` 方法。这个改造分为四步：
 
 ![img](https://assets.ng-tech.icu/item/v2-f65905eb175fba67b0e795696cdb8d54_1440w.webp)
 
@@ -1425,7 +1425,7 @@ interface Action {
 
 export type Store = State & Action;
 
-// 将 useStore 改为 createStore， 并把它改为 create 方法
+// 将 useStore 改为 createStore，并把它改为 create 方法
 export const createStore = ()=> create<Store>((set, get) => ({
   ...initialState,
 
@@ -1564,9 +1564,9 @@ export default StoreUpdater;
 - `StoreUpdaterProps`：从 store 的 State 中 pick 出需要受控的状态，并相应补充 defaultXX 的 props；
 - `StoreUpdater`：逐一补充调用外部组件 props 的受控状态，将外部 props 更新到 store 的内部状态中；
 
-针对受控组件来说，要实现一个状态 props 的受控，一定会有的孪生的两个 props。例如一个 props 叫 value ，一定会有一个 defaultValue 和一个 onValueChange，才能满足所有和这个 value 相关的场景诉求。因此我在 `StoreUpdater` 中是也完全基于这个规则书写受控代码。不过这里有个很有意思的点：**就是在受控模式下，把 onChange 也当成 store 的自持的状态去思考**。所有的 onChange 类方法，只有两种状态 `null` 和 `function`。 这样就能在 store 内部很轻松地完成受控方法的集成。
+针对受控组件来说，要实现一个状态 props 的受控，一定会有的孪生的两个 props。例如一个 props 叫 value ，一定会有一个 defaultValue 和一个 onValueChange，才能满足所有和这个 value 相关的场景诉求。因此我在 `StoreUpdater` 中是也完全基于这个规则书写受控代码。不过这里有个很有意思的点：**就是在受控模式下，把 onChange 也当成 store 的自持的状态去思考**。所有的 onChange 类方法，只有两种状态 `null` 和 `function`。这样就能在 store 内部很轻松地完成受控方法的集成。
 
-而 zustand 在这个过程中发挥最关键一点的 hooks 叫做 `useStoreApi`。这个 props 可能大家在 Step1~ Step5 中都没看到过，因为这个 hooks 只在 context 的场景下出现。它的功能就是获得相应 `Context` 下的 `useStore` 方法。如果直接使用 `useStore`，那么是获得不到挂在在 useStore 上的变量的。 大家是否还记得 Step1 中的 `useStore.setState({ ... })`这个方法？它在这个场景下发挥了巨大的作用，大大减少了更新受控 props 的代码量。这是我们需要在这里使用 `useStoreApi` 的原因。
+而 zustand 在这个过程中发挥最关键一点的 hooks 叫做 `useStoreApi`。这个 props 可能大家在 Step1~ Step5 中都没看到过，因为这个 hooks 只在 context 的场景下出现。它的功能就是获得相应 `Context` 下的 `useStore` 方法。如果直接使用 `useStore`，那么是获得不到挂在在 useStore 上的变量的。大家是否还记得 Step1 中的 `useStore.setState({ ... })`这个方法？它在这个场景下发挥了巨大的作用，大大减少了更新受控 props 的代码量。这是我们需要在这里使用 `useStoreApi` 的原因。
 
 这一步写完之后，组件接受外部 props ，并受控的部分就完成了。最后就只剩内部状态变更需要 onChange 出来了。
 
@@ -1744,7 +1744,7 @@ const IconList = () => {
 };
 ```
 
-不过如果是真正的复杂应用，经历过 Step1~Step5 之后，估计大部分状态变更都会收敛到 Store 中，因此如果需要修改 setState 的部分，在我实际使用下来并不算太多。 最后来看下这样的一个效果：
+不过如果是真正的复杂应用，经历过 Step1~Step5 之后，估计大部分状态变更都会收敛到 Store 中，因此如果需要修改 setState 的部分，在我实际使用下来并不算太多。最后来看下这样的一个效果：
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-60910696c0ee8491fd5fd5cc0c80c5c7_b.jpg)
 
@@ -1756,7 +1756,7 @@ PS：这个 `StoreUpdater` 的用法我也是翻了 react-flow 才了解到的�
 
 作为一个制作精良的组件，性能上一定不能拉胯。因此我们需要来做下优化了。最近云谦老师写了篇《关于 React Re-Render》，可以看到如果要裸写 hooks 做性能优化，得学习一堆基础知识和踩一堆坑，最后代码里一坨一坨的 useXXX，心智负担非常重。那在 zustand 中怎么做性能优化呢？
 
-首先，在 Step2 中我们已经知道，所有 zustand 的 action 都默认不会造成重复渲染，因此，理论上只有 state 会造成重复渲染。我们来看下实际情况。 首先我使用 `useWhyDidYouUpdate` 的 hooks 来检查并确认 PickerPanel 组件的 state 和 action 是否会会发变化，从下图中可以看到，无论是 resetIcon 还是还是 storeApi ，它们的引用在其他状态变化下，都保持不变，没有造成重复渲染。
+首先，在 Step2 中我们已经知道，所有 zustand 的 action 都默认不会造成重复渲染，因此，理论上只有 state 会造成重复渲染。我们来看下实际情况。首先我使用 `useWhyDidYouUpdate` 的 hooks 来检查并确认 PickerPanel 组件的 state 和 action 是否会会发变化，从下图中可以看到，无论是 resetIcon 还是还是 storeApi ，它们的引用在其他状态变化下，都保持不变，没有造成重复渲染。
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-bba194374ac65e8c90c0e94d5b763ed4_b.jpg)
 
@@ -1764,11 +1764,11 @@ PS：这个 `StoreUpdater` 的用法我也是翻了 react-flow 才了解到的�
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-777c12719dd80ac8873b6a9b0fd95f09_b.jpg)
 
-即当关键词 state 修改了，就会造成 store 的变化。而 store 的变化就会触发当前这个界面的重新渲染。哎？那这个不就是和 context 一模一样了么？对，你想的没错， zustand 并不像 valtio 这样会自动收集依赖，并做性能优化。 所以我们是需要手动搞一轮优化的。那咋搞呢？思路上其实也非常简单：既然我在 PickerPanel 这个组件中只关心`{ panelTabKey, icon, resetIcon }` 这几个状态，那我「手动」做一个依赖收集不就好了么？那怎么手动做呢？ 还记得 step2 中的 selector 吗？又轮到它出场了。
+即当关键词 state 修改了，就会造成 store 的变化。而 store 的变化就会触发当前这个界面的重新渲染。哎？那这个不就是和 context 一模一样了么？对，你想的没错，zustand 并不像 valtio 这样会自动收集依赖，并做性能优化。所以我们是需要手动搞一轮优化的。那咋搞呢？思路上其实也非常简单：既然我在 PickerPanel 这个组件中只关心`{ panelTabKey, icon, resetIcon }` 这几个状态，那我「手动」做一个依赖收集不就好了么？那怎么手动做呢？ 还记得 step2 中的 selector 吗？又轮到它出场了。
 
 ![动图封面](https://assets.ng-tech.icu/item/v2-58c001d1e687037b86debba0cfea79ca_b.jpg)
 
-只需要利用 zustand 的 useStore 的 selector 能力，配合 zustand 默认提供的 `shallow` 浅比较能力。我们就能实现「人工的依赖收集」。如此一来，性能优化也就做好了。 我们来看看优化前和优化后的代码区别：
+只需要利用 zustand 的 useStore 的 selector 能力，配合 zustand 默认提供的 `shallow` 浅比较能力。我们就能实现「人工的依赖收集」。如此一来，性能优化也就做好了。我们来看看优化前和优化后的代码区别：
 
 PickerPanel 优化前：
 
@@ -1808,7 +1808,7 @@ const PickerPanel = () => {
 }
 ```
 
-可以看到，除了多一个几乎一样的 selector 和一个 shallow，其他代码没有任何区别，但是性能优化就是这么做好了。 那这是基于 zustand selector 的写法可以做到的渐进式性能优化。「需要优化？加个 selector 就好~」这样的研发心智，可以让业务开发有很多选择，譬如：
+可以看到，除了多一个几乎一样的 selector 和一个 shallow，其他代码没有任何区别，但是性能优化就是这么做好了。那这是基于 zustand selector 的写法可以做到的渐进式性能优化。「需要优化？加个 selector 就好~」这样的研发心智，可以让业务开发有很多选择，譬如：
 
 - 前期撒开来默认解构 useStore，不必担心未来的性能优化难题。等发现某些地方真的需要优化时，相应的套上 selector 就好；
 - 反正只是加个 selector，也可以写完应用定型后也可以顺手加一下；
@@ -1816,7 +1816,7 @@ const PickerPanel = () => {
 
 ### Step 8: 研发增强：Devtools
 
-当 Store 复杂度到现在这样之后，接下来每一步 debug 都有可能变得比较麻烦，因此我们可以集成一下 devtools，将 Store 研发模式变得更加可视化，做到可控。 而写法也非常简单，只需在 create 方法下包一个 devtools 即可，并在 create 后多一个 () 执行。
+当 Store 复杂度到现在这样之后，接下来每一步 debug 都有可能变得比较麻烦，因此我们可以集成一下 devtools，将 Store 研发模式变得更加可视化，做到可控。而写法也非常简单，只需在 create 方法下包一个 devtools 即可，并在 create 后多一个 () 执行。
 
 ```ts
 // ...

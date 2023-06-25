@@ -243,9 +243,9 @@ const Todo = ({ id, content, dispatch }) => (
 6. `<Todo>` 渲染，调用带有最新的 state 和最新的 props 的 `mapStateToProps`。
 7. 因为父组件（`<TodoList>`）还没有渲染，`<Todo>` 中的 props 实际上是**过时的 props**，但是 state 已经是最新的了。调用 `state.todos[ownProps.id]` 导致为 `undefined`，调用 `(undefined).content` 导致一个错误。
 
-请注意，在这两种情况下，第六步是不同的。前者在父组件（`<TodoList>`）中调用另一个监视器，而后者首先渲染子组件（`<Todo>`）。 **似乎是调用 `forceUpdate()` 不久后，`<Todo>` 同步重渲染了！**
+请注意，在这两种情况下，第六步是不同的。前者在父组件（`<TodoList>`）中调用另一个监视器，而后者首先渲染子组件（`<Todo>`）。**似乎是调用 `forceUpdate()` 不久后，`<Todo>` 同步重渲染了！**
 
-“等等，我以为 `setState` 是异步的？” 是的，当然不会。在大多数情况下， `setState` 实际上是异步的，[只要 `setState` 在 React 事件处理回调中调用即可](https://twitter.com/dan_abramov/status/959507572951797761)，React 将确保在事件处理回调中**批处理**所有的更新，并一次异步执行所有的渲染。通过在 `setTimeout` 回调中包装 `setState`，我们**选择取消** 这个特性，并使 `setState` 同步。
+“等等，我以为 `setState` 是异步的？” 是的，当然不会。在大多数情况下，`setState` 实际上是异步的，[只要 `setState` 在 React 事件处理回调中调用即可](https://twitter.com/dan_abramov/status/959507572951797761)，React 将确保在事件处理回调中**批处理**所有的更新，并一次异步执行所有的渲染。通过在 `setTimeout` 回调中包装 `setState`，我们**选择取消** 这个特性，并使 `setState` 同步。
 
 在我们上面的例子中，React 把 `<Todo>` 组件的 `forceUpdate()` 和 `<TodoList>` 组件的 `forceUpdate()` 放在一个事件处理回调中，然后最终让它们一次进行渲染。**这里另一个重要的说明是，在重渲染过程中，React 将确保从下到上执行。**这就是为什么父组件（`<TodoList>`）首先进行重渲染，然后跳过 `<Todo>` 渲染的原因。
 
@@ -290,7 +290,7 @@ dispatch(action) {
 },
 ```
 
-它工作良好。这实际上就是 `react-redux` v4 的实现，没有许多其他必要的优化，像[记住返回的元素](https://github.com/reduxjs/react-redux/blob/v4.4.0/src/components/connect.js#L238-L270)，或者[如果 `mapStateToProps` 函数不依赖于 `ownProps`，则尽早进行更新](https://github.com/reduxjs/react-redux/pull/348)。 即使进行了这些优化，在最坏的情况下，每次状态更改时，我们仍然会强制容器组件进行重渲染。对于一个很小的应用程序，它应该还不错，但是对于一个可扩展的全局状态管理库，它很快就变得无法接受。
+它工作良好。这实际上就是 `react-redux` v4 的实现，没有许多其他必要的优化，像[记住返回的元素](https://github.com/reduxjs/react-redux/blob/v4.4.0/src/components/connect.js#L238-L270)，或者[如果 `mapStateToProps` 函数不依赖于 `ownProps`，则尽早进行更新](https://github.com/reduxjs/react-redux/pull/348)。即使进行了这些优化，在最坏的情况下，每次状态更改时，我们仍然会强制容器组件进行重渲染。对于一个很小的应用程序，它应该还不错，但是对于一个可扩展的全局状态管理库，它很快就变得无法接受。
 
 ## 嵌套订阅模型
 

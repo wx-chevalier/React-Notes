@@ -18,7 +18,7 @@ React16 启用了全新的架构，叫做 Fiber，其最大的使命是解决大
 
 ## 解决进度
 
-- 16.0 让组件支持返回任何数组类型，从而解决数组问题; 推出 createPortal API ,解决弹窗问题; 推出 componentDidCatch 新钩子， 划分出错误组件与边界组件， 每个边界组件能修复下方组件错误一次， 再次出错，转交更上层的边界组件来处理，解决异常处理问题。
+- 16.0 让组件支持返回任何数组类型，从而解决数组问题; 推出 createPortal API ,解决弹窗问题; 推出 componentDidCatch 新钩子，划分出错误组件与边界组件，每个边界组件能修复下方组件错误一次，再次出错，转交更上层的边界组件来处理，解决异常处理问题。
 - 16.2 推出 Fragment 组件，可以看作是数组的一种语法糖。
 - 16.3 推出 createRef 与 forwardRef 解决 Ref 在 HOC 中的传递问题，推出 new Context API，解决 HOC 的 context 传递问题（主要是 SCU 作崇）
 - 而性能问题，从 16.0 开始一直由一些内部机制来保证，涉及到批量更新及基于时间分片的限量更新。
@@ -118,11 +118,11 @@ ReactDOM.render(<B />, node2);
 //node1与node2不存在包含关系，那么这页面就有两棵虚拟DOM树
 ```
 
-如果仔细阅读源码，React 这个纯视图库其实也是三层架构。在 React15 有`虚拟DOM层`，它只负责**描述**结构与逻辑;`内部组件层`，它们负责组件的更新, ReactDOM.render、 setState、 forceUpdate 都是与它们打交道，能让你多次 setState，只执行一次真实的渲染, 在适合的时机执行你的组件实例的生命周期钩子; `底层渲染层`， 不同的显示介质有不同的渲染方法，比如说浏览器端，它使用元素节点，文本节点，在 Native 端，会调用 oc， java 的 GUI， 在 canvas 中，有专门的 API 方法。。。
+如果仔细阅读源码，React 这个纯视图库其实也是三层架构。在 React15 有`虚拟DOM层`，它只负责**描述**结构与逻辑;`内部组件层`，它们负责组件的更新, ReactDOM.render、 setState、 forceUpdate 都是与它们打交道，能让你多次 setState，只执行一次真实的渲染, 在适合的时机执行你的组件实例的生命周期钩子; `底层渲染层`，不同的显示介质有不同的渲染方法，比如说浏览器端，它使用元素节点，文本节点，在 Native 端，会调用 oc，java 的 GUI，在 canvas 中，有专门的 API 方法。。。
 
-虚拟 DOM 是由 JSX 转译过来的，JSX 的入口函数是 React.createElement, 可操作空间不大， 第三大的底层 API 也非常稳定，因此我们只能改变第二层。
+虚拟 DOM 是由 JSX 转译过来的，JSX 的入口函数是 React.createElement, 可操作空间不大，第三大的底层 API 也非常稳定，因此我们只能改变第二层。
 
-React16 将内部组件层改成 Fiber 这种数据结构，因此它的架构名也改叫 Fiber 架构。Fiber 节点拥有 return, child, sibling 三个属性，分别对应父节点， 第一个孩子， 它右边的兄弟， 有了它们就足够将一棵树变成一个链表， 实现深度优化遍历。
+React16 将内部组件层改成 Fiber 这种数据结构，因此它的架构名也改叫 Fiber 架构。Fiber 节点拥有 return, child, sibling 三个属性，分别对应父节点，第一个孩子，它右边的兄弟，有了它们就足够将一棵树变成一个链表，实现深度优化遍历。
 
 ![img](https://assets.ng-tech.icu/item/v2-453e1f48a4f53356bee021c90ee00bed_1440w.webp)
 
@@ -252,7 +252,7 @@ function updateComponentOrElement(fiber) {
 
 ## 如何调度时间才能保证流畅
 
-刚才的 updateFiberAndView 其实有一个问题，我们安排了 100ms 来更新视图与虚拟 DOM，然后再安排 40ms 来给浏览器来做其他事。如果我们的虚拟 DOM 树很小，其实不需要 100ms; 如果我们的代码之后， 浏览器有更多其他事要干， 40ms 可能不够。IE10 出现了 setImmediate，requestAnimationFrame 这些新定时器，让我们这些前端，其实浏览器有能力让页面更流畅地运行起来。
+刚才的 updateFiberAndView 其实有一个问题，我们安排了 100ms 来更新视图与虚拟 DOM，然后再安排 40ms 来给浏览器来做其他事。如果我们的虚拟 DOM 树很小，其实不需要 100ms; 如果我们的代码之后，浏览器有更多其他事要干，40ms 可能不够。IE10 出现了 setImmediate，requestAnimationFrame 这些新定时器，让我们这些前端，其实浏览器有能力让页面更流畅地运行起来。
 
 浏览器本身也不断进化中，随着页面由简单的展示转向 WebAPP，它需要一些新能力来承载更多节点的展示与更新。
 
@@ -263,7 +263,7 @@ function updateComponentOrElement(fiber) {
 - web worker
 - IntersectionObserver
 
-我们依次称为浏览器层面的帧数控制调用，闲时调用，多线程调用， 进入可视区调用。
+我们依次称为浏览器层面的帧数控制调用，闲时调用，多线程调用，进入可视区调用。
 
 requestAnimationFrame 在做动画时经常用到，jQuery 新版本都使用它。web worker 在 angular2 开始就释出一些包，实验性地用它进行 diff 数据。IntersectionObserver 可以用到 ListView 中。而 requestIdleCallback 是一个生脸孔，而 React 官方恰恰看上它。
 
@@ -273,7 +273,7 @@ requestAnimationFrame 在做动画时经常用到，jQuery 新版本都使用它
 
 ![img](https://assets.ng-tech.icu/item/v2-e1ba24e51c372e7c824bdf4df5a41555_1440w.webp)
 
-它的第一个参数是一个回调，回调有一个参数对象，对象有一个 timeRemaining 方法，就相当于`new Date - deadline`，并且它是一个高精度数据， 比毫秒更准确， 至少浏览器到底安排了多少时间给更新 DOM 与虚拟 DOM，我们不用管。第二个时间段也不用管，不过浏览器可能 1，2 秒才执行这个回调，因此为了保险起见，我们可以设置第二个参数，让它在回调结束后 300ms 才执行。要相信浏览器，因为都是大牛们写的，时间的调度比你安排更有效率。
+它的第一个参数是一个回调，回调有一个参数对象，对象有一个 timeRemaining 方法，就相当于`new Date - deadline`，并且它是一个高精度数据，比毫秒更准确，至少浏览器到底安排了多少时间给更新 DOM 与虚拟 DOM，我们不用管。第二个时间段也不用管，不过浏览器可能 1，2 秒才执行这个回调，因此为了保险起见，我们可以设置第二个参数，让它在回调结束后 300ms 才执行。要相信浏览器，因为都是大牛们写的，时间的调度比你安排更有效率。
 
 于是我们的 updateFiberAndView 可以改成这样：
 
@@ -378,7 +378,7 @@ context 一开始是一个空对象，为了方便起见，我们称之为**unma
 
 还有一个隐患，它可能被 SCU 比较时是用 maskedContext，而不是 unmaskedContext。
 
-基于这些问题，终于 new Context API 出来了。首先， unmaskedContext 不再像以前那样各个方法中来往穿梭了，有一个独立的 contextStack。开始时就 push 进一个空对象，到达某个组件需要实例化时，就取它第一个。当再次访问这个组件时， 就像它从栈中弹出。因此我们需要深度优先遍历，保证每点节点都访问两次。
+基于这些问题，终于 new Context API 出来了。首先，unmaskedContext 不再像以前那样各个方法中来往穿梭了，有一个独立的 contextStack。开始时就 push 进一个空对象，到达某个组件需要实例化时，就取它第一个。当再次访问这个组件时，就像它从栈中弹出。因此我们需要深度优先遍历，保证每点节点都访问两次。
 
 ![img](https://assets.ng-tech.icu/item/v2-d629ff51df8b827d6465514c31467179_1440w.webp)
 
@@ -390,7 +390,7 @@ context 一开始是一个空对象，为了方便起见，我们称之为**unma
 
 但有一个问题，当第一次渲染完毕后，contextStack 置为空了。然后我们位于虚拟 DOM 树的某个组件 setState，这时它的 context 应该如何获取呢？React 的解决方式是，每次都是从根开始渲染，通过 updateQueue 加速跳过没有更新的 节点——每个组件在 setState 或 forceUpdate 时，都会创建一个 updateQueue 属性在它的上面。anujs 则是保存它之前的 unmaskedContext 到实例上，unmaskedContext 可以看作是上面所有 context 的并集，并且一个可以当多个使用。
 
-当我们批量更新时，可能有多少不连续的子组件被更新了，其中两个组件之间的某个组件使用了 SCU return false，这个 SCU 应该要被忽视。 因此我们引用一些变量让它透明化。就像 forceUpdate 能让组件无视 SCU 一样。
+当我们批量更新时，可能有多少不连续的子组件被更新了，其中两个组件之间的某个组件使用了 SCU return false，这个 SCU 应该要被忽视。因此我们引用一些变量让它透明化。就像 forceUpdate 能让组件无视 SCU 一样。
 
 ## 为什么要对生命周期钩子大换血
 
@@ -408,9 +408,9 @@ React 将虚拟 DOM 的更新过程划分两个阶段，reconciler 阶段与 com
 
 在我们的代码里面，`休息`就是检测时间然后断开 Fiber 链。
 
-updateFiberAndView 里面先进行 updateView，由于节点的更新是不可控，因此全部更新完，才检测时间。并且我们完全不用担心 updateView 会出问题，因为 updateView 实质上是在 batchedUpdates 中，里面有 try catch。而接下来我们基于 DFS 更新节点，每个节点都要 check 时间，这个过程其实很害怕出错的， 因为组件在挂载过程中会调三次钩子/方法（constructor, componentWillMount, render）， 组件在更新过程中会调 4 次钩子 （componentWillReceiveProps, shouldUpdate, componentWillUpdate）, 总不能每个方法都用 try catch 包起来，这样会性能很差。而 constructor, render 是不可避免的，于是对三个 willXXX 动刀了。
+updateFiberAndView 里面先进行 updateView，由于节点的更新是不可控，因此全部更新完，才检测时间。并且我们完全不用担心 updateView 会出问题，因为 updateView 实质上是在 batchedUpdates 中，里面有 try catch。而接下来我们基于 DFS 更新节点，每个节点都要 check 时间，这个过程其实很害怕出错的，因为组件在挂载过程中会调三次钩子/方法（constructor, componentWillMount, render），组件在更新过程中会调 4 次钩子 （componentWillReceiveProps, shouldUpdate, componentWillUpdate）, 总不能每个方法都用 try catch 包起来，这样会性能很差。而 constructor, render 是不可避免的，于是对三个 willXXX 动刀了。
 
-在早期版本中，componentWillMount 与 componentWillReceiveProps 会做内部优化，执行多次 setState 都会延后到 render 时进行合并处理。因此用户就肆意 setState 了。这些 willXXX 还可以让用户任意操作 DOM。 操作 DOM 会可能 reflow，这是官方不愿意看到的。于是官方推出了 getDerivedStateFromProps，让你在 render 设置新 state，你主要返回一个新对象，它就主动帮你 setState。由于这是一个静态方法，你不能操作 instance，这就阻止了你多次操作 setState。由于没有 instance,也就没有[http://instance.refs.xxx](https://link.zhihu.com/?target=http%3A//instance.refs.xxx)，你也没有机会操作 DOM 了。这样一来，getDerivedStateFromProps 的逻辑应该会很简单，这样就不会出错，不会出错，就不会打断 DFS 过程。
+在早期版本中，componentWillMount 与 componentWillReceiveProps 会做内部优化，执行多次 setState 都会延后到 render 时进行合并处理。因此用户就肆意 setState 了。这些 willXXX 还可以让用户任意操作 DOM。操作 DOM 会可能 reflow，这是官方不愿意看到的。于是官方推出了 getDerivedStateFromProps，让你在 render 设置新 state，你主要返回一个新对象，它就主动帮你 setState。由于这是一个静态方法，你不能操作 instance，这就阻止了你多次操作 setState。由于没有 instance,也就没有[http://instance.refs.xxx](https://link.zhihu.com/?target=http%3A//instance.refs.xxx)，你也没有机会操作 DOM 了。这样一来，getDerivedStateFromProps 的逻辑应该会很简单，这样就不会出错，不会出错，就不会打断 DFS 过程。
 
 getDerivedStateFromProps 取代了原来的 componentWillMount 与 componentWillReceiveProps 方法，而 componentWillUpdate 本来就是可有可无，以前完全是为了对称好看。
 
@@ -470,7 +470,7 @@ React 内置这么多任务，从 DOM 操作到 Ref 处理到回调唤起。。�
 
 alternate 对象会接受上方传递下来的新 props，然后从 getDerivedStateFromProps 得到新 state，于是 render 不一样的子组件，子组件再 render，渐渐的，master 与 alternate 的差异越来越大，当某一个子组件出错，于是我们又回滚到该边界组件的 master 分支。
 
-可以说，React16 通过 Fiber 这种数据结构模拟了 git 的三种重要操作， git add, git commit, git revert。
+可以说，React16 通过 Fiber 这种数据结构模拟了 git 的三种重要操作，git add, git commit, git revert。
 
 有关连体婴结构的思考，可以参看我另一篇文章[《从错误边界到回滚到 MWI》](https://zhuanlan.zhihu.com/p/36476969)，这里就不再展开。
 

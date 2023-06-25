@@ -261,14 +261,14 @@ fiber 与 workInProgress 互相持有引用，把 current 指针指向 workInPro
 **怎么触发的更新**
 
 - this.setState();
-- props 的改变（因为 props 改变也是由父组件的 setState 引起的， 其实也是第一种）;
+- props 的改变（因为 props 改变也是由父组件的 setState 引起的，其实也是第一种）;
 - this.forceUpdate();
 
 **触发更新后 Fiber 做了什么**
 
 首先, 当前是哪个组件触发的更新, React 是知道的( this 指向), 于是 React 会针对**当前组件**计算其相应的到期时间(上面提到了[计算方法](https://link.zhihu.com/?target=https%3A//km.sankuai.com/page/156013163%23id-%E8%A7%84%E5%AE%9A%E8%B0%83%E5%BA%A6%E9%A1%BA%E5%BA%8F---expirationTime%E5%88%B0%E6%9C%9F%E6%97%B6%E9%97%B4)), 并且基于这个到期时间, 创建一个**更新 update ,** 将引起改变的 payload (比如说 state/props ), 作为此次更新的一个属性, 并插入当前组件对应的 Fiber Node 的更新队列（它是一个单向链表数据结构。只要有 setState 或者其他方式触发了更新，就会在 fiber 上的 updateQueue 里插入一个 update，这样在更新的时候就可以合并一起更新。）中, 之后开始调度任务。
 
-整个调度的过程是计算并重新构建 workInProgress Tree 的过程，在 workInProgress Tree 和原有 Fiber Tree 对比的时候记录下 Diff，标记对应的 Effect， 完成之后会生成一个 Effect List，这个 Effect List 就是最终 Commit 阶段用来处理副作用的阶段， 如果在这个过程中有了交互事件等高优先级的任务进来，那么 fiber 会终止当前任务， 执行更紧急的任务， 但为了避免 “饥饿现象”， 上一个吊起的任务的优先级会被相应的提升。
+整个调度的过程是计算并重新构建 workInProgress Tree 的过程，在 workInProgress Tree 和原有 Fiber Tree 对比的时候记录下 Diff，标记对应的 Effect，完成之后会生成一个 Effect List，这个 Effect List 就是最终 Commit 阶段用来处理副作用的阶段，如果在这个过程中有了交互事件等高优先级的任务进来，那么 fiber 会终止当前任务，执行更紧急的任务，但为了避免 “饥饿现象”，上一个吊起的任务的优先级会被相应的提升。
 
 ```js
 let workInProgress = current.alternate;
@@ -290,7 +290,7 @@ if (workInProgress === null) {
 
 ### 6、effect
 
-每一个 Fiber Node 都有与之相关的 effect ， effect 是用于记录由于 state 和 props 改变引起的工作类型， 对于不同类型的 Fiber Node 有不同的改变类型，比如对 DOM 元素，工作包括添加，更新或删除元素。对于 class 组件，React 可能需要更新 ref 并调用 componentDidMount 和 componentDidUpdate 生命周期方法。
+每一个 Fiber Node 都有与之相关的 effect ，effect 是用于记录由于 state 和 props 改变引起的工作类型，对于不同类型的 Fiber Node 有不同的改变类型，比如对 DOM 元素，工作包括添加，更新或删除元素。对于 class 组件，React 可能需要更新 ref 并调用 componentDidMount 和 componentDidUpdate 生命周期方法。
 
 每个 Fiber Node 都有个 nextEffect 用来快速查找下一个改变 effect，他使得更新的修改能够快速遍历整颗树，跳过没有更改的 Fiber Node。
 
@@ -627,6 +627,6 @@ Concurrent Mode 指的就是 React 利用上面 Fiber 带来的新特性开启�
 Concurrent Mode 其实开启了一堆新特性，其中有两个最重要的特性可以用来解决我们开头提到的两个问题：
 
 1. [Suspense](https://link.zhihu.com/?target=https%3A//link.segmentfault.com/%3Fenc%3DaU7%2FtNBChDWMnwein7oWOg%3D%3D.ztkRkIqDxdwJfR4SyBbUz23JkkZr1Vei7pq3WGiC5maYIsneQwdEb4mCq%2FKISD4G)：Suspense 是 React 提供的一种**异步处理的机制**, 它不是一个具体的数据请求库。它是 React 提供的原生的组件异步调用原语。
-2. [useTrasition](https://link.zhihu.com/?target=https%3A//link.segmentfault.com/%3Fenc%3DRbL21xHWKgEDDyx3jWed8Q%3D%3D.8aqbm2Qpz6rip75nCaEMqZNZpefrWKIoCESkQx8S1zOuPnKVdWENgwbbXaW09qxU)：让页面实现 `Pending -> Skeleton -> Complete` 的更新路径, 用户在切换页面时可以停留在当前页面，让页面保持响应。 相比展示一个无用的空白页面或者加载状态，这种**用户体验**更加友好。
+2. [useTrasition](https://link.zhihu.com/?target=https%3A//link.segmentfault.com/%3Fenc%3DRbL21xHWKgEDDyx3jWed8Q%3D%3D.8aqbm2Qpz6rip75nCaEMqZNZpefrWKIoCESkQx8S1zOuPnKVdWENgwbbXaW09qxU)：让页面实现 `Pending -> Skeleton -> Complete` 的更新路径, 用户在切换页面时可以停留在当前页面，让页面保持响应。相比展示一个无用的空白页面或者加载状态，这种**用户体验**更加友好。
 
 其中 Suspense 可以用来解决请求阻塞的问题，UI 卡顿的问题其实开启 concurrent mode 就已经解决的，但如何利用 concurrent mode 来实现更友好的交互还是需要对代码做一番改动的。

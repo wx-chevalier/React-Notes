@@ -118,7 +118,7 @@ ReactDOM.render(<B />, node2);
 //node1与node2不存在包含关系，那么这页面就有两棵虚拟DOM树
 ```
 
-如果仔细阅读源码，React 这个纯视图库其实也是三层架构。在 React15 有`虚拟DOM层`，它只负责**描述**结构与逻辑;`内部组件层`，它们负责组件的更新, ReactDOM.render、 setState、 forceUpdate 都是与它们打交道，能让你多次 setState，只执行一次真实的渲染, 在适合的时机执行你的组件实例的生命周期钩子; `底层渲染层`，不同的显示介质有不同的渲染方法，比如说浏览器端，它使用元素节点，文本节点，在 Native 端，会调用 oc，java 的 GUI，在 canvas 中，有专门的 API 方法。。。
+如果仔细阅读源码，React 这个纯视图库其实也是三层架构。在 React15 有`虚拟DOM层`，它只负责**描述**结构与逻辑;`内部组件层`，它们负责组件的更新, ReactDOM.render、setState、forceUpdate 都是与它们打交道，能让你多次 setState，只执行一次真实的渲染, 在适合的时机执行你的组件实例的生命周期钩子; `底层渲染层`，不同的显示介质有不同的渲染方法，比如说浏览器端，它使用元素节点，文本节点，在 Native 端，会调用 oc，java 的 GUI，在 canvas 中，有专门的 API 方法。。。
 
 虚拟 DOM 是由 JSX 转译过来的，JSX 的入口函数是 React.createElement, 可操作空间不大，第三大的底层 API 也非常稳定，因此我们只能改变第二层。
 

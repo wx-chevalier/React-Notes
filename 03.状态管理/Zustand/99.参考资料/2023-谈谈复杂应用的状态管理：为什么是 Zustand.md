@@ -656,7 +656,7 @@ const createStore = create(devtools(vanillaStore, { name: "ProTableStore" }));
 
 PS：至于一开始提到的协同能力，我在社区中也有发现中间件 [zustand-middleware-yjs](https://link.zhihu.com/?target=https%3A//github.com/joebobmiles/zustand-middleware-yjs) （不过还没尝试）。
 
-### ❻ 多环境集成（ react 内外环境联动 ）
+### ❻ 多环境集成（react 内外环境联动 ）
 
 实际的复杂应用中，一定会存在某些不在 react 环境内的状态数据，以图表、画布、3D 场景最多。一旦要涉及到多环境下的状态管理，可以让人掉无数头发。
 

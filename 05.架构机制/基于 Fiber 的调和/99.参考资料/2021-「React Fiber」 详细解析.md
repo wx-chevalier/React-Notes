@@ -238,7 +238,7 @@ workInProgress Tree 保存当先更新中的进度快照，用于下一个时间
 
 在首次渲染的过程中，React 通过 react-dom 中提供的方法创建组件和与组件相应的 Fiber (Tree) ，此后就不会再生成新树，运行时永远维护这一棵树，调度和更新的计算完成后 Fiber Tree 会根据 effect 去实现更新。
 
-而 workInProgress Tree 在每一次刷新工作栈（ prepareFreshStack ）时候都会重新根据当前的 fiber tree 构建一次。
+而 workInProgress Tree 在每一次刷新工作栈（prepareFreshStack ）时候都会重新根据当前的 fiber tree 构建一次。
 
 这两棵树构成了双缓冲树, 以 fiber tree 为主，workInProgress tree 为辅。
 

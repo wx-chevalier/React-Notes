@@ -28,4 +28,4 @@
 
 ## E2E Test | 端到端测试
 
-- [2018-End-to-end testing React apps with Puppeteer and Jest](https://blog.logrocket.com/end-to-end-testing-react-apps-with-puppeteer-and-jest-ce2f414b4fd7): In this tutorial, we’ll see how to write tests for a React app using Jest and Puppeteer.
+- [2018~End-to-end testing React apps with Puppeteer and Jest](https://blog.logrocket.com/end-to-end-testing-react-apps-with-puppeteer-and-jest-ce2f414b4fd7): In this tutorial, we’ll see how to write tests for a React app using Jest and Puppeteer.

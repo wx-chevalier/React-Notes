@@ -1,8 +1,8 @@
 # 参考资料
 
-- [2017-React Higher Order Components in TypeScript made simple](https://parg.co/mWg): When refactoring a Higher-Order Component (HOC) in a TypeScript project at work, there was some confusion regarding how to write them properly.
+- [2017~React Higher Order Components in TypeScript made simple](https://parg.co/mWg): When refactoring a Higher-Order Component (HOC) in a TypeScript project at work, there was some confusion regarding how to write them properly.
 
-- [2017-React Typescript by sample](https://github.com/Lemoncode/react-typescript-samples): The goal of this project is to provide a set of simple samples, providing and step by step guide to start working with React and Typescript.
+- [2017~React Typescript by sample](https://github.com/Lemoncode/react-typescript-samples): The goal of this project is to provide a set of simple samples, providing and step by step guide to start working with React and Typescript.
 
 - [2018~TypeScript and React using create-react-app](https://parg.co/U15): A step-by-step guide to setting up your first app.
 

@@ -175,7 +175,7 @@ const useTableStore = (state: Partial<Omit<ProTableConfigStore, 'columns' | 'dat
 
 ![img](https://assets.ng-tech.icu/item/v2-45aafb15ee043899edeba77fa720c708_1440w.webp)
 
-## 为什么是 Zustand ？
+## 为什么是 Zustand？
 
 其实，复杂应用只是开发者状态管理需求的集中体现。如果我们把状态管理当成一款产品来设计，我们不妨看看开发者在状态管理下的核心需求是什么。
 

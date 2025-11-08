@@ -2,7 +2,7 @@
 
 Storybook 是用户界面开发环境和 UI 组件的游乐场。该工具使开发人员能够独立创建组件，并在隔离的开发环境中以交互方式展示组件。Storybook 在主应用程序之外运行，因此用户可以独立开发 UI 组件，而无需担心应用程序特定的依赖关系和要求。
 
-![Storybook 基础示例](https://assets.ng-tech.icu/item/20230516214532.png)
+![Storybook 基础示例](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/20230516214532.png)
 
 Storybook 还支持很多插件，并附带灵活的 API，可根据需要自定义 Storybook。还可以构建静态版本的 Storybook 并将其部署到 HTTP 服务器。
 

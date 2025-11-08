@@ -48,7 +48,7 @@ setTimeout(function () {
 
 这是一个拥有 10000 个节点的插入操作，包含了 innerHTML 与样式设置，花掉 1000ms。
 
-![img](https://assets.ng-tech.icu/item/v2-87527d4cd261c4aebad9fdfa827076f0_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-87527d4cd261c4aebad9fdfa827076f0_1440w.webp)
 
 我们再改进一下，分派次插入节点，每次只操作 100 个节点，共 100 次，发现性能异常的好！
 
@@ -80,7 +80,7 @@ setTimeout(function () {
 }, 1000);
 ```
 
-![img](https://assets.ng-tech.icu/item/v2-2cae392020e785dd07986e9f9029205f_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-2cae392020e785dd07986e9f9029205f_1440w.webp)
 
 究其原因是因为浏览器是单线程，它将 GUI 描绘，时间器处理，事件处理，JS 执行，远程资源加载统统放在一起。当做某件事，只有将它做完才能做下一件事。如果有足够的时间，浏览器是会对我们的代码进行编译优化（JIT）及进行热代码优化，一些 DOM 操作，内部也会对 reflow 进行处理。reflow 是一个性能黑洞，很可能让页面的大多数元素进行重新布局。
 
@@ -90,7 +90,7 @@ setTimeout(function () {
 
 这些 tasks 中有些我们可控，有些不可控，比如 setTimeout 什么时候执行不好说，它总是不准时; 资源加载时间不可控。但一些 JS 我们可以控制，让它们分派执行，tasks 的时长不宜过长，这样浏览器就有时间优化 JS 代码与修正 reflow！下图是我们理想中的渲染过程
 
-![img](https://assets.ng-tech.icu/item/v2-8a94e1428849853e4ab91407c4f2a85a_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-8a94e1428849853e4ab91407c4f2a85a_1440w.webp)
 
 总结一句，**就是让浏览器休息好，浏览器就能跑得更快**。
 
@@ -124,7 +124,7 @@ ReactDOM.render(<B />, node2);
 
 React16 将内部组件层改成 Fiber 这种数据结构，因此它的架构名也改叫 Fiber 架构。Fiber 节点拥有 return, child, sibling 三个属性，分别对应父节点，第一个孩子，它右边的兄弟，有了它们就足够将一棵树变成一个链表，实现深度优化遍历。
 
-![img](https://assets.ng-tech.icu/item/v2-453e1f48a4f53356bee021c90ee00bed_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-453e1f48a4f53356bee021c90ee00bed_1440w.webp)
 
 ## 如何决定每次更新的数量
 
@@ -271,7 +271,7 @@ requestAnimationFrame 在做动画时经常用到，jQuery 新版本都使用它
 
 我们看 requestIdleCallback 是怎么解决这问题的
 
-![img](https://assets.ng-tech.icu/item/v2-e1ba24e51c372e7c824bdf4df5a41555_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-e1ba24e51c372e7c824bdf4df5a41555_1440w.webp)
 
 它的第一个参数是一个回调，回调有一个参数对象，对象有一个 timeRemaining 方法，就相当于`new Date - deadline`，并且它是一个高精度数据，比毫秒更准确，至少浏览器到底安排了多少时间给更新 DOM 与虚拟 DOM，我们不用管。第二个时间段也不用管，不过浏览器可能 1，2 秒才执行这个回调，因此为了保险起见，我们可以设置第二个参数，让它在回调结束后 300ms 才执行。要相信浏览器，因为都是大牛们写的，时间的调度比你安排更有效率。
 
@@ -380,7 +380,7 @@ context 一开始是一个空对象，为了方便起见，我们称之为**unma
 
 基于这些问题，终于 new Context API 出来了。首先，unmaskedContext 不再像以前那样各个方法中来往穿梭了，有一个独立的 contextStack。开始时就 push 进一个空对象，到达某个组件需要实例化时，就取它第一个。当再次访问这个组件时，就像它从栈中弹出。因此我们需要深度优先遍历，保证每点节点都访问两次。
 
-![img](https://assets.ng-tech.icu/item/v2-d629ff51df8b827d6465514c31467179_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-d629ff51df8b827d6465514c31467179_1440w.webp)
 
 相同的情况还有 container，container 是我们某个元素虚拟 DOM 需要用到的真实父节点。在 React15 中，它会装在一个 containerInfo 对象也层层传送。
 
@@ -402,7 +402,7 @@ React 将虚拟 DOM 的更新过程划分两个阶段，reconciler 阶段与 com
 
 其实基于算法的优化是一种绝望的优化，就类似玛雅文明因为找不到铜矿一直停留于石器时代，诞生了伟大的工匠精神把石器打磨得美伦美奂。
 
-![img](https://assets.ng-tech.icu/item/v2-fa296a08d4a6290397681e7a3b14f572_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-fa296a08d4a6290397681e7a3b14f572_1440w.webp)
 
 之所以这么说，因为 diff 算法都用于组件的新旧 children 比较，children 一般不会出现过长的情况，有点大炮打蚊子。况且当我们的应用变得非常庞大，页面有上万个组件，要 diff 这么多组件，再卓绝的算法也不能保证浏览器不会累趴。因为他们没想到浏览器也会累趴，也没有想到这是一个长跑的问题。如果是 100 米短跑，或者 1000 米竞赛，当然越快越好。如果是马拉松，就需要考虑到保存体力了，需要注意休息了。性能是一个系统性的工程。
 
@@ -420,7 +420,7 @@ getDerivedStateFromProps 取代了原来的 componentWillMount 与 componentWill
 
 如果出错呢，在 componentDidMount/Update 后，我们可以使用 componentDidCatch 方法。于是整个流程变成这样：
 
-![img](https://assets.ng-tech.icu/item/v2-00e64705c849952d58fde002fec930f6_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-00e64705c849952d58fde002fec930f6_1440w.webp)
 
 reconciler 阶段的钩子都不应该操作 DOM，最好也不要 setState，我们称之为**\*轻量钩子\*\*。commit 阶段的钩子则对应称之为**重量钩子\*\*。
 
@@ -454,7 +454,7 @@ if (fiber.effectTag & Update) {
 
 React 内置这么多任务，从 DOM 操作到 Ref 处理到回调唤起。。。
 
-![img](https://assets.ng-tech.icu/item/v2-bb1513412a67e243c77ba3a918ca475b_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-bb1513412a67e243c77ba3a918ca475b_1440w.webp)
 
 顺便说一下 anu 的任务名，是基于素数进行乘除。
 
@@ -478,11 +478,11 @@ alternate 对象会接受上方传递下来的新 props，然后从 getDerivedSt
 
 说起中间件系统，大家可能对 koa 与 redux 里面的洋葱模型比较熟悉。
 
-![img](https://assets.ng-tech.icu/item/v2-97f0a2fadcafcc4537d336a925ec58b0_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-97f0a2fadcafcc4537d336a925ec58b0_1440w.webp)
 
 早在 React15 时代，已经有一个叫 Transaction 的东西，与洋葱模型一模一样。在 Transaction 的源码中有一幅特别的 ASCII 图，形象的解释了 Transaction 的作用。
 
-![img](https://assets.ng-tech.icu/item/v2-2a02b111480b0f591fbf291f481709ac_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-2a02b111480b0f591fbf291f481709ac_1440w.webp)
 
 简单地说，一个 Transaction 就是将需要执行的 method 使用 wrapper 封装起来，再通过 Transaction 提供的 perform 方法执行。而在 perform 之前，先执行所有 wrapper 中的 initialize 方法；perform 完成之后（即 method 执行后）再执行所有的 close 方法。一组 initialize 及 close 方法称为一个 wrapper，从上面的示例图中可以看出 Transaction 支持多个 wrapper 叠加。
 

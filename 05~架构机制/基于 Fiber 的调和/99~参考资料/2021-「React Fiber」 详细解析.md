@@ -39,7 +39,7 @@ React Fiber 是什么？官方的解释是 “**React Fiber 是对核心算法�
 
 > 上面提到的调和阶段，就属于下图的 js 的执行阶段。如果调和时间过长导致了这一阶段执行时间过长，那么就有可能在用户有交互的时候，本来应该是渲染下一帧了，但是在当前一帧里还在执行 JS，就导致用户交互不能马上得到反馈，从而产生卡顿感。
 
-![img](https://assets.ng-tech.icu/item/v2-700f19419e81d9e9518385ccf2a634fa_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-700f19419e81d9e9518385ccf2a634fa_1440w.webp)
 
 ## Fiber 的设计思路
 
@@ -49,7 +49,7 @@ React 为了解决这个问题，根据浏览器的每一帧执行的特性，�
 
 这样 React 更新任务就只能在规定时间内占用浏览器线程了, 如果说在这个时候用户有和浏览器的页面交互，浏览器也是可以及时获取到交互内容。
 
-![img](https://assets.ng-tech.icu/item/v2-398077dda18dd8a2055dc21c442e39e6_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-398077dda18dd8a2055dc21c442e39e6_1440w.webp)
 
 ## Fiber 具体都做了什么？
 
@@ -112,7 +112,7 @@ Fiber Node，是 Fiber Tree 的基本构成单元，也可以类比成 **Virtual
 
 Fiber Tree 是由 Fiber Node 构成的，更像是一个单链表构成的树，便于向上/向下/向兄弟节点转换
 
-![img](https://assets.ng-tech.icu/item/v2-cfaea6c0e9362b3701b1cf342ed4588b_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-cfaea6c0e9362b3701b1cf342ed4588b_1440w.webp)
 
 简单总结一下：
 
@@ -246,7 +246,7 @@ workInProgress Tree 保存当先更新中的进度快照，用于下一个时间
 
 fiber 与 workInProgress 互相持有引用，把 current 指针指向 workInProgress tree ，丢掉旧的 fiber tree 。旧 fiber 就作为新 fiber 更新的预留空间，达到复用 fiber 实例的目的。
 
-![img](https://assets.ng-tech.icu/item/v2-dcc6a08b49d8ae2ab47e01b600d4586d_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-dcc6a08b49d8ae2ab47e01b600d4586d_1440w.webp)
 
 一次更新的操作都是在 workInProgress Tree 上完成的，当更新完成后再用 workInProgress Tree 替换掉原有的 Fiber Tree ；
 
@@ -296,11 +296,11 @@ if (workInProgress === null) {
 
 例如，我们的更新导致 c2 被插入到 DOM 中，d2 和 c1 被用于更改属性，而 b2 被用于触发生命周期方法。副作用列表会将它们链接在一起，以便 React 稍后可以跳过其他节点。
 
-![img](https://assets.ng-tech.icu/item/v2-69ce531374f9268ff0a53418ca28697b_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-69ce531374f9268ff0a53418ca28697b_1440w.webp)
 
 可以看到具有副作用的节点是如何链接在一起的。当遍历节点时，React 使用 Fiber Node 的 firstEffect 指针来确定列表的开始位置。所以上面的图表可以表示为这样的线性列表：
 
-![img](https://assets.ng-tech.icu/item/v2-52d6e669d39a5bd512cf13626f9a9ea9_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-52d6e669d39a5bd512cf13626f9a9ea9_1440w.webp)
 
 ### 7、**获取浏览器的控制权 --- requestIdleCallback 和 requestAnimationFrame**
 
@@ -308,7 +308,7 @@ if (workInProgress === null) {
 
 requestIdleCallback(callback) 这是浏览器提供的 API ，他在 window 对象上，作为参数写给这个函数的回调函数，将会在浏览器空闲的时候执行。回调函数会有一个 deadline 参数，deadline.timeRemaining() 会告诉外界，当前时间片还有多少时间。利用这个 API ，结合 Fiber 拆分好的工作单元，在合适的时机来安排工作。
 
-![img](https://assets.ng-tech.icu/item/v2-8b91d684daf36ece04a2edf2761741cf_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-8b91d684daf36ece04a2edf2761741cf_1440w.webp)
 
 不过这个 API 只负责低优先的级的任务处理，而高优先级的（比如动画相关）则通过 requestAnimationFrame 来控制 。
 
@@ -331,7 +331,7 @@ requestIdleCallback(callback) 这是浏览器提供的 API ，他在 window 对�
 
 ## Fiber 执行流程
 
-![img](https://assets.ng-tech.icu/item/v2-9fcf2cfa698301ce7bc78bc3857904ed_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-9fcf2cfa698301ce7bc78bc3857904ed_1440w.webp)
 
 Fiber 总的来说可以分成两个部分，一个是调和过程（可中断），一个是提交过程（不可中断）。
 
@@ -339,7 +339,7 @@ Fiber 总的来说可以分成两个部分，一个是调和过程（可中断�
 
 具体过程如下：
 
-![img](https://assets.ng-tech.icu/item/v2-8c3b88ee7471ba1303c4460967da36fa_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-8c3b88ee7471ba1303c4460967da36fa_1440w.webp)
 
 通过每个节点更新结束时向上归并 effect list 来收集任务结果，reconciliation 结束后，根节点的 effect list 里记录了包括 DOM change 在内的所有 side effect
 
@@ -394,21 +394,21 @@ React Fiber 把更新过程**碎片化**，每执行完一段更新过程，就�
 </div>
 ```
 
-![img](https://assets.ng-tech.icu/item/v2-b520d0b65d9149c351a9b01698d79beb_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-b520d0b65d9149c351a9b01698d79beb_1440w.webp)
 
 - 副作用单链表；
 
-![img](https://assets.ng-tech.icu/item/v2-b411c7ecbdc65d40107fc92f929e977b_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-b411c7ecbdc65d40107fc92f929e977b_1440w.webp)
 
 - 状态更新单链表；
 
-![img](https://assets.ng-tech.icu/item/v2-2621b96819af8c5d66ac668ad22ab9a9_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-2621b96819af8c5d66ac668ad22ab9a9_1440w.webp)
 
 - ...
 
 链表是一种简单高效的数据结构，它在当前节点中保存着指向下一个节点的指针；遍历的时候，通过操作指针找到下一个元素。
 
-![img](https://assets.ng-tech.icu/item/v2-f091ecbc95c48b20b050d55a14497c33_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-f091ecbc95c48b20b050d55a14497c33_1440w.webp)
 
 链表相比顺序结构数据格式的**好处**就是：
 
@@ -516,7 +516,7 @@ currentFiber 表示**上次渲染构建的 Filber 树**。**在每一次更新�
 
 其实并不是每次更新都会走到提交阶段。当在调和过程中触发了新的更新，在执行下一个任务的时候，判断**是否有优先级更高的执行任务**，如果有就终止原来将要执行的任务，开始新的 workInProgressFiber 树构建过程，开始新的更新流程。这样可以避免重复更新操作。这也是**在 React 16 以后生命周期函数 componentWillMount 有可能会执行多次**的原因。
 
-![img](https://assets.ng-tech.icu/item/v2-61d21ff26edd0c49ed969cac6a9f5a93_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-61d21ff26edd0c49ed969cac6a9f5a93_1440w.webp)
 
 ### 任务具备优先级
 
@@ -538,15 +538,15 @@ React Fiber 除了通过挂起，恢复和终止来控制更新外，还给每�
 </div>
 ```
 
-![img](https://assets.ng-tech.icu/item/v2-45a9e181175c358339a0124b88d5ca59_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-45a9e181175c358339a0124b88d5ca59_1440w.webp)
 
 ### 直观展示
 
 正是基于以上这些过程，使用 Fiber，我们就有了在社区经常看到的[两张对比图](https://link.zhihu.com/?target=https%3A//link.segmentfault.com/%3Fenc%3D76jmA9HJDnS4akh4JaqSqw%3D%3D.LuFE7VzoBqJqJK5ywxrdlubXzRgj6TGqH5UetvbHijpbb13makMvG0o1t5WY27niPurw3i8iW%2FEYroNZnOT%2Bdw%3D%3D)。
 
-![动图封面](https://assets.ng-tech.icu/item/v2-6d3e3d4bbf86c494dfb293b6d9ae4321_b.jpg)
+![动图封面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-6d3e3d4bbf86c494dfb293b6d9ae4321_b.jpg)
 
-![动图封面](https://assets.ng-tech.icu/item/v2-dd52d924d7c7431c061fde2f4135854b_b.jpg)
+![动图封面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-dd52d924d7c7431c061fde2f4135854b_b.jpg)
 
 清晰展示及交互、源码可通过下面两个链接进入，查看网页源代码。
 
@@ -591,7 +591,7 @@ class FiberNode {
 }
 ```
 
-![img](https://assets.ng-tech.icu/item/v2-80536897c9c006a20f2c9255a2a5e8b6_1440w.webp)
+![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-80536897c9c006a20f2c9255a2a5e8b6_1440w.webp)
 
 > 图片来源：[完全理解 React Fiber](https://link.zhihu.com/?target=https%3A//link.segmentfault.com/%3Fenc%3DJ6qPJJLhXgk%2FlqmrRndrew%3D%3D.JhzybPqTzKUeWsc%2F5VjTfVDNgkI%2BmkcF2gw72%2BRySRwaAPtVrPjMHzOdM5f1IsLZ)
 

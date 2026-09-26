@@ -14,23 +14,19 @@ const hello = name => {
 };
 
 <Foo hello={hello} />;
-```
-
+```jsx
 Component Injection
 
-```
+```jsx
 class WindowWidth extends React.Component {
   constructor(props) {
   super(props);
   this.state = { width: 0 };
   }
 
-
  ...
 
-
   render() {
-
 
   const { width } = this.state;
     const { Width } = this.props;
@@ -38,10 +34,7 @@ class WindowWidth extends React.Component {
  }
 }
 
-
 <WindowWidth Width={DisplayWindowWidthText} />
-
-
 
 const DisplayDevice = ({ width }) => {
   let device = null;
@@ -54,8 +47,7 @@ const DisplayDevice = ({ width }) => {
   }
   return <div>you are using a {device}</div>;
 };
-```
-
+```jsx
 # Prop Validation
 
 # children
@@ -76,8 +68,7 @@ class SharedThing extends Component {
 }
 
 export default SharedThing;
-```
-
+```jsx
 然后在其他组件中我们可以调用该组件并且获得该组件的执行结果：
 
 ```js
@@ -92,8 +83,7 @@ const AnotherComponent = () => (
 )
 
 export default AnotherComponent
-```
-
+```jsx
 一个比较典型的案例就是共享开关逻辑，某个开关组件 Toggle 会在内部存放用来表示当前开关状态的 `toggled` 变量，我们可以通过渲染回调的模式在将控制开关的逻辑提取出来：
 
 ```js
@@ -116,8 +106,7 @@ class Toggle extends Component {
 }
 
 export default Toggle;
-```
-
+```jsx
 现在所有使用 Toggle 的组件都能够访问到内部的 `isOpen` 状态并且能够使用 `handleToggleClick` 函数来触发 Toggle 内部状态的变化：
 
 ```js
@@ -136,8 +125,7 @@ const Accordion = ({ teaser, details }) => (
 );
 
 export default Accordion;
-```
-
+```jsx
 ```js
 const Thumbnail = ({ src, teaser }) => (
   <Toggle>
@@ -158,6 +146,5 @@ const Thumbnail = ({ src, teaser }) => (
 );
 
 export default Thumbnail;
-```
-
+```jsx
 ## cloneElement

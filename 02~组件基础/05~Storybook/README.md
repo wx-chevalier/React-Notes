@@ -12,16 +12,14 @@ Storybook 还支持很多插件，并附带灵活的 API，可根据需要自定
 
 ```sh
 $ npx -p @storybook/cli sb init --type react
-```
-
+```jsx
 或者也可以进行手动安装：
 
 ```sh
 $ npm install @storybook/react --save-dev
 $ npm install react react-dom --save
 $ npm install babel-loader @babel/core --save-dev
-```
-
+```jsx
 然后在 package.json 中添加运行脚本：
 
 ```json
@@ -30,8 +28,7 @@ $ npm install babel-loader @babel/core --save-dev
     "storybook": "start-storybook"
   }
 }
-```
-
+```jsx
 接下来在 `.storybook/config.js` 中添加配置文件：
 
 ```js
@@ -43,6 +40,5 @@ function loadStories() {
 }
 
 configure(loadStories, module);
-```
-
+```jsx
 然后就可以开始编写我们自己的测试用例啦。

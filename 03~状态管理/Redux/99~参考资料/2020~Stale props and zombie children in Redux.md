@@ -37,8 +37,7 @@ const createStore = (reducer, initialState = {}) => {
     },
   };
 };
-```
-
+```jsx
 上面是一个 `Redux` 的 `createStore` API 的简单实现，我们创建的 `store` 可以使用 `getState()` 来获取状态，通过 `subscribe(listener)` 来订阅监听器，以及通过 `dispatch(action)` 来分发动作（dispatch action），就像我们习惯使用的官方 API 一样。
 
 下一步是弄明白如何将其和 `React` 集成。我们将构建一个 [`<Provider>`](https://react-redux.js.org/api/provider) 组件通过上下文传递 `store`，一个 [`connect`](https://react-redux.js.org/api/connect) 高阶组件用于包装展示组件，最近的版本中，[`useSelector`](https://react-redux.js.org/api/hooks#useselector) 钩子在大多数情况下取代 `connect`。
@@ -51,8 +50,7 @@ const Context = React.createContext();
 const Provider = ({ children, store }) => (
   <Context.Provider value={store}>{children}</Context.Provider>
 );
-```
-
+```jsx
 在我们进入 `connect` 和 `useSelector` 的实现之前，最好通过一个实例来回顾一下我们正在处理的问题。实现细节很大程度上取决于 `Redux` 的历史，如果我们对要解决的问题有扎实的背景会更好，这样我们就可以更轻松的讨论实现的演变。
 
 ## 问题
@@ -99,8 +97,7 @@ const reducer = (state, action) => {
 const store = createStore(reducer, {
   todos: [{ id: "a", content: "A" }],
 });
-```
-
+```jsx
 然后，让我们创建一个 `<todo>` 组件，并使用 `connect` 进行包装（**我们在这仅使用 `connect` 高阶组件构建 API。稍后再讨论 `useSelector`**）。
 
 ```jsx
@@ -136,8 +133,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
-```
-
+```jsx
 我们首先创建两个展示组件 `<Todo>` 和 `<TodoList>`，然后用 `connect` 高阶组件进行包装。这只是使用 `Redux` 模式进行编写的一个非常简单基础的 Todo 应用程序的示例，没有什么特别的。
 
 如果我们运行这个应用程序并点击任何 `<Todo>` 项，我们希望将其删除。
@@ -168,8 +164,7 @@ const connect = (mapStateToProps) => (WrappedComponent) => (props) => {
 
   return <WrappedComponent {...props} {...state} dispatch={store.dispatch} />;
 };
-```
-
+```jsx
 如果不需要进行优化的话，这可能是 `connect` 最直接的实现。
 
 让我们点击 Todo 项去删除它，看是否有效工作。嗯，好吧，一切都崩溃了。它不能工作了，出什么问题了？
@@ -200,8 +195,7 @@ const connect = (mapStateToProps) => (WrappedComponent) => (props) => {
 
   return <WrappedComponent {...props} {...state} dispatch={store.dispatch} />;
 };
-```
-
+```jsx
 现在，当我们点击该项时，他成功删除了自己，万岁 🎉！
 
 稍后，PM 来询问我们是否可以将删除延迟到 1 秒，也就是说，单击该项后不会立即删除，而是 1 秒后将其删除。
@@ -221,8 +215,7 @@ const Todo = ({ id, content, dispatch }) => (
     {content}
   </li>
 );
-```
-
+```jsx
 我们非常有信心它会工作，我们进行保存，提交，甚至没有测试（你永远不要这样做）直接发布。此后不久，我们收到了大量的投诉，每个人都惊慌失措。当用户点击并等待 1 秒后，应用程序崩溃了，整个应用程序都崩溃了
 
 ## `unstable_batchedUpdates`
@@ -274,8 +267,7 @@ const Todo = ({ id, content, dispatch }) => (
     {content}
   </li>
 );
-```
-
+```jsx
 还有另一个地方我们可以添加 `unstable_batchedUpdates`。我们也可以简单的包装我们 store 分发方法，来代替包装每个带有 `unstable_batchedUpdates` 的 `dispatch` 调用。
 
 ```diff
@@ -288,8 +280,7 @@ dispatch(action) {
     });
 +  });
 },
-```
-
+```jsx
 它工作良好。这实际上就是 `react-redux` v4 的实现，没有许多其他必要的优化，像[记住返回的元素](https://github.com/reduxjs/react-redux/blob/v4.4.0/src/components/connect.js#L238-L270)，或者[如果 `mapStateToProps` 函数不依赖于 `ownProps`，则尽早进行更新](https://github.com/reduxjs/react-redux/pull/348)。即使进行了这些优化，在最坏的情况下，每次状态更改时，我们仍然会强制容器组件进行重渲染。对于一个很小的应用程序，它应该还不错，但是对于一个可扩展的全局状态管理库，它很快就变得无法接受。
 
 ## 嵌套订阅模型
@@ -323,8 +314,7 @@ const createSubscription = () => {
     },
   };
 };
-```
-
+```jsx
 我们创建一个 `createSubscription`，它和 `createStore` 函数非常像，它也有监听器，和 `subscribe` 函数。不同之处是它不保存任何的状态，也有一个 `notifyUpdates()` 方法。这个 `notifyUpdates()` 方法用来通知它的所有的孩子节点，来触发它们的监听器回调，我们将在之后进行更多的讨论。
 
 你可能会注意到，这只是创建事件触发器的函数，这是非常正确的，并且它就这么的简单。下一步是编写新的 `connect` 高阶组件，并将其 `mapStateToProps` 放入监听器回调中，以尽早跳过更新。
@@ -375,8 +365,7 @@ const connect = (mapStateToProps) => (WrappedComponent) => (props) => {
     </Provider>
   );
 };
-```
-
+```jsx
 这里有很多事情，让我们一一分解。基本实现有点类似于我们的第一种方法。我们通过创建一个我们刚刚实现的 `subscription` 来创建一个新的 `subStore`，并将其与原始的 `store` 合并。结果，该 `subscribe` 方法将覆盖 `store` 中原始的 `subscribe` 方法，并添加一个名为的 `notifyUpdates` 的新方法。
 
 我们在 2 个地方运行 `mapStateToProps` 选择器。我们在渲染阶段运行我们的 `mapStateToProps`，以便在回调中调用 `forceUpdate()` 之后总是获得最新的 props。在我们的监听器回调中，我们可以看到我们也直接在它内部使用 `mapStateToProps`，并且进行了一个浅对比，以确定如果映射状态不变，是否可以跳过更新。
@@ -439,8 +428,7 @@ const connect = (mapStateToProps) => (WrappedComponent) => (props) => {
 
   return <WrappedComponent {...props} {...mappedState} dispatch={dispatch} />;
 };
-```
-
+```jsx
 一切看起来都如此完美，实现看起来很简单，我们仍然可以像第一种方法（`react-redux` v4）一样进行优化，我们不再需要处理过时的 props 和僵尸子节点问题。从本质上讲，这就是我们通常在用户区域中所做的事情，以及一些受欢迎的库，像 [`unstated-next`](https://github.com/jamiebuilds/unstated-next) 为我们所做的事情。不过，对于只有一个全局 store 的 `Redux` 来说，拥有多个更小的 store 可能是一个完美的解决方案。性能成本非常高，足以迫使我们再次对其进行迭代。
 
 还记得为什么我们要从第一种方法迭代到嵌套订阅模型吗？这样一来，我们甚至可以在调用 `setState` 和重渲染组件之前就尽早跳过更新。在这种方法中，由于我们只能在渲染阶段获得整个状态，**因此这意味着我们必须始终先调用 `setState` 然后重渲染组件才能在之后获得最新状态**。只有到那时，我们才能调用 `mapStateToProps` 来获得组件关心的映射状态。实际上，在 `react-redux` v6 首次发布时，有一些[性能下降事件](https://github.com/reduxjs/react-redux/issues/1164)。此外，[React 团队甚至提到他们不建议当时使用 React 上下文进行类似 flux 的状态传播](https://github.com/facebook/react/issues/14110#issuecomment-448074060)。
@@ -480,16 +468,14 @@ const TodoList = () => {
     </ul>
   );
 };
-```
-
+```jsx
 我们不再需要那些带有钩子的高阶函数容器，我们可以调用 `useSelector` 和 `useDispatch` 来获取选定的状态和分发方法。请注意一个微小的差别在普通的旧的 `mapStateToProps` 和 `useSelector` 之间的是我们不再获取状态（state）的**对象**，并将其传播到 props，而是仅仅得到状态本身。因此代替获得 `{ content }`，我们只需要得到 `content`。在我们的 `setState` 中会稍微改变我们的相等性检查。
 
 `useDispatch` 钩子实现也很简单。
 
 ```js
 const useDispatch = () => React.useContext(Content).dispatch;
-```
-
+```jsx
 我们也可以轻松创建我们的 `useSelector` 钩子。
 
 ```js
@@ -506,8 +492,7 @@ const useSelector = (selector) => {
 
   return state;
 };
-```
-
+```jsx
 但是，它甚至还不能立即使用。每次状态更新时，我们都会重渲染所有的 **connected** 组件。使用钩子 API 会更加糟糕，因为我们没有一个中间容器组件，该组件通常能进行廉价的渲染，可以挽救通常更昂贵的包装组件的更新。与以前的权衡取舍不同，我们有点必须把 `selector` 放入监听器回调中以尽早跳过更新。
 
 ```js
@@ -523,8 +508,7 @@ const useSelector = (selector) => {
 
   return state;
 };
-```
-
+```jsx
 这个版本只是简单的打破。我们在整个文章中再次提到**过时的 props 和僵尸子节点**问题。与往常一样，我们将遍历每个步骤，以查看错误的出处和原因。
 
 1. 在第一次渲染后，`<TodoList>` 和 `<Todo>` 组件在 `useEffect` 中订阅 store。因为 `useEffect` 自上而下触发，`<Todo>` 首先订阅，然后是 `<TodoList>`。
@@ -578,8 +562,7 @@ const useSelector = (selector) => {
 
   return currentState.current;
 };
-```
-
+```jsx
 结合 `unstable_batchedUpdates` 的技巧，我们可以在选定状态不变的情况下尽早跳过更新，并安全地防止过时的 props 和僵尸子节点问题。我们再次运行代码，并检查一切是否正常运行。前 4 个步骤相同，因此我们从第 5 步开始。
 
 5. 由于我们在渲染阶段传递 `props` 给 `listener`，在那时，其形成了封闭的 `props`，换句话说，它是**过时的 props**。访问 `state.todos[ownProps.id]` 将导致 `undefined`，然后调用 `(undefined).content` 将导致错误。**我们故意捕获并隐藏错误，这是当我们知道要在渲染阶段选择状态，从而触发重渲染时**。

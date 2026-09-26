@@ -44,8 +44,7 @@ setTimeout(function () {
     el.style.cssText = `background:${randomHexColor()};height:40px`;
   }
 }, 1000);
-```
-
+```jsx
 这是一个拥有 10000 个节点的插入操作，包含了 innerHTML 与样式设置，花掉 1000ms。
 
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-87527d4cd261c4aebad9fdfa827076f0_1440w.webp)
@@ -78,8 +77,7 @@ setTimeout(function () {
   }
   loop(100);
 }, 1000);
-```
-
+```jsx
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-2cae392020e785dd07986e9f9029205f_1440w.webp)
 
 究其原因是因为浏览器是单线程，它将 GUI 描绘，时间器处理，事件处理，JS 执行，远程资源加载统统放在一起。当做某件事，只有将它做完才能做下一件事。如果有足够的时间，浏览器是会对我们的代码进行编译优化（JIT）及进行热代码优化，一些 DOM 操作，内部也会对 reflow 进行处理。reflow 是一个性能黑洞，很可能让页面的大多数元素进行重新布局。
@@ -104,8 +102,7 @@ JSX 是一个快乐出奇蛋，一下子满足你两个愿望：**组件化**与
     <Bar />
   </Foo>
 </div>
-```
-
+```jsx
 但标签化是天然套嵌的结构，意味着它会最终编译成递归执行的代码。因此 React 团队称 React16 之前的调度器为栈调度器，栈没有什么不好，栈显浅易懂，代码量少，但它的坏处不能随意 break 掉，continue 掉。根据我们上面的实验，break 后我们还要重新执行，我们需要一种链表的结构。
 
 链表是对异步友好的。链表在循环时不用每次都进入递归函数，重新生成什么执行上下文，变量对象，激活对象，性能当然比递归好。
@@ -116,8 +113,7 @@ JSX 是一个快乐出奇蛋，一下子满足你两个愿望：**组件化**与
 ReactDOM.render(<A />, node1);
 ReactDOM.render(<B />, node2);
 //node1与node2不存在包含关系，那么这页面就有两棵虚拟DOM树
-```
-
+```jsx
 如果仔细阅读源码，React 这个纯视图库其实也是三层架构。在 React15 有`虚拟DOM层`，它只负责**描述**结构与逻辑;`内部组件层`，它们负责组件的更新, ReactDOM.render、setState、forceUpdate 都是与它们打交道，能让你多次 setState，只执行一次真实的渲染, 在适合的时机执行你的组件实例的生命周期钩子; `底层渲染层`，不同的显示介质有不同的渲染方法，比如说浏览器端，它使用元素节点，文本节点，在 Native 端，会调用 oc，java 的 GUI，在 canvas 中，有专门的 API 方法。。。
 
 虚拟 DOM 是由 JSX 转译过来的，JSX 的入口函数是 React.createElement, 可操作空间不大，第三大的底层 API 也非常稳定，因此我们只能改变第二层。
@@ -160,8 +156,7 @@ function toFiber(vnode) {
   }
   return vnode;
 }
-```
-
+```jsx
 updateFiberAndView 要实现 React 的时间分片，我们先用 setTimeout 模拟。我们暂时不用理会 updateView 怎么实现，可能它就是 updateComponentOrElement 中将它们放到又一个列队，需再出来执行 insertBefore, componentDidMount 操作呢！
 
 ```js
@@ -211,8 +206,7 @@ function updateFiberAndView() {
     setTimeout(updateFiberAndView, 40);
   }
 }
-```
-
+```jsx
 里面有一个 do while 循环，每一次都是小心翼翼进行计时，时间不够就将来不及处理的节点放进列队。
 
 updateComponentOrElement 无非是这样：
@@ -246,8 +240,7 @@ function updateComponentOrElement(fiber) {
     prev = child;
   }
 }
-```
-
+```jsx
 因此这样 Fiber 的 return, child, sibling 就有了，可以 happy 地进行深度优先遍历了。
 
 ## 如何调度时间才能保证流畅
@@ -315,8 +308,7 @@ function updateFiberAndView(dl) {
     });
   }
 }
-```
-
+```jsx
 到这里，ReactFiber 基于时间分片的限量更新讲完了。实际上 React 为了照顾绝大多数的浏览器，自己实现了 requestIdleCallback。
 
 ## 批量更新
@@ -348,8 +340,7 @@ function updateView(){
    }
    //更新视图
 }
-```
-
+```jsx
 事实上，当然没有这么简单，考虑到大家看不懂 React 的源码，大家可以看一下 anujs 是怎么实现的：
 
 [https://github.com/RubyLouvre/anu/blob/master/packages/fiber/scheduleWork.js#L94-L113](https://link.zhihu.com/?target=https%3A//github.com/RubyLouvre/anu/blob/master/packages/fiber/scheduleWork.js%23L94-L113)
@@ -436,22 +427,19 @@ updateFiberAndView 是位于一个 requestIdleCallback 中，因此它的时间�
 
 ```js
 fiber.effectTag |= Update;
-```
-
+```jsx
 怎么保证不会重复添加相同的任务？
 
 ```js
 fiber.effectTag &= ~DidCapture;
-```
-
+```jsx
 在 commit 阶段，怎么知道它包含了某项任务？
 
 ```js
 if (fiber.effectTag & Update) {
   /*操作属性*/
 }
-```
-
+```jsx
 React 内置这么多任务，从 DOM 操作到 Ref 处理到回调唤起。。。
 
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-bb1513412a67e243c77ba3a918ca475b_1440w.webp)

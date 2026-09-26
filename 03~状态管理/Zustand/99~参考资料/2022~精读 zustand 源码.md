@@ -41,8 +41,7 @@ function createStore(createState) {
 }
 
 export default createStore;
-```
-
+```jsx
 生成 hooks 方法：
 
 ```js
@@ -55,10 +54,10 @@ function create(createState) {
   const api = createStore(createState);
 
   /**
-   * @description 创建 hooks
-   * @param {Function} selector  可选的，返回store的内容，默认api.getState
-   * @param {Function} enqulityFn  可选，默认用Object.is 判断
-   * @returns
+   - @description 创建 hooks
+   - @param {Function} selector  可选的，返回store的内容，默认api.getState
+   - @param {Function} enqulityFn  可选，默认用Object.is 判断
+   - @returns
    */
   const useStore = (selector = api.getState, enqulityFn = Object.is) => {
     // 生辰一个forceUpdate函数
@@ -77,8 +76,8 @@ function create(createState) {
     }
 
     /**
-     * 当前用户所需要的状态切片（这块需要注意，zustand用户可以根据selector获取部分store内容值）
-     * 所以我们判断是否需要更新，对比的是切片内容，而非整个store
+     - 当前用户所需要的状态切片（这块需要注意，zustand用户可以根据selector获取部分store内容值）
+     - 所以我们判断是否需要更新，对比的是切片内容，而非整个store
      */
     let newStateSlice;
     // 更新标志
@@ -137,8 +136,7 @@ function create(createState) {
 }
 
 export default create;
-```
-
+```jsx
 项目中使用方法：
 
 ```js
@@ -167,4 +165,4 @@ const Other = () => {
 };
 
 export default Other;
-```
+```jsx

@@ -21,8 +21,7 @@ class NameLabel extends Component {
     return <h1>Hello, {this.state.fullName}</h1>;
   }
 }
-```
-
+```jsx
 该组件存在的问题在于我们将 Props 传入的参数缓存在了 State 中，当父组件修改 Props 参数时并不会触发构造函数，相对应地最终的界面展示也就不会随着外部传入参数的变化而变化。为了修复这个错误我们可以复写组件的`componentWillReceiveProps` 函数：
 
 ```js
@@ -44,11 +43,10 @@ class NameLabel extends Component {
     return <h1>Hello, {this.state.fullName}</h1>;
   }
 }
-```
-
+```jsx
 通过复写`componentWillReceiveProps` 函数我们能够正确响应外部 Props 的变化，不过这种方式还是显得有所冗余，我们没有必要将 Props 中的数据缓存到 State 中。我们可以在`render` 函数中直接读取 Props 中传入的参数然后显示：
 
-```
+```jsx
 class NameLabel extends Component {
   render() {
     const { firstName, lastName } = this.props;
@@ -56,36 +54,32 @@ class NameLabel extends Component {
     return <h1>Hello, {fullName}</h1>;
   }
 }
-```
-
+```jsx
 再精简一点，我们可以直接用函数式组件表示：
 
-```
+```jsx
 function NameLabel({ firstName, lastName }) {
   const fullName = firstName + "" + lastName;
   return <h1>Hello, {fullName}</h1>;
 }
-```
-
+```jsx
 ## 外部操作组件状态
 
 React 中我们需要避免直接操作 DOM 节点或者访问全局变量，不过某些情况下我们需要在组件外触发组件内部状态更新，可以通过构建挂载于全局变量下的闭包来达成：
 
-```
+```jsx
 componentWillMount(){
  globalVar.callback = (data) => {
     // `this` 指向当前React组件
     this.setState({...});
   };
 }
-```
-
+```jsx
 在我们需要触发事件更新，譬如将获取到的数据渲染到界面上时，直接操作全局变量即可：
 
-```
+```jsx
 globalVar.callback(data);
-```
-
+```jsx
 笔者还是要强调下，这种模式并不提倡，会破坏 React 的数据流与组件的封装性，务必要谨慎使用。
 
 # setState 同步更新
@@ -103,14 +97,12 @@ componentDidMount() {
             }
         );
 }
-```
-
+```jsx
 因为 `setState` 函数并不会阻塞等待状态更新完毕，因此`setNetworkActivityIndicatorVisible`有可能先于数据渲染完毕就执行。我们可以选择在`componentWillUpdate`与`componentDidUpdate`这两个生命周期的回调函数中执行`setNetworkActivityIndicatorVisible`，但是会让代码变得破碎，可读性也不好。实际上在项目开发中我们更频繁遇见此类问题的场景是以某个变量控制元素可见性：
 
-```
+```jsx
 this.setState({showForm : !this.state.showForm});
-```
-
+```jsx
 我们预期的效果是每次事件触发后改变表单的可见性，但是在大型应用程序中如果事件的触发速度快于 `setState` 的更新速度，那么我们的值计算完全就是错的。本节就是讨论两种方式来保证 `setState` 的同步更新。
 
 ## 完成回调
@@ -128,8 +120,7 @@ this.setState(
     console.log("加载完成");
   }
 );
-```
-
+```jsx
 这里的回调函数用法相信大家很熟悉，就是 JavaScript 异步编程相关知识，我们可以引入 Promise 来封装 setState:
 
 ```js
@@ -138,8 +129,7 @@ this.setState(
       this.setState(state, resolve)
     });
   }
-```
-
+```jsx
 `setStateAsync`返回的是 Promise 对象，在调用时我们可以使用 Async/Await 语法来优化代码风格：
 
 ```js
@@ -150,8 +140,7 @@ this.setState(
     await this.setStateAsync({ipAddress: ip})
     StatusBar.setNetworkActivityIndicatorVisible(false)
   }
-```
-
+```jsx
 这里我们就可以保证在 `setState` 渲染完毕之后调用外部状态栏将网络请求状态修改为已结束，整个组件的完整定义为：
 
 ```js
@@ -173,8 +162,7 @@ class AwesomeProject extends Component {
     );
   }
 }
-```
-
+```jsx
 ## 传入状态计算函数
 
 除了使用回调函数的方式监听状态更新结果之外，React 还允许我们传入某个状态计算函数而不是对象来作为第一个参数。状态计算函数能够为我们提供可信赖的组件的 State 与 Props 值，即会自动地将我们的状态更新操作添加到队列中并等待前面的更新完毕后传入最新的状态值：
@@ -183,8 +171,7 @@ class AwesomeProject extends Component {
 this.setState(function(prevState, props) {
   return { showForm: !prevState.showForm };
 });
-```
-
+```jsx
 这里我们以简单的计数器为例，我们希望用户点击按钮之后将计数值连加两次，基本的组件为：
 
 ```js
@@ -202,13 +189,12 @@ class Counter extends React.Component {
       <div>
                       <button onClick={this.incrementCount}>Increment</button>
                       <div>{this.state.count}</div>
-                  
+
       </div>
     );
   }
 }
-```
-
+```jsx
 直观的写法我们可以连续调用两次 `setState` 函数，这边的用法可能看起来有点怪异，不过更多的是为了说明异步更新带来的数据不可预测问题。
 
 ```js
@@ -216,8 +202,7 @@ class Counter extends React.Component {
     this.setState({count : this.state.count + 1})
     this.setState({count : this.state.count + 1})
   }
-```
-
+```jsx
 上述代码的效果是每次点击之后计数值只会加 1，实际上第二个 `setState` 并没有等待第一个 `setState` 执行完毕就开始执行了，因此其依赖的当前计数值完全是错的。我们当然可以使用上文提及的 `setStateAsync` 来进行同步控制，不过这里我们使用状态计算函数来保证同步性：
 
 ```js
@@ -229,8 +214,7 @@ class Counter extends React.Component {
       count: prevState.count + 1
     }));
   }
-```
-
+```jsx
 这里的第二个 `setState` 传入的`prevState`值就是第一个 `setState` 执行完毕之后的计数值，也顺利保证了连续自增两次。
 
 # 避免在组件卸载后执行更新
@@ -241,8 +225,7 @@ class Counter extends React.Component {
 Warning: Can only update a mounted or mounting component. This usually means you called setState, replaceState, or forceUpdate on an unmounted component. This is a no-op.
 
 Warning: Can't call setState (or forceUpdate) on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.
-```
-
+```jsx
 通常，警告不会使您的应用程序崩溃。但是您应该关心它们。例如，如果未正确卸载有状态组件，则先前的警告会导致性能问题。让我们讨论这些警告的含义。即使在组件中已经卸载了 `this.setState()`，通常也会显示所示的警告。卸载可能在不同情况下发生：
 
 - 由于 React 的条件渲染，您不再渲染组件。
@@ -288,4 +271,4 @@ class News extends Component {
     // ...
   }
 }
-```
+```jsx

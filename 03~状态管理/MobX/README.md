@@ -32,8 +32,7 @@ class MessageStore {
     });
   };
 }
-```
-
+```jsx
 # MobX 与 React 集成范式
 
 # MST
@@ -72,8 +71,7 @@ actions.chooseWorks = (works) => (dispatch) => {
     () => {}
   );
 };
-```
-
+```jsx
 # WebSocket
 
 ```ts
@@ -90,8 +88,7 @@ class AutoObservable<T> {
 decorate(AutoObservable, {
   data: observable,
 });
-```
-
+```jsx
 ```ts
 let autoObservable: AutoObservable<number>;
 let socket: Websocket;
@@ -105,4 +102,4 @@ const closeStream = () => {
   socket.close();
 };
 autoObservable = new AutoObservable(openStream, closeStream);
-```
+```jsx

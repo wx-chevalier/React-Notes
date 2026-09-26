@@ -21,24 +21,22 @@
     ]
   ]
 }
-```
-
+```jsx
 这里的 [createElement 函数](https://github.com/wx-chevalier/Ueact/tree/master/src/platform/dom)声明如下：
 
 ```js
 /**
- * Description 从 JSX 中构建虚拟 DOM
- * @param tagName 标签名
- * @param props 属性
- * @param childrenArgs 子元素列表
+ - Description 从 JSX 中构建虚拟 DOM
+ - @param tagName 标签名
+ - @param props 属性
+ - @param childrenArgs 子元素列表
  */
 export function createElement(
   tagName: string,
   props: propsType,
   ...childrenArgs: [any]
 ) {}
-```
-
+```jsx
 该函数包含三个参数，分别指定标签名、属性对象与子元素列表；实际上经过 Babel 的转化之后，JSX 文本会成为如下的函数调用(这里还包含了 ES2015 其他的语法转化)：
 
 ```js
@@ -63,11 +61,10 @@ export function createElement(
   )
   ),
 // ...
-```
-
+```jsx
 在获取到元素标签之后，我们首先要做的就是创建元素；创建元素 [createElementByTag](https://github.com/wx-chevalier/Ueact/blob/master/src/platform/dom/element/element-utils.js) 过程中我们需要注意区分普通元素与 SVG 元素：
 
-```
+```jsx
 export const createElementByTag = (tagName: string) => {
   if (isSVG(tagName)) {
   return document.createElementNS('http://www.w3.org/2000/svg', tagName);
@@ -75,8 +72,7 @@ export const createElementByTag = (tagName: string) => {
   return document.createElement(tagName);
 
 };
-```
-
+```jsx
 ## 属性处理
 
 在创建了新的元素对象之后，我们需要对 createElement 函数传入的后续参数进行处理，也就是为元素设置对应的属性；基本的属性包含了样式类、行内样式、标签属性、事件、子元素以及朴素的 HTML 代码等。首先我们需要对子元素进行处理：
@@ -94,11 +90,10 @@ const children = flatten(childrenArgs).map(child => {
 
   return document.createTextNode(child);
 });
-```
-
+```jsx
 这里可以看出，对 createElement 函数的执行是自底向上执行的，因此传入的子元素参数实际上是已经经过渲染的 HTML 元素。接下来我们还需要对其他属性进行处理：
 
-```
+```jsx
 ...// 同时支持 class 与 className 设置
 const className = props.class || props.className;
 
@@ -123,8 +118,7 @@ let events = getEventListeners(props);
 for (let event of events) {
   el[event.name] = event.listener;
 }...
-```
-
+```jsx
 React 中还允许直接设置元素的内部 HTML 代码，这里我们也需要判断是否存在有 dangerouslySetInnerHTML 属性：
 
 ```// 如果是手动设置 HTML，则添加 HTML，否则设置显示子元素
@@ -135,8 +129,7 @@ if (setHTML && setHTML.__html) {
     el.appendChild(child);
   });
 }
-```
-
+```jsx
 到这里我们就完成了针对 JSX 格式的朴素的 DOM 标签转化的 createElement 函数，完整的源代码参考[这里](https://github.com/wx-chevalier/Ueact/blob/master/src/platform/dom/)。
 
 ## 简单使用
@@ -153,8 +146,8 @@ const state = {
 };
 
 /**
- * Description 点击事件处理
- * @param e
+ - Description 点击事件处理
+ - @param e
  */
 const handleClick = (e) => {
   state.count++;
@@ -196,8 +189,7 @@ export default (
 import App from "./component/Count";
 
 document.querySelector("#root").appendChild(App);
-```
-
+```jsx
 # 数据绑定
 
 当我们使用 Webpack 在后端编译 JSX 时，会将其直接转化为 JavaScript 中函数调用，因此可以自然地在作用域中声明变量然后在 JSX 中直接引用；不过笔者在设计 Ueact 时考虑到，为了方便快速上手或者简单的 H5 页面开发或者已有的代码库的升级，还是需要支持运行时动态编译的方式；本部分我们即讨论如何编写 JSX 格式的 HTML 模板并且进行数据动态绑定。本部分我们的 HTML 模板即是上文使用的 JSX 代码，不同的是我们还需要引入 babel-standalone 以及 Ueact 的 umd 模式库：
@@ -240,8 +232,7 @@ document.querySelector("#root").appendChild(App);
     Babel,
   );
 </script>
-```
-
+```jsx
 这里我们调用  `Ueact.observeDOM` 函数对模板进行渲染，该函数会获取指定元素的 `outerHTML` 属性，然后通过 Babel 动态插件进行编译：
 
 ```js
@@ -258,8 +249,7 @@ let output = Babel.transform(input, {
     ],
   ],
 }).code;
-```
-
+```jsx
 值得一提的是，因为 HTML 语法与 JSX 语法存在一定的差异，我们获取渲染之后的 DOM 对象之后，还需要对部分元素语法进行修正；主要包括了以下三个场景：
 
 - 自闭合标签处理，即 `<input > => <input />`
@@ -270,8 +260,8 @@ let output = Babel.transform(input, {
 
 ```js
 /**
- * Description 从输入的 JSX 函数字符串中完成构建
- * @param innerContext
+ - Description 从输入的 JSX 函数字符串中完成构建
+ - @param innerContext
  */
 function renderFromStr(innerContext) {
   let func = new Function(
@@ -289,8 +279,7 @@ function renderFromStr(innerContext) {
 
   innerContext.root = newEle;
 }
-```
-
+```jsx
 `innerContext` 即包含了我们定义的 State 与 Methods 等对象，这里利用 JavaScript 词法作用域(Lexical Scope)的特性进行变量传递；本部分完整的代码参考[这里](https://parg.co/bFG)。
 
 # 变化监听与重渲染
@@ -331,8 +320,7 @@ setTimeout(() => {
 
   obj.property.arr.splice(0, 0, 3);
 }, 500);
-```
-
+```jsx
 核心即是当某个对象的属性发生变化(增删赋值)时，触发注册的回调事件；即：
 
 ```js
@@ -343,6 +331,5 @@ state.listen((changes) => {
   renderFromStr(innerContext);
   innerContext.hooks.updated && innerContext.hooks.updated();
 }); // ...
-```
-
+```jsx
 完整的在线 Demo 可以查看[基于 JSX 与 Observer-X 的简单计数器](http://wx-chevalier.github.io/ueact/browser/count.html)

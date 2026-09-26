@@ -27,8 +27,7 @@ function Example({ source }) {
 
   // Your rendered output here ...
 }
-```
-
+```jsx
 ```ts
 import {useEffect, useState} from 'react';
 
@@ -141,4 +140,4 @@ export function useSubscription<Value>({
   // Return the current value for our caller to use while rendering.
   return valueToReturn;
 }
-```
+```jsx

@@ -8,8 +8,7 @@ const App = () => (
     <Main />
   </Provider>
 );
-```
-
+```jsx
 Unstated 会在内部创建 Context 对象，并在 Provider 中包裹 Context.Provider 对象：
 
 ```js
@@ -32,8 +31,7 @@ export function Provider(props: ProviderProps) {
     </StateContext.Consumer>
   );
 }
-```
-
+```jsx
 Container 是朴素的拥有 setState 方法的 JavaScript 类，其仅负责进行状态操作，其用法如下：
 
 ```js
@@ -56,8 +54,7 @@ class BookContainer extends Container {
   };
 }
 export { BookContainer };
-```
-
+```jsx
 参考 Container 的源代码，可以发现其主要是对 setState 进行了复写：
 
 ```js
@@ -67,8 +64,7 @@ setState(state: $Shape<State>) {
   this._listeners.forEach(fn => fn());
 }
 // ...
-```
-
+```jsx
 Subscribe 组件则提供了将 Container 实例传递给自定义组件的媒介，当状态变化时，组件会进行自动渲染：
 
 ```js
@@ -85,8 +81,7 @@ Subscribe 组件则提供了将 Container 实例传递给自定义组件的媒�
       }
   }}
 </Subscribe>
-```
-
+```jsx
 Subscribe 在组件内提供了 Context.Consumer 包裹，并且自动创建 Container/Store 实例：
 
 ```js
@@ -107,4 +102,4 @@ render() {
     </StateContext.Consumer>
   );
 }
-```
+```jsx

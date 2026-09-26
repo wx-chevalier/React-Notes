@@ -8,8 +8,7 @@ useState 接收一个初始值，返回一个数组，数组里面分别是当�
 const [count1, setCount1] = useState(0);
 const [count2, setCount2] = useState(() => 0);
 setCount1(1); // 修改 state
-```
-
+```jsx
 函数式状态的粒度会比类中状态更细，函数式状态保存的是快照，类状态保存的是最新值。引用类型的情况下，类状态不需要传入新的引用，而函数式状态必须保证是个新的引用。
 
 ## 快照（闭包）与最新值（引用）
@@ -27,8 +26,7 @@ function App() {
 
   return <h1 onClick={inc}>{count}</h1>;
 }
-```
-
+```jsx
 类组件里面可以通过 this.state 引用到 count，所以每次 setTimeout 的时候都能通过引用拿到上一次的最新 count，所以点击多少次最后就加了多少。在函数式组件里面每次更新都是重新执行当前函数，也就是说 setTimeout 里面读取到的 count 是通过闭包获取的，而这个 count 实际上只是初始值，并不是上次执行完成后的最新值，所以最后只加了 1 次。
 
 想要解决这个问题，那就涉及到另一个新的 Hook 方法 useRef。useRef 是一个对象，它拥有一个 current 属性，并且不管函数组件执行多少次，而 useRef 返回的对象永远都是原来那一个。
@@ -50,8 +48,7 @@ export default function App() {
     </h1>
   );
 }
-```
-
+```jsx
 # useRef
 
 ```js
@@ -69,8 +66,7 @@ export function useRef<T>(initialValue: T): { current: T } {
   }
   return ref;
 }
-```
-
+```jsx
 对于函数式组件，如果我们需要获取该组件子元素的 Ref，可以使用 forwardRef 来进行 Ref 转发：
 
 ```js
@@ -83,4 +79,4 @@ const FancyButton = React.forwardRef((props, ref) => (
 // You can now get a ref directly to the DOM button:
 const ref = React.createRef();
 <FancyButton ref={ref}>Click me!</FancyButton>;
-```
+```jsx

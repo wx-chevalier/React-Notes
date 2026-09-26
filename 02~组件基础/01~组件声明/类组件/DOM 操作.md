@@ -22,8 +22,7 @@ var MyComponent = React.createClass({
 });
 
 React.render(<MyComponent />, document.getElementById("example"));
-```
-
+```jsx
 需要注意的是，由于 React.findDOMNode  方法获取的是真实 DOM ，所以必须等到虚拟 DOM  插入文档以后，才能使用这个方法，否则会返回 null 。上面代码中，通过为组件指定 Click  事件的回调函数，确保了只有等到真实 DOM  发生 Click  事件之后，才会调用 React.findDOMNode  方法。
 
 # 组件渲染到 DOM
@@ -41,8 +40,7 @@ const RootElement = (
 )
 
 ReactDOM.render(RootElement, document.getElementById('app'))
-```
-
+```jsx
 # Refs
 
 # 整合非 React 类库
@@ -76,4 +74,4 @@ class JPlayer extends React.Component {
 
 // Use it in another component...
 <JPlayer sources={{ m4a: "/media/mysound.mp4", oga: "/media/mysound.ogg" }} />;
-```
+```jsx

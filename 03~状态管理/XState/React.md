@@ -35,8 +35,7 @@ export const lightMachine = Machine({
     },
   },
 });
-```
-
+```jsx
 然后在组件中定义状态：
 
 ```js
@@ -50,8 +49,7 @@ function App() {
     //...
   );
 }
-```
-
+```jsx
 React 的部分我们使用了 XState 官方提供的 @xstate/react Library，这裡用到的 useMachine 其实就是用了前面提到的 interpret 它已经帮我们产生好 service 并会回传 [state, send, service] 。
 
 ```js
@@ -76,8 +74,7 @@ function App() {
     </div>
   );
 }
-```
-
+```jsx
 最后 return 时只要透过 state.matches 决定要显示哪个状态的画面，并且在 button onClick 时传送 LIGHT_EVENTS.CLICK 事件就可以啦。
 
 ## 在类组件中使用
@@ -100,8 +97,7 @@ export const toggleMachine = Machine({
     },
   },
 });
-```
-
+```jsx
 对状态机进行解释，并将其服务实例放在组件实例上。对于本地状态，this.state.current 将持有当前的状态机状态。你可以使用除.current 以外的属性名。当组件被挂载时，服务将通过 this.service.start() 启动。当组件将卸载时，服务通过 this.service.stop() 停止。事件通过 this.service.send(event) 发送给服务。
 
 ```js
@@ -137,8 +133,7 @@ class Toggle extends React.Component {
     );
   }
 }
-```
-
+```jsx
 # 更复杂的搜索的例子
 
 > https://medium.com/weekly-webtips/intro-to-xstate-a-true-state-management-system-library-for-react-d8c0051c71e4
@@ -214,4 +209,4 @@ const machineConfig = {
 };
 
 export const searchMachine = Machine(statechart, machineConfig);
-```
+```jsx

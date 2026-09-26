@@ -53,8 +53,7 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
   const { tabKey } = useContext(StudioStore);
   return ...
 }
-```
-
+```jsx
 由于这一版是 Context 一杆推到底，这造成了一些很离谱的交互反馈，就是每一次点击其他任何地方（例如画布代码、组件的配置项），都会造成面板的 Tabs 重新渲染（左下图）。右下图是相应的重渲染分析图，可以看到任何动作都造成了重新所有页面元素的重渲染。而这还是最早期的 demo 版本，功能和数据量的才实现到 20% 左右。所以可以预见到如果不做任何优化，使用体验会差到什么程度。
 
 ![动图封面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/gif/v2-ae99855c2a9696fce27c8afe8edb6963_b.webp)
@@ -83,8 +82,7 @@ const useDataColumns = () => {
   }, [a, b, c, d]);
   // ...
 };
-```
-
+```jsx
 但 useReducer 也有很大的局限性，例如不支持异步函数、不支持内部的 reducer 互相调用，不支持和其他 state 联动（比如要当参数穿进去才可用），所以也不是最优解。
 
 **❸ 是个可被外部消费的组件**
@@ -118,8 +116,7 @@ export default () => {
     />
   );
 };
-```
-
+```jsx
 但当我们一开始写好这个受控 api，得到结果是这样的：
 
 ![动图](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-450ae687d1643806d45c2d673d114217_b.webp)
@@ -157,8 +154,7 @@ const useTableStore = (state: Partial<Omit<ProTableConfigStore, 'columns' | 'dat
 
   // ...
 }
-```
-
+```jsx
 造成上述问题的原因大部分都是因为组件内 onChange 的时机设置。一旦代码里用 useEffect 的方式去监听变更触发 onChange，有很大的概率会造成死循环。
 
 **❹ 未来还希望能支持撤销重做、快捷键等能力**
@@ -211,8 +207,7 @@ const ReplaceGuide: FC = () => {
   // ...
   return ...
 }
-```
-
+```jsx
 而 zustand 做到的第一点创新就是：**默认不需要 Provider**。直接声明一个 hooks 式的 useStore 后就可以在不同组件中进行调用。它们的状态会直接共享，简单而美好。
 
 ```js
@@ -256,8 +251,7 @@ function Counter() {
   const { count } = useStore();
   return <h1>{count}</h1>;
 }
-```
-
+```jsx
 由于没有 Provider 的存在，所以声明的 useStore 默认都是单实例，如果需要多实例的话，zustand 也提供了对应的 Provider 的[书写方式](https://link.zhihu.com/?target=https%3A//github.com/pmndrs/zustand%23react-contexthttps%3A//github.com/pmndrs/zustand%23react-context)，这种方式在组件库中比较常用。ProEditor 也是用的这种方式做到了多实例。
 
 此外，zustand 的 store 状态既可以在 react 世界中消费，也可以在 react 世界外消费。
@@ -301,8 +295,7 @@ const usersSlice = createSlice({
 
 // 3. 调用异步方法
 dispatch(fetchUserById(123));
-```
-
+```jsx
 而在 zustand 中，函数可以直接写，完全不用区分同步或者异步，一下子把区分同步异步的心智负担降到了 0。
 
 ```js
@@ -341,8 +334,7 @@ const CreateForm: FC = () => {
 
   // ...
 };
-```
-
+```jsx
 另外一个让人非常舒心的点在于，**zustand 会默认将所有的函数保持同一引用**。所以用 zustand 写的方法，默认都不会造成额外的重复渲染。（PS：这里再顺带吹一下 WebStorm 对于函数和变量的识别能力，非常好用）
 
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-bc685c4f6c102dfbe1920973c1af42e9_1440w.webp)
@@ -417,8 +409,7 @@ export const useStore = create((set, get) => ({
     }
   },
 })
-```
-
+```jsx
 可以明显看到，光是从代码量上 zustand 的 store 比 hooks 减少了 30% 。不过另外容易被大家忽略，但其实更重要的是，**hooks 版本中互调带来了引用变更的问题**。
 
 由于 `deprecateDraft` 和 `refetch` 都调用了 `designId`，这就会使得当 `designId` 发生变更时，`deprecateDraft` 和 `refetch` 的引用会发生变更，致使 react 触发刷新。而这在有性能优化需求的场景下非常阴间，会让不该渲染的组件重新渲染。那这也是为什么 react 要搞一个 `useEvent` 的原因（[RFC](https://link.zhihu.com/?target=https%3A//github.com/reactjs/rfcs/blob/useevent/text/0000-useevent.md)）。
@@ -434,7 +425,7 @@ import { columnsConfigReducer } from './columns';
 
 const createStore = create((set,get)=>({
   /**
-   * 控制 Columns 的复杂数据变更方法
+   - 控制 Columns 的复杂数据变更方法
    */
   dispatchColumns: (payload) => {
     const { columns, internalUpdateTableConfig, updateDataByColumns } = get();
@@ -446,8 +437,7 @@ const createStore = create((set,get)=>({
     updateDataByColumns(nextColumns);
   },
 })
-```
-
+```jsx
 ### ❸ 状态派生
 
 状态派生是状态管理中一个不被那么多人提起，但是在实际场景中被大量使用的东西，只是大家没有意识到，这理应也是状态管理的一环。
@@ -472,8 +462,7 @@ const App = () => {
   const url = useMemo(() => URL_HITU_DS_BASE(name || ""), [name]);
   // ...
 };
-```
-
+```jsx
 而 zustand 用了类似 redux selector 的方法，实现相应的状态派生，这个方式使得 useStore 的用法变得极其灵活和实用。而这种 selector 的方式使得 zustand 下细颗粒度的性能优化变为可能，且优化成本很低。
 
 ```js
@@ -491,8 +480,7 @@ const App = () => {
   const url = useStore(dsUrlSelector);
   // ...
 };
-```
-
+```jsx
 由于写法 2 可以将 selector 抽为独立函数，那么我们就可以将其拆分到独立文件来管理派生状态。由于这些 selector 都是纯函数，所以能轻松实现测试覆盖。
 
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-12f404b5c0d455a1809ec56a25d30816_1440w.webp)
@@ -529,8 +517,7 @@ const selector = (s: ProTableStore) => ({
 const TableConfig: FC = () => {
   const { tabKey, internalSetState } = useStore(selector, shallow);
 };
-```
-
+```jsx
 这样一来，TableConfig 的性能优化就做好了~
 
 ![动图封面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-5f9f7ab0f6a84c2be5cde2066cc02b70_b.jpg)
@@ -594,8 +581,7 @@ const useBoundStore = create<BearSlice & FishSlice>()((...a) => ({
   ...createBearSlice(...a),
   ...createFishSlice(...a),
 }))
-```
-
+```jsx
 **我用的更多的是基于这种分形架构下的各种中间件**。由于这种分形架构，状态就具有了很灵活的组合性，例如将当前状态直接缓存到 localStorage。在 zustand 的架构下，不用额外改造，直接加个 `persist` 中间件就好。
 
 ```js
@@ -614,8 +600,7 @@ const useBearStore = create<BearState>(
     increase: (by) => set((state) => ({ bears: state.bears + by })),
   }))
 );
-```
-
+```jsx
 在 ProEditor 中，我使用最多的就是 `devtools` 这个中间件。这个中间件具有的功能就是：将这个 Store 和 Redux Devtools 绑定。
 
 ```js
@@ -638,8 +623,7 @@ const vanillaStore = (set, get) => ({
 });
 
 const createStore = create(devtools(vanillaStore, { name: "ProTableStore" }));
-```
-
+```jsx
 然后我们就可以在 redux-devtools 中愉快地查看数据变更了：
 
 ![动图封面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-005224d644ec7d9551a787733dc5dde4_b.jpg)
@@ -681,8 +665,7 @@ const Component = () => {
   // 5. 在 react 环境内使用
   const paw = useDogStore((state) => state.paw)
   ...
-```
-
+```jsx
 虽然这个场景我还没遇到，但是一想到 zustand 在这种场景下也能支持，真的是让人十分心安。
 
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-3f862861a58e76f144c962c9bee7025f_1440w.webp)
@@ -749,8 +732,7 @@ import create from 'zustand';
 export const useStore = create(() => ({
   panelTabKey: 'antd',
 })
-```
-
+```jsx
 在相应的组件（`PickerPanel`）中引入 `useStore` ，用 hooks 的方式即可解构获得 `panelTabKey`。而需要修改状态时，可直接使用 `useStore.setState` 即可对 `panelTabKey` 进行修改。这样，zustand 最简单的状态管理方法就完成了~
 
 ```ts
@@ -780,8 +762,7 @@ const PickerPanel = () => {
     // ...
   );
 };
-```
-
+```jsx
 :::info 为了续统一心智，我在这里先将 create 中声明的状态部分，都称为 **State**。::: 由于 zustand 默认全局单例，因此只要声明一个 useStore 即可在所有地方使用，不用在外层套一个 Context ，非常舒心。同时 `useStore` 又包含了一个 `setState` 的方法，因此在需要 React 中修改状态时，可以直接使用 `setState` 进行状态修改。这是 zustand 的最最简单的使用方式，在场景初始化的时候，这样就能直接上手使用，非常简单，直接干掉 useStore + Context 妥妥的。
 
 ### Step 2: 状态变更方法：Action
@@ -795,7 +776,6 @@ const PickerPanel = () => {
 ```ts
 import create from 'zustand';
 
-
 export const useStore = create(() => ({
   panelTabKey: 'antd',
   iconList: ...,
@@ -804,8 +784,7 @@ export const useStore = create(() => ({
   filterKeywords: '',
   icon: null,
 })
-```
-
+```jsx
 如果我们直接用 Step1 的方式，大致的写法如下：
 
 ```ts
@@ -823,13 +802,11 @@ const IconList = () => {
     </div>
   );
 };
-```
-
+```jsx
 但此时会遇到新的问题，如果我在另外一个地方也需要使用这样一段操作逻辑时，我要写两次么？当然不，这既不利于开发，也不利于维护。所以，在这里我们需要抽取一个 `selectIcon` 方法专门用于选择图标这个操作，相关的状态只要都写在那里即可。而这就引出了状态管理的第二步：**自定义 Action**。在 `store.ts` 中直接声明并定义 `selectIcon` 函数，然后第一个入参改为 set，就可以在 store.ts 的方法内部直接修改状态了，代码如下所示：
 
 ```ts
 import create from 'zustand';
-
 
 // 添加第一个入参 set
 export const useStore = create((set) => ({
@@ -845,8 +822,7 @@ export const useStore = create((set) => ({
     set({ icon, open: false, filterKeywords: undefined });
     },
 })
-```
-
+```jsx
 对应在 `IconList` 中，只需引入 `selectIcon` 方法即可。
 
 ```ts
@@ -862,8 +838,7 @@ const IconList = () => {
     </div>
   );
 };
-```
-
+```jsx
 另外值得一提的两个小点：
 
 - Action 支持 `async/await`，直接给函数方法添加 async 符号即可；
@@ -879,7 +854,6 @@ const IconList = () => {
 
 ```ts
 import create from 'zustand';
-
 
 export const useStore = create(() => ({
   // 数据源
@@ -912,8 +886,7 @@ export const displayListSelector = (s: typeof useStore) => {
     }
   });
 };
-```
-
+```jsx
 当定义完成 selector 后，在组件层面作为 useStore 的第一个入参即可：
 
 ```ts
@@ -931,8 +904,7 @@ const IconList = () => {
     </div>
   );
 };
-```
-
+```jsx
 如此一来，就完成了复杂状态的派生实现。因为 useStore 可以像多个 hooks 一样进行引入，因此我们就可以利用 selector 选出自己需要的各种状态，也可以多个 selector 间进行组合，复用通用逻辑。
 
 ![多组 selector](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-24e9ade8a8503459ecf51945a42b01da_1440w.webp)
@@ -958,8 +930,7 @@ const IconList = () => {
     </div>
   );
 };
-```
-
+```jsx
 最后，由于 selector 本身的定义只是个纯函数，也能非常方便地集成单元测试。
 
 ### Step 4: 结构组织与类型定义
@@ -968,7 +939,6 @@ const IconList = () => {
 
 ```ts
 import create from 'zustand';
-
 
 // 添加第一个入参 set
 export const useStore = create((set) => ({
@@ -979,7 +949,6 @@ export const useStore = create((set) => ({
   open: false,
   filterKeywords: '',
   icon: null,
-
 
   iconfontScripts: [],
   iconfontIconList: [],
@@ -1023,8 +992,7 @@ export const displayListSelector = (s: typeof useStore) => {
     }
   });
 };
-```
-
+```jsx
 所以在我建议在 Step4 开始，就要对 Zustand 的 Store 进行更加合理地划分。首先是从 `store.ts` 重构为 `store` 文件夹，目录结构如下：
 
 ```bash
@@ -1033,8 +1001,7 @@ export const displayListSelector = (s: typeof useStore) => {
 ├── selectors.ts          // 状态派生
 ├── initialState.ts       // State 类型定义与 初始状态
 └── index.ts
-```
-
+```jsx
 如此划分的依据本质上还是基于 State、Action 与 Selector 的三者切分：
 
 - `initialState.ts`：负责 State —— 添加状态类型与初始化状态值；
@@ -1079,8 +1046,7 @@ export const initialState: State = {
   iconfontIconList: [],
   onIconChange: null,
 };
-```
-
+```jsx
 再来看看 `createStore` ，这个文件由于包含了 Action 和 Store，会稍显复杂一点，但是核心逻辑还是比较简单的。
 
 ```ts
@@ -1126,8 +1092,7 @@ export const useStore = create<Store>((set, get) => ({
     /*...*/
   },
 }));
-```
-
+```jsx
 它做了这么几件事：
 
 1. 定义了 store 中 Action 的类型，然后将 State 和 Action 合并为 Store 类型，并**导出了 Store 的类型**（比较重要）；
@@ -1171,8 +1136,7 @@ export const displayListSelector = (s: Store) => {
     }
   });
 };
-```
-
+```jsx
 最后在 `index.ts` 中输出相应的方法和类型即可：
 
 ```ts
@@ -1180,8 +1144,7 @@ export { useStore } from "./createStore";
 export type { Store } from "./createStore";
 export type { State } from "./initialState";
 export * from "./selectors";
-```
-
+```jsx
 如此一来，我们通过 将 store.ts 单一职责的文件，拆分成各司其职的多个文件后，就初步解决了接下来可能的状态大量扩展的问题与类型定义不准确的问题，基本上可以保证项目的可维护性。
 
 ### Step 5: 复杂 Action 交互：get()
@@ -1242,8 +1205,7 @@ interface Action {
 }
 
 export type Store = State & Action;
-```
-
+```jsx
 来看下具体的实现，在 zustand 中能实现上述架构的核心能力在于一个 `get()` 方法，能从自身中拿到所有的状态（State & Action）。
 
 ```ts
@@ -1335,8 +1297,7 @@ export const useStore = create<Store>((set, get) => ({
     set({ iconfontScripts: scripts });
   },
 }));
-```
-
+```jsx
 当完成相应的功能实现后，只需要在相应的触发入口中添加方法即可。
 
 ```tsx
@@ -1393,8 +1354,7 @@ const IconfontScripts: FC = memo(() => {
 });
 
 export default IconfontScripts;
-```
-
+```jsx
 基于这样的一种模式，哪怕是这样一个复杂的组件，在实现层面的研发心智仍然非常简单：
 
 - React 层面仍然只是一个渲染层；
@@ -1461,8 +1421,7 @@ const IconPicker: FC<IconPickerProps> = (props) => {
   );
 };
 export default memo(IconPicker);
-```
-
+```jsx
 第二步：**创建并添加受控更新组件** `**StoreUpdater**`
 
 首先在组件入口处添加 `StoreUpdater` 组件。
@@ -1486,8 +1445,7 @@ const IconPicker: FC<IconPickerProps> = (props) => {
   );
 };
 export default memo(IconPicker);
-```
-
+```jsx
 那 StoreUpdater 具体是干什么的？ 看下面这张图，我想大家就懂了。
 
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-5316d575e5dc43e8728e4c399f1387d4_1440w.webp)
@@ -1507,7 +1465,7 @@ import type { IconUnit, ExternalScripts } from "../types";
 import { useStoreApi } from "../store";
 
 /**
- * 更新方法
+ - 更新方法
  */
 export const useStoreUpdater = (
   key: keyof T,
@@ -1556,8 +1514,7 @@ const StoreUpdater: FC<StoreUpdaterProps> = ({
   return null;
 };
 export default StoreUpdater;
-```
-
+```jsx
 在 `StoreUpdater` 这个组件中，核心分为三个部分：
 
 - `useStoreUpdater` ：将外部的 props 同步到 store 内部的方法；
@@ -1586,7 +1543,7 @@ export interface State {
   icon?: IconUnit;
   showForm: boolean;
   /**
-   * 开启面板
+   - 开启面板
    */
   open: boolean;
   panelTabKey: "antd" | "iconfont";
@@ -1615,8 +1572,7 @@ export const initialState: State = {
   onIconChange: null,
   onIconfontScriptsChange: null,
 };
-```
-
+```jsx
 而因为我们在 Step5 中通过收敛了一些原子级的 Action，基本做到了一个 State 有一个对应的 Action，因此只需要相应的 Action 处添加受控更新的 onChange 方法即可。
 
 ```ts
@@ -1718,8 +1674,7 @@ export const createStore = () =>
       get().onIconfontScriptsChange?.(scripts);
     },
   }));
-```
-
+```jsx
 如此一来，组件的受控就完成了。
 
 （可选）第四步：**查找 useStore.setState 用法，补充 useStoreApi** 如果有一些状态非常简单，从写下的一开始就始终是 `useStore.setState` 的写法，那么这些写法在组件化之后需要做一点点小调整。因为 useStore 是完全来自于 context 下的 useStore，因此会丢失 setState 的相关方法。因此需要额外引入 `useStoreApi` ，并用 storeApi 来实施 setState。这可能算是算 zustand 从应用迁移到组件的一点点小瑕疵。
@@ -1742,8 +1697,7 @@ const IconList = () => {
     </div>
   );
 };
-```
-
+```jsx
 不过如果是真正的复杂应用，经历过 Step1~Step5 之后，估计大部分状态变更都会收敛到 Store 中，因此如果需要修改 setState 的部分，在我实际使用下来并不算太多。最后来看下这样的一个效果：
 
 ![动图封面](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-60910696c0ee8491fd5fd5cc0c80c5c7_b.jpg)
@@ -1775,7 +1729,6 @@ PickerPanel 优化前：
 ```ts
 import { useStore, useStoreApi } from '../store';
 
-
 const PickerPanel = () => {
   const { panelTabKey, icon, resetIcon } = useStore();
 
@@ -1783,8 +1736,7 @@ const PickerPanel = () => {
 
   return <>{ /*... */ }<>
 }
-```
-
+```jsx
 PickerPanel 优化后：
 
 ```ts
@@ -1806,8 +1758,7 @@ const PickerPanel = () => {
 
   return <>{ /*... */ }<>
 }
-```
-
+```jsx
 可以看到，除了多一个几乎一样的 selector 和一个 shallow，其他代码没有任何区别，但是性能优化就是这么做好了。那这是基于 zustand selector 的写法可以做到的渐进式性能优化。「需要优化？加个 selector 就好~」这样的研发心智，可以让业务开发有很多选择，譬如：
 
 - 前期撒开来默认解构 useStore，不必担心未来的性能优化难题。等发现某些地方真的需要优化时，相应的套上 selector 就好；
@@ -1836,8 +1787,7 @@ export const createStore = () =>
       { name: "IconPicker" }
     )
   );
-```
-
+```jsx
 如此一来，我们就能够使用 redux-dev-tools 可视化地查看 IconPicker 的数据流了。
 
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-bee8687afc37fd8c5e4b7ba0c760ff11_1440w.webp)
@@ -1873,8 +1823,7 @@ export const createStore = () =>
       { name: "IconPicker" }
     )
   );
-```
-
+```jsx
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-b57c5a667d0a393e9a9ba2df6688ebff_1440w.webp)
 
 基于这样的写法，我们甚至可以畅享一个面向用户的历史记录能力~

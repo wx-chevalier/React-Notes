@@ -13,8 +13,7 @@ export let InvoiceResource = createResource((id) => {
     return response.json();
   });
 });
-```
-
+```jsx
 ```js
 import cache from "./cache";
 import InvoiceResource from "./InvoiceResource";
@@ -23,8 +22,7 @@ let Invoice = ({ invoiceId }) => {
   let invoice = InvoiceResource.read(cache, invoiceId);
   return <h1>{invoice.number}</h1>;
 };
-```
-
+```jsx
 React 开始渲染（在内存中）。它打到了 InvoicesResource.read() 调用。该键的缓存（id 为键）将为空，因此它将调用我们提供给 createResource 的函数，从而触发异步获取。然后缓存将抛出我们返回的承诺（是的，我也从未考虑过抛出任何错误，但也有错误，但是如果需要可以抛出窗口。）抛出之后，不再执行任何代码。React 等待承诺解决。诺言解决。React 尝试再次渲染发票（在内存中）。它再次点击 InvoicesResource.read() 。这次数据位于缓存中，因此可以从 ApiResource.read() 同步返回我们的数据。React 将页面呈现到 DOM：
 
 ```js
@@ -79,8 +77,7 @@ class Invoice extends React.Component {
 export default connect((state) => {
   return { invoices: state.invoices };
 })(Invoices);
-```
-
+```jsx
 ```js
 import React, { Suspense, Fragment, memo } from "react";
 import { unstable_createResource } from "react-cache";
@@ -114,4 +111,4 @@ const App = () => (
 const MemoApp = memo(App);
 
 export default MemoApp;
-```
+```jsx

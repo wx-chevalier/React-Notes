@@ -30,8 +30,7 @@ declare namespace JSX {
 
 <foo />; // 正确
 <bar />; // 错误
-```
-
+```jsx
 在上例中，`<foo />` 没有问题，但是 `<bar />` 会报错，因为它没在 JSX.IntrinsicElements 里指定。
 
 ## 基于值的元素
@@ -43,8 +42,7 @@ import MyComponent from "./myComponent";
 
 <MyComponent />; // 正确
 <SomeOtherComponent />; // 错误
-```
-
+```jsx
 ## 工厂函数
 
 `jsx: react`编译选项使用的工厂函数是可以配置的。可以使用 jsxFactory 命令行选项，或内联的@jsx 注释指令在每个文件上设置。比如，给 createElement 设置 jsxFactory，`<div />` 会使用 `createElement("div")` 来生成，而不是 React.createElement("div")。
@@ -55,13 +53,11 @@ import MyComponent from "./myComponent";
 import preact = require("preact");
 /* @jsx preact.h */
 const x = <div />;
-```
-
+```jsx
 生成：
 
 ```js
 const preact = require("preact");
 const x = preact.h("div", null);
-```
-
+```jsx
 工厂函数的选择同样会影响 JSX 命名空间的查找（类型检查）。如果工厂函数使用 React.createElement 定义（默认），编译器会先检查 React.JSX，之后才检查全局的 JSX。如果工厂函数定义为 h，那么在检查全局的 JSX 之前先检查 h.JSX。

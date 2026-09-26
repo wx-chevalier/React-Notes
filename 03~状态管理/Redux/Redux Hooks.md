@@ -6,8 +6,7 @@
 
 ```js
 const result : any = useSelector(selector : Function, equalityFn? : Function)
-```
-
+```jsx
 useSelector 允许我们通过传入的 selector 函数将 State 中数据提取出来，其相当于 connect 中的 mapStateToProps 的函数。该 selector 会在组件重渲染时候被调用，useSelector 同样会监听 Redux store 的变化，然后在某个 action 分发时调用。
 
 当某个 action 被分发时，useSelector 会对之前 selector 返回的结果与当前的结果进行对比；当发现值不同时，该组件会被强制重渲染。useSelector 值会使用严格比较（`===`）来判断值的变化，而 connect 函数会使用浅比较（`==`）来判断是否需要进行重渲染。在 mapState 中，所有指定的返回域会被合并为某个对象，connect 会自动去比较单个属性值是否发生变化。而 useSelector 中则是会直接比较 selector 函数的返回值；。
@@ -26,8 +25,7 @@ export const TodoListItem = props => {
   const todo = useSelector(state => state.todos[props.id]);
   return <div>{todo.text}</div>;
 };
-```
-
+```jsx
 在上述的用法中，每次组件渲染的时候都会创建新的 selector 函数实例；我们可以使用 reselect 来创建可缓存的 selector 函数：
 
 ```js
@@ -53,14 +51,12 @@ export const App = () => {
     </>
   );
 };
-```
-
+```jsx
 # useDispatch
 
 ```js
 const dispatch = useDispatch();
-```
-
+```jsx
 该 Hook 会返回 Redux store 中的 dispatch 函数的引用，可以永安里分发 Action：
 
 ```js
@@ -79,8 +75,7 @@ export const CounterComponent = ({ value }) => {
     </div>
   );
 };
-```
-
+```jsx
 当我们在父组件封装某个事件处理函数时，建议是使用 useCallback 来创建缓存的函数，以避免子组件因为事件处理函数的变化而造成的无意义渲染：
 
 ```js
@@ -105,14 +100,12 @@ export const CounterComponent = ({ value }) => {
 export const MyIncrementButton = React.memo(({ onIncrement }) => (
   <button onClick={onIncrement}>Increment counter</button>
 ));
-```
-
+```jsx
 # useStore
 
 ```js
 const store = useStore();
-```
-
+```jsx
 该 Hook 会返回 Provider 中传入的 store 实例：
 
 ```js
@@ -126,4 +119,4 @@ export const CounterComponent = ({ value }) => {
   // The component will not automatically update if the store state changes
   return <div>{store.getState()}</div>;
 };
-```
+```jsx

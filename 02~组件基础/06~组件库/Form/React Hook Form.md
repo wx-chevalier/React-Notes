@@ -32,8 +32,7 @@ export const SelectField = (defaultValue, values) => {
 export const SwitchField = () => {
   return <Switch defaultChecked style={{ maxWidth: 50 }} />;
 };
-```
-
+```jsx
 然后将其利用 Controller 连接组件：
 
 ```ts
@@ -131,4 +130,4 @@ function Login(props) {
 }
 
 export default Login;
-```
+```jsx

@@ -71,8 +71,7 @@ const userMachine = Machine({
     },
   },
 });
-```
-
+```jsx
 已解析的数据被放置到'done.invoke.<id>'事件中，在数据属性下，例如：。
 
 ```json
@@ -83,8 +82,7 @@ const userMachine = Machine({
     "location": "Florida"
   }
 }
-```
-
+```jsx
 ## Promise Rejection
 
 如果一个 Promise 拒绝，onError 过渡将采取 `{ type: 'error.platform' }` 事件。错误数据可以在事件的 data 属性上获得。
@@ -136,8 +134,7 @@ const searchMachine = Machine({
     failure: {}
   }
 });
-```
-
+```jsx
 # Invoking Callbacks
 
 发送到父机的事件流可以通过回调处理，这是一个接收两个参数的函数：
@@ -160,8 +157,7 @@ counting: {
   }
 }
 // ...
-```
-
+```jsx
 # Invoking Machines
 
 不同的状态机之间可以按层级调用：
@@ -212,8 +208,7 @@ const service = interpret(parentMachine)
 // => 'pending'
 // ... after 1 minute
 // => 'timesUp'
-```
-
+```jsx
 ## Invoking with Context
 
 子机可以使用从父机的上下文衍生出的带有数据属性的上下文被调用。例如，下面的 parentMachine 将调用一个新的 timerMachine 服务，初始上下文为 `{ duration: 3000 }`:
@@ -246,8 +241,7 @@ const parentMachine = Machine({
     },
   },
 });
-```
-
+```jsx
 就像 assign(...) 一样，子上下文可以被映射为一个对象（首选）或一个函数。
 
 ```js
@@ -264,4 +258,4 @@ data: (context, event) => ({
   foo: event.value,
   bar: 'static value'
 })
-```
+```jsx

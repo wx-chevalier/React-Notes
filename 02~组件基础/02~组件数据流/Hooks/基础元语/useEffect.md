@@ -11,8 +11,7 @@ useEffect(() => {
   }
   fetchData();
 }, [someId]); // Or [] if effect doesn't need props or state
-```
-
+```jsx
 useEffect 是一个神奇的函数，通过不同的组合搭配我们能够极大地精简原本类组件中的业务逻辑代码。useEffect 接收两个参数，分别是要执行的回调函数、依赖数组。
 
 - 如果依赖数组为空数组，那么回调函数会在第一次渲染结束后（componentDidMount）执行，返回的函数会在组件卸载时（componentWillUnmount）执行。
@@ -50,8 +49,7 @@ export function VCForm({ formData = defaultProps.formData }) {
     />
   );
 }
-```
-
+```jsx
 这里需要注意的是，如果我们直接将默认值写在参数列表里，即 `formData = {}`；在外部参数未传入 formData，那么会发现每次组件更新都会触发 formData 被分配到新的默认值，也就导致了该组件的无限重复更新。因此我们需要仿造类组件中 defaultProps 的做法，将 defaultProps 以静态外部变量的方式存储并赋值。
 
 # useLayoutEffect
@@ -75,8 +73,7 @@ const Animate = () => {
 
   return <div ref={ref}>方块</div>;
 };
-```
-
+```jsx
 在 useEffect 里面会让这个方块往后移动 600px 距离，可以看到这个方块在移动过程中会闪一下。但如果换成了 useLayoutEffect 呢？会发现方块不会再闪动，而是直接出现在了 600px 的位置。原因是 useEffect 是在浏览器绘制之后执行的，所以方块一开始就在最左边，于是我们看到了方块移动的动画。然而 useLayoutEffect 是在绘制之前执行的，会阻塞页面的绘制，所以页面会在 useLayoutEffect 里面的代码执行结束后才去继续绘制，于是方块就直接出现在了右边。那么这里的代码是怎么实现的呢？以 preact 为例，useEffect 在 options.commit 阶段执行，而 useLayoutEffect 在 options.diffed 阶段执行。然而在实现 useEffect 的时候使用了 requestAnimationFrame，requestAnimationFrame 可以控制 useEffect 里面的函数在浏览器重绘结束，下次绘制之前执行。
 
 # useInterval
@@ -131,8 +128,7 @@ export function useInterval(
     return () => clearInterval(id);
   }, [delay]);
 }
-```
-
+```jsx
 useInterval 还能够来暂停、终止定时器。
 
 # Links

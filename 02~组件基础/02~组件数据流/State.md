@@ -24,15 +24,6 @@ class NameLabel extends Component {
 ```
 该组件存在的问题在于我们将 Props 传入的参数缓存在了 State 中，当父组件修改 Props 参数时并不会触发构造函数，相对应地最终的界面展示也就不会随着外部传入参数的变化而变化。为了修复这个错误我们可以复写组件的`componentWillReceiveProps` 函数：
 
-```js
-class NameLabel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fullName: props.firstName + "" + props.lastName
-    };
-  }
-
   componentWillReceiveProps(nextProps) {
     this.state = {
       fullName: nextProps.firstName + "" + nextProps.lastName

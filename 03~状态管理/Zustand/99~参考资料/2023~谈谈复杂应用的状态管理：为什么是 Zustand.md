@@ -970,22 +970,9 @@ export const useStore = create((set) => ({
   // ...
 })
 
-// 展示用户会看到 icon list
-export const displayListSelector = (s: typeof useStore) => {
-  // 首先判断下来自哪个数据源
-  const list = s.panelTabKey === 'iconfont' ? s.iconfontIconList : s.antdIconList
-  // 解构拿到 store 中的关键词
-  const { filterKeywords } = s;
-
   // 然后做一轮筛选判断
   return list.filter((i) => {
     if (!filterKeywords) return true;
-
-    // 根据不同的图标类型使用不同的筛选逻辑
-    switch (i.type) {
-      case 'antd':
-      case 'internal':
-        return i.componentName.toLowerCase().includes(filterKeywords.toLowerCase());
 
       case 'iconfont':
         return i.props.type.toLowerCase().includes(filterKeywords.toString());
@@ -1529,15 +1516,6 @@ export default StoreUpdater;
 
 第三步：**在相应的 Action 里添加 onChange 方法** 在第二步中看到，我们需要在 Store 的 State 中把 onChange 方法作为状态自持，因此在 initalState 文件中，就需要补充相应的类型定义和初始值：
 
-```ts
-import type {
-  ExternalScripts,
-  IconfontIcon,
-  IconUnit,
-  ReactIcon,
-} from "../types";
-import { antdIconList } from "../contents/antdIcons";
-
 export interface State {
   iconfontScripts: ExternalScripts[];
   icon?: IconUnit;
@@ -1801,13 +1779,6 @@ image.png
 import "";
 
 export type Store = State & Action;
-
-// 多一个函数执行，然后包裹 devtools
-export const createStore = () =>
-  create<Store>()(
-    devtools(
-      (set, get) => ({
-        ...initialState,
 
         // ... action
         selectIcon: (icon) => {

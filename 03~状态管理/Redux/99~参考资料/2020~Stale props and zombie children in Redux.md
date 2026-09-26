@@ -484,12 +484,6 @@ const useSelector = (selector) => {
   const [, forceUpdate] = React.useReducer((c) => c + 1, 0);
   const state = selector(store.getState());
 
-  React.useEffect(() => {
-    return store.subscribe(() => {
-      forceUpdate();
-    });
-  }, [store, forceUpdate]);
-
   return state;
 };
 ```

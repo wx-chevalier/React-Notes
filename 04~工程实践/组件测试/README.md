@@ -13,7 +13,7 @@ const ButtonWithIcon = ({ icon, children }) => (
     {children}
   </button>
 );
-```jsx
+```
 在 React 中将会被渲染成如下:
 
 ```js
@@ -21,7 +21,7 @@ const ButtonWithIcon = ({ icon, children }) => (
   <i class="icon icon_coffee"></i>
   Hello Jest!
 </button>
-```jsx
+```
 但是在浅渲染中只会被渲染成如下结果:
 
 ```js
@@ -29,7 +29,7 @@ const ButtonWithIcon = ({ icon, children }) => (
   <Icon icon="coffee" />
   Hello Jest!
 </button>
-```jsx
+```
 需要注意的是 Icon 组件并未被渲染出来。
 
 # 快照测试
@@ -50,5 +50,5 @@ exports[`test should render a small label 1`] = `
   Hello Jest!
 </label>
 `;
-```jsx
+```
 每次更改组件时，Jest 都会与当前测试的值进行比较并显示差异，并且会在你做出修改是要求你更新快照。除了测试之外，Jest 将快照存储在类似 snapshots/Label.spec.js.snap 这样的文件中，同时你需要提交这些文件。

@@ -41,7 +41,7 @@ function createStore(createState) {
 }
 
 export default createStore;
-```jsx
+```
 生成 hooks 方法：
 
 ```js
@@ -136,7 +136,7 @@ function create(createState) {
 }
 
 export default create;
-```jsx
+```
 项目中使用方法：
 
 ```js
@@ -165,4 +165,4 @@ const Other = () => {
 };
 
 export default Other;
-```jsx
+```

@@ -97,7 +97,7 @@ Fiber Node，是 Fiber Tree 的基本构成单元，也可以类比成 **Virtual
   lastEffect: Fiber | null, // 子树中最后一个side effect
   ....
 };
-```jsx
+```
 其中有几个属性需要重点关注：**return(父节点)、child(子节点)、sibling(兄弟节点)、stateNode（对应的 DOM 节点）**，**expirationTime (到期时间)、Effect (变更)。**
 
 - return：向上链接整颗树
@@ -153,7 +153,7 @@ function computeExpirationForFiber(currentTime: ExpirationTime, fiber: Fiber) {
   // ......
   return expirationTime;
 }
-```jsx
+```
 **computeInteractiveExpiration**
 
 ```js
@@ -167,7 +167,7 @@ export function computeInteractiveExpiration(currentTime: ExpirationTime) {
     HIGH_PRIORITY_BATCH_SIZE //100
   );
 }
-```jsx
+```
 **computeAsyncExpiration**
 
 ```js
@@ -183,7 +183,7 @@ export function computeAsyncExpiration(
     LOW_PRIORITY_BATCH_SIZE //250
   );
 }
-```jsx
+```
 查看上面两种方法，我们发现其实他们调用的是同一个方法：computeExpirationBucket，只是传入的参数不一样，而且传入的是常量。computeInteractiveExpiration 传入的是 150、100，computeAsyncExpiration 传入的是 5000、250。说明前者的优先级更高。那么我把前者称为高优先级更新（交互引起），后者称为低优先级更新（其他更新）。
 
 **computeExpirationBucket**
@@ -209,7 +209,7 @@ function computeExpirationBucket(
     )
   );
 }
-```jsx
+```
 最终的公式是：((((currentTime - 2 + 5000 / 10) / 25) | 0) + 1) \* 25
 
 其中只有只有 currentTime 是变量, currentTime 是通过浏览提供的 API（requestCurrentTime）获取的当前时间。
@@ -281,7 +281,7 @@ if (workInProgress === null) {
   workInProgress.firstEffect = null;
   workInProgress.lastEffect = null;
 }
-```jsx
+```
 ### 6、effect
 
 每一个 Fiber Node 都有与之相关的 effect ，effect 是用于记录由于 state 和 props 改变引起的工作类型，对于不同类型的 Fiber Node 有不同的改变类型，比如对 DOM 元素，工作包括添加，更新或删除元素。对于 class 组件，React 可能需要更新 ref 并调用 componentDidMount 和 componentDidUpdate 生命周期方法。
@@ -386,7 +386,7 @@ React Fiber 把更新过程**碎片化**，每执行完一段更新过程，就�
   </div>
   <div id="B2">B2</div>
 </div>
-```jsx
+```
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-b520d0b65d9149c351a9b01698d79beb_1440w.webp)
 
 - 副作用单链表；
@@ -427,7 +427,7 @@ function fib(n) {
     return fib(n - 1) + fib(n - 2);
   }
 }
-```jsx
+```
 采用 **Fiber 的思路**将其改写为循环（这个例子并不能和 React Fiber 的对等）：
 
 ```js
@@ -462,7 +462,7 @@ function fib(n) {
     }
   }
 }
-```jsx
+```
 ## React Fiber 是如何实现更新过程可控？
 
 更新过程的可控主要体现在下面几个方面：
@@ -527,7 +527,7 @@ React Fiber 除了通过挂起，恢复和终止来控制更新外，还给每�
   </div>
   <div id="B2">B2</div>
 </div>
-```jsx
+```
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-45a9e181175c358339a0124b88d5ca59_1440w.webp)
 
 ### 直观展示
@@ -579,7 +579,7 @@ class FiberNode {
     this.alternate = null; // current 树和 workInprogress 树之间的相互引用
   }
 }
-```jsx
+```
 ![img](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/v2-80536897c9c006a20f2c9255a2a5e8b6_1440w.webp)
 
 > 图片来源：[完全理解 React Fiber](https://link.zhihu.com/?target=https%3A//link.segmentfault.com/%3Fenc%3DJ6qPJJLhXgk%2FlqmrRndrew%3D%3D.JhzybPqTzKUeWsc%2F5VjTfVDNgkI%2BmkcF2gw72%2BRySRwaAPtVrPjMHzOdM5f1IsLZ)
@@ -601,7 +601,7 @@ function performUnitWork(currentFiber) {
     currentFiber = currentFiber.return;
   }
 }
-```jsx
+```
 ### Concurrent Mode （并发模式）
 
 Concurrent Mode 指的就是 React 利用上面 Fiber 带来的新特性开启的新模式 (mode)。react17 开始支持 concurrent mode，这种模式的根本目的是为了**让应用保持 cpu 和 io 的快速响应**，它是一组新功能，**包括 Fiber、Scheduler、Lane**，可以根据用户硬件性能和网络状况调整应用的响应速度，核心就是为了**实现异步可中断的更新**。concurrent mode 也是未来 react 主要迭代的方向。

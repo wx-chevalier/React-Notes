@@ -8,7 +8,7 @@ import { render } from "inferno";
 const message = "Hello world";
 
 render(<MyComponent message={message} />, document.getElementById("app"));
-```jsx
+```
 Inferno 也支持类似 React 的类组件：
 
 ```js
@@ -32,7 +32,7 @@ class MyComponent extends Component {
 }
 
 render(<MyComponent />, document.getElementById("app"));
-```jsx
+```
 由于性能是该库的重要方面，因此我们想向您展示如何进一步优化应用程序。在下面的示例中，我们通过使用 `JSX$HasVNodeChildren` 预定义子形状的编译时间来优化差异过程。然后，我们使用 Inferno.createTextVNode 创建文本 vNode。
 
 ```js
@@ -58,4 +58,4 @@ class MyComponent extends Component {
 }
 
 render(<MyComponent />, document.getElementById("app"));
-```jsx
+```

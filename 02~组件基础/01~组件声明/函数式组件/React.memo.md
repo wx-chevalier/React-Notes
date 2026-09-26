@@ -15,7 +15,7 @@ const Button = React.memo((props: ButtonProps) => (
     {props.children}
   </button>
 ));
-```jsx
+```
 # Links
 
 - https://dmitripavlutin.com/use-react-memo-wisely/

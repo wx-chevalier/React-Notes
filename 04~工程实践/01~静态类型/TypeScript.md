@@ -20,7 +20,7 @@ const Price: React.SFC<IPriceProps> = ({ num, symbol }: IPriceProps) => (
     <h3>{formatPrice(num, symbol)}</h3>
   </div>
 );
-```jsx
+```
 ```ts
 export function positionStyle<T>(
   Component: React.ComponentType
@@ -34,7 +34,7 @@ export function positionStyle<T>(
     );
   };
 }
-```jsx
+```
 ## 事件处理
 
 # 设计模式
@@ -54,7 +54,7 @@ export interface Connect {
 }
 
 export declare const connect: Connect;
-```jsx
+```
 # 状态管理
 
 # Links

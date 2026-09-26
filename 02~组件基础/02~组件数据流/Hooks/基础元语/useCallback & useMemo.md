@@ -13,7 +13,7 @@ function Button({ onClick, color, children }) {
   );
 }
 export default React.memo(Button); // ✅ Uses shallow comparison
-```jsx
+```
 不过在实际场景下，很多的 Callback 还是会被重新生成，我们还是需要在子组件中进行精细地 shouldComponentUpdate 控制。
 
 # 闭包冻结
@@ -58,7 +58,7 @@ let Test = () => {
     </>
   );
 };
-```jsx
+```
 点击 button1 按钮，searchID 的值加 1，点击 button2 发送一个请求。然而问题是，当我们点击了四次 button1，把 searchID 的值更改到了 4，然后点击 button2，会发现，发送出去的请求，searhID 的值是 0。
 
 ## 原因分析
@@ -79,7 +79,7 @@ storage = { a: 1 };
 storage.a = 2;
 
 storage.f();
-```jsx
+```
 参考 Hooks 的实现原理，我们可以模拟写出如下的代码：
 
 ```js
@@ -128,7 +128,7 @@ instance = MyComponent();
 
 instance.increase(); // and again...
 instance = MyComponent();
-```jsx
+```
 ## 解决方案
 
 ### 添加依赖
@@ -137,7 +137,7 @@ instance = MyComponent();
 const onSearchInfos = useCallback(() => {
   // ...
 }, [searchID]);
-```jsx
+```
 ### 使用 Ref
 
 ```js
@@ -189,7 +189,7 @@ let Test = () => {
     </>
   );
 };
-```jsx
+```
 # useMemo
 
 useMemo 的用法类似 useEffect，常常用于缓存一些复杂计算的结果。useMemo 接收一个函数和依赖数组，当数组中依赖项变化的时候，这个函数就会执行，返回新的值。
@@ -198,7 +198,7 @@ useMemo 的用法类似 useEffect，常常用于缓存一些复杂计算的结�
 const sum = useMemo(() => {
   // 一系列计算
 }, [count]);
-```jsx
+```
 # Links
 
 - https://blog.csdn.net/sinat_17775997/article/details/94453167

@@ -11,7 +11,7 @@ const todoListState = atom({
   key: "todoListState",
   default: [],
 });
-```jsx
+```
 当我们在 app 里面使用的时候，从官网的 todo list 项目来看，有三种使用方式
 
 - 单纯去使用它的值 `const todoList = useRecoilValue(todoListState);`, 如下
@@ -20,7 +20,7 @@ const todoListState = atom({
 {todoList.map((todoItem) => (
 
       ))}
-```jsx
+```
 - 单纯想去更新值 `const setTodoList = useSetRecoilState(todoListState);`, 如下
 
 ```js
@@ -34,7 +34,7 @@ const addItem = () => {
     },
   ]);
 };
-```jsx
+```
 - 想同时获取值和可以更新值 `const [todoList, setTodoList] = useRecoilState(todoListState);`，类似 react useState，其中 todolist 是 state 值，这个没什么好说，setTodoList 也是直接把值设置进去，注意跟上面 useSetRecoilState 产出的 setTodoList 的区别，
 
 # Selectors
@@ -61,7 +61,7 @@ const filteredTodoListState = selector({
     }
   },
 });
-```jsx
+```
 同时 selector 也支持 set 操作，类似官网对华氏度和摄氏度的转化, 当我们对摄氏度的 selector 进行赋值的时候，也会更新华氏度 tempFahrenheit 的值：
 
 ```js
@@ -75,4 +75,4 @@ const tempCelcius = selector({
   get: ({get}) => ((get(tempFahrenheit) - 32)  5) / 9,
   set: ({set}, newValue) => set(tempFahrenheit, (newValue  9) / 5 + 32),
 });
-```jsx
+```

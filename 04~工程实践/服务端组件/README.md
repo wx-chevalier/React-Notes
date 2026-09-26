@@ -35,7 +35,7 @@ function Note(props) {
     </div>
   );
 }
-```jsx
+```
 这个例子说明了几个关键点。
 
 - 这 "只是" 一个 React 组件：它接收道具并渲染一个视图。服务器组件有一些限制--例如，它们不能使用状态或效果--但总的来说，它们的工作与你所期望的一样。更多的细节在下面的 Capabilities & Constraints of Server and Client Components 中提供。
@@ -69,5 +69,5 @@ export default function NoteEditor(props) {
     </form>
   );
 }
-```jsx
+```
 这看起来像一个普通的 React 组件，因为它就是。客户端组件只是普通的组件。一个重要的考虑因素是，当 React 在客户端上渲染 Server Components 的结果时，它保留了之前可能已经渲染的 Client Components 的状态。具体来说，React 会将从服务器传递过来的新道具合并到现有的 Client Components 中，维护这些组件的状态（和 DOM），以保留焦点、状态和任何正在进行的动画。

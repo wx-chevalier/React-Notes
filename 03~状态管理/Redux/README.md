@@ -21,7 +21,7 @@ export default class Counter extends Component {
     return <button onClick={this.props.onIncrement}>{this.props.value}</button>;
   }
 }
-```jsx
+```
 ```js
 // 哪些 Redux 全局的 state 是我们组件想要通过 props 获取的？
 function mapStateToProps(state) {
@@ -63,7 +63,7 @@ ReactDOM.render(
   </Provider>,
   targetEl
 );
-```jsx
+```
 总结而言，各个部分的作用如下：
 
 ![React Redux 组件功能](https://s2.ax1x.com/2020/01/06/lyY2ut.md.png)
@@ -80,7 +80,7 @@ ReactDOM.render(
 
 ```js
 connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options]);
-```jsx
+```
 连接操作不会改变原来的组件类，反而返回一个新的已与 Redux store 连接的组件类。
 
 ## mapStateToProps

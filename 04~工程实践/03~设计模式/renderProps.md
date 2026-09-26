@@ -4,7 +4,7 @@ renderProps 是指一种在 React 组件之间使用一个值为函数的 prop �
 
 ```js
 <DataProvider render={data => <h1>Hello {data.target}</h1>} />
-```jsx
+```
 我们常常在交叉关注点（Cross-Cutting Concerns）使用 renderProps，组件在 React 是主要的代码复用单元，但如何共享状态或一个组件的行为封装到其他需要相同状态的组件中并不是很明了。
 
 ```js
@@ -26,7 +26,7 @@ class WindowWidth extends React.Component {
     return this.props.children(this.state.width);
   }
 }
-```jsx
+```
 # 技巧
 
 ## 使用 Props 而非 render
@@ -48,7 +48,7 @@ class WindowWidth extends React.Component {
     <p>The mouse position is {mouse.x}, {mouse.y}</p>
   )}
 </Mouse>
-```jsx
+```
 ## 无法使用 React.PureComponent
 
 如果你在 render 方法里创建函数，那么使用 render prop 会抵消使用 React.PureComponent 带来的优势。这是因为浅 prop 比较对于新 props 总会返回 false，并且在这种情况下每一个 render 对于 render prop 将会生成一个新的值。例如，继续我们之前使用 <Mouse> 组件，如果 Mouse 继承自 React.PureComponent 而不是 React.Component，我们的例子看起来就像这样：
@@ -73,7 +73,7 @@ class MouseTracker extends React.Component {
     );
   }
 }
-```jsx
+```
 在这样例子中，每次 <MouseTracker> 渲染，它会生成一个新的函数作为 <Mouse render> 的 prop，因而在同时也抵消了继承自 React.PureComponent 的 <Mouse> 组件的效果。为了绕过这一问题，有时你可以定义一个 prop 作为实例方法，类似如下：
 
 ```js
@@ -99,7 +99,7 @@ class MouseTracker extends React.Component {
     );
   }
 }
-```jsx
+```
 # 案例
 
 ## 响应鼠标移动
@@ -132,7 +132,7 @@ class MouseTracker extends React.Component {
     );
   }
 }
-```jsx
+```
 随着鼠标在屏幕上移动，在一个 `<p>` 的组件上显示它的 (x, y) 坐标。现在的问题是：我们如何在另一个组件中重用行为？换句话说，若另一组件需要知道鼠标位置，我们能否封装这一行为以让能够容易在组件间共享？由于组件是 React 中最基础的代码重用单元，现在尝试重构一部分代码能够在 `<Mouse>` 组件中封装我们需要在其他地方的行为。
 
 ```js
@@ -173,7 +173,7 @@ class MouseTracker extends React.Component {
     );
   }
 }
-```jsx
+```
 现在 `<Mouse>` 组件封装了所有关于监听 mousemove 事件和存储鼠标 (x, y) 位置的行为，但其仍不是真正的可重用。例如，假设我们现在有一个在屏幕上跟随鼠标渲染一张猫的图片的 <Cat> 组件。我们可能使用 `<Cat mouse={{ x, y }}` prop 来告诉组件鼠标的坐标以让它知道图片应该在屏幕哪个位置。
 
 ```js
@@ -235,7 +235,7 @@ class MouseTracker extends React.Component {
     );
   }
 }
-```jsx
+```
 ## 通用数据加载
 
 我们可以用 renderProps 封装的组件如下所示：
@@ -278,7 +278,7 @@ class Fetch extends React.Component {
     else return null;
   }
 }
-```jsx
+```
 该组件的用法如下：
 
 ```js
@@ -287,4 +287,4 @@ class Fetch extends React.Component {
   render={data => <ProductDetail product={data.product} />}
   error={error => <div>{error.message}</div>}
 />
-```jsx
+```

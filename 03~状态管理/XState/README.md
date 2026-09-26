@@ -20,7 +20,7 @@ XState 是一个状态管理(State Management)的 Library，负责储存及描�
 
 ```js
 if (isLogin && isYYY && isXXX)
-```jsx
+```
 这样的,程序码其实就是所谓的 bottom-up code，通常是我们先有一个小状态比如说 isLogin 然后后面又加了其他各种状态，当我们这种小状态一多，就会让,程序容出现难以察觉的 Bug。
 
 ## 过于自由的状态转换

@@ -8,7 +8,7 @@ npm install zustand
 
 # Yarn
 yarn add zustand
-```jsx
+```
 # Links
 
 - https://cloud.tencent.com/developer/article/1956768 精读《zustand 源码》

@@ -167,7 +167,7 @@ FIber Node，承载了非常关键的上下文信息，可以说是贯彻整个�
   lastEffect: Fiber | null, // 子树中最后一个side effect
   ....
 };
-```jsx
+```
 ### Fiber Reconciler
 
 在第二部分，进行 Schedule 完，获取到时间片之后，就开始进行 reconcile。
@@ -226,7 +226,7 @@ Fiber Tree 一个重要的特点是链表结构，将递归遍历编程循环遍
    child: Fiber | null,// 指向自己的第一个子节点
    sibling: Fiber | null,// 指向自己的兄弟结构，兄弟节点的return指向同一个父节点
 }
-```jsx
+```
 每一个 Fiber Node 节点与 Virtual Dom 一一对应，所有 Fiber Node 连接起来形成 Fiber tree, 是个单链表树结构，如下图所示：
 
 ![](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/2019-06-25-151232.jpg)
@@ -350,7 +350,7 @@ export function reconcileChildren(
     );
   }
 }
-```jsx
+```
 `reconcileChildren` 只是一个入口函数，如果首次渲染，current 空 null，就通过 `mountChildFibers` 创建子节点的 Fiber 实例。如果不是首次渲染，就调用 `reconcileChildFibers`去做 diff，然后得出 effect list。
 
 接下来再看看 mountChildFibers 和 reconcileChildFibers 有什么区别：
@@ -358,7 +358,7 @@ export function reconcileChildren(
 ```javascript
 export const reconcileChildFibers = ChildReconciler(true);
 export const mountChildFibers = ChildReconciler(false);
-```jsx
+```
 他们都是通过 `ChildReconciler` 函数来的，只是传递的参数不同而已。这个参数叫`shouldTrackSideEffects`，他的作用是判断是否要增加一些`effectTag`，主要是用来优化初次渲染的，因为初次渲染没有更新操作。
 
 ```javascript
@@ -370,7 +370,7 @@ function reconcileChildFibers(
 ): Fiber | null {
   // 主要的 Diff 逻辑
 }
-```jsx
+```
 `reconcileChildFibers` 就是 Diff 部分的主体代码，这个函数超级长，是一个包装函数，下面所有的 diff 代码都在这里面，详细的源码注释可以见[这里](https://github.com/crazylxr/deep-in-react/blob/master/analysis/06-rencocilerChildren.md)。
 
 **参数介绍**
@@ -412,7 +412,7 @@ return (
     //...
   </div>
 );
-```jsx
+```
 对应的单链表结构图：
 
 ![image-20190714223931338](https://ngte-superbed.oss-cn-beijing.aliyuncs.com/item/2019-07-28-134126.png)
@@ -439,7 +439,7 @@ if (currentFirstChild !== null && currentFirstChild.tag === HostText) {
   existing.return = returnFiber;
   return existing;
 }
-```jsx
+```
 在源码里 `useFiber` 就是复用节点的方法，`deleteRemainingChildren` 就是删除剩余节点的方法，这里是从 `currentFirstChild.sibling` 开始删除的。
 
 **第二种情况。**xxx 不是一个 TextNode，那么就代表这个节点不能复用，所以就从 `currentFirstChild`开始删掉剩余的节点，对应到上面的图中就是删除掉 xxx 节点和 aaa 节点。
@@ -454,7 +454,7 @@ const created = createFiberFromText(
   expirationTime
 );
 created.return = returnFiber;
-```jsx
+```
 其中 `createFiberFromText` 就是根据 `textContent` 来创建节点的方法。
 
 > 注意：删除节点不会真的从链表里面把节点删除，只是打一个 delete 的 tag，当 commit 的时候才会真正的去删除。
@@ -493,14 +493,14 @@ if (child.key === key) {
     existing.return = returnFiber;
     return existing;
 }
-```jsx
+```
 相信这些代码都很好理解了，除了判断条件跟前面 TextNode 的判断条件不一样，其余的基本都一样，只是 React Element 多了一个跟新 ref 的过程。
 
 同样，如果节点的类型不相同，就将节点从当前节点开始把剩余的都删除。
 
 ```javascript
 deleteRemainingChildren(returnFiber, child);
-```jsx
+```
 到这里，可能你们就会觉得接下来应该就是讲解当没有可以复用的节点的时候是如果创建节点的。
 
 不过可惜你们猜错了。因为 Facebook 的工程师很厉害，另外还做了一个工作来优化，来找到复用的节点。
@@ -543,7 +543,7 @@ while (child !== null) {
   }
   child = child.sibling;
 }
-```jsx
+```
 在上面这段代码我们需要注意的是，当 key 相同，React 会认为是同一个节点，所以当 key 相同，节点类型不同的时候，React 会认为你已经把这个节点重新覆盖了，所以就不会再去找剩余的节点是否可以复用。只有在 key 不同的时候，才会去找兄弟节点是否可以复用。
 
 接下来才是我们前面说的，如果没有找到可以复用的节点，然后就重新创建节点，源码如下：
@@ -569,7 +569,7 @@ if (element.type === REACT_FRAGMENT_TYPE) {
   created.return = returnFiber;
   return created;
 }
-```jsx
+```
 对于 Fragment 节点和一般的 Element 节点创建的方式不同，因为 Fragment 本来就是一个无意义的节点，他真正需要创建 Fiber 的是它的 children，而不是它自己，所以 `createFiberFromFragment` 传递的不是 `element `，而是 `element.props.children`。
 
 ## Diff Array
@@ -594,7 +594,7 @@ Diff Array 算是 Diff 中最难的一部分了，比较的复杂，因为做了
 
 ```javascript
 const key = oldFiber !== null ? oldFiber.key : null;
-```jsx
+```
 前面的经验可得，判断是否可以复用，常常会根据 key 是否相同来决定，所以首先获取了老节点的 key 是否存在。如果不存在老节点很可能是 TextNode 或者是 Fragment。
 
 接下来再看 newChild 为不同类型的时候是如何进行处理的。
@@ -612,7 +612,7 @@ if (typeof newChild === "string" || typeof newChild === "number") {
 
   return updateTextNode(returnFiber, oldFiber, "" + newChild, expirationTime);
 }
-```jsx
+```
 如果 key 不为 null，那么就代表老节点不是 TextNode，而新节点又是 TextNode，所以返回 null，不能复用，反之则可以复用，调用 `updateTextNode` 方法。
 
 > 注意，updateTextNode 里面包含了首次渲染的时候的逻辑，首次渲染的时候回插入一个 TextNode，而不是复用。
@@ -647,7 +647,7 @@ if (typeof newChild === "object" && newChild !== null) {
     );
   }
 }
-```jsx
+```
 首先判断是否是对象，用的是 `typeof newChild === 'object' && newChild !== null` ，注意要加 `!== null`，因为 `typeof null` 也是 object。
 
 然后通过 $$typeof 判断是 REACT_ELEMENT_TYPE 还是 REACT_PORTAL_TYPE，分别调用不同的复用逻辑，然后由于数组也是 Object ，所以这个 if 里面也有数组的复用逻辑。
@@ -678,7 +678,7 @@ for (; oldFiber !== null && newIdx < newChildren.length; newIdx++) {
 
   // 其他 code，比如删除复用的节点
 }
-```jsx
+```
 这并不是源码的全部源码，我只是把思路给贴出来了。
 
 这是第一次遍历新数组，通过调用 `updateSlot` 来对比新老元素，前面介绍的如何对比新老节点的代码都是在这个函数里。这个循环会把所以的从前面开始能复用的节点，都复用到。比如上面我们画的图，如果两个链表里面的 **？？？**节点，不相同，那么 newFiber 为 null，这个循环就会跳出。
@@ -698,7 +698,7 @@ if (newIdx === newChildren.length) {
   deleteRemainingChildren(returnFiber, oldFiber);
   return resultingFirstChild;
 }
-```jsx
+```
 注意这里是直接 `return` 了哦，没有继续往下执行了。
 
 ### 3. 老节点已经遍历完毕
@@ -717,7 +717,7 @@ if (oldFiber === null) {
   }
   return resultingFirstChild;
 }
-```jsx
+```
 `oldFiber === null` 就是用来判断老的 Fiber 节点变量完了的代码，Fiber 链表是一个单向链表，所以为 null 的时候代表已经结束了。所以就直接把剩余的 newChild 通过循环创建 Fiber。
 
 到这里，目前简单的对数组进行增、删节点的对比还是比较简单，接下来就是移动的情况是如何进行复用的呢？
@@ -755,7 +755,7 @@ function mapRemainingChildren(
   }
   return existingChildren;
 }
-```jsx
+```
 这个 `mapRemainingChildren` 就是将老数组存放到 Map 里面。元素有 key 就 Map 的键就存 key，没有 key 就存 index，key 一定是字符串，index 一定是 number，所以取的时候是能区分的，所以这里用的是 Map，而不是对象，如果是对象，属性是字符串，就没办法区别是 key 还是 index 了。
 
 现在有了这个 Map，剩下的就是循环新数组，找到 Map 里面可以复用的节点，如果找不到就创建，这个逻辑基本上跟 `updateSlot` 的复用逻辑很像，一个是从老数组链表中获取节点对比，一个是从 Map 里获取节点对比。
@@ -772,7 +772,7 @@ for (; newIdx < newChildren.length; newIdx++) {
   );
   // 省略删除 existingChildren 中的元素和添加 Placement 副作用的情况
 }
-```jsx
+```
 到这里新数组遍历完毕，也就是**同一层**的 Diff 过程完毕，接下来进行总结一下。
 
 ### 效果演示

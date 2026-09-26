@@ -41,7 +41,7 @@ class Clock extends Component {
 }
 
 render(<Clock />, document.body);
-```jsx
+```
 # Links
 
 — https://www.axihe.com/react/preact/home.html#linkstate Preact 学习笔记

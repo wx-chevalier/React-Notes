@@ -9,7 +9,7 @@ updateState({target}) {
  this.setState({user: {...this.state.user, [target.name]: target.value}});
  doSomething(this.state.user) // Uh oh, setState merely schedules a state change, so this.state.user may still have old value
 }
-```jsx
+```
 如果我们希望去在某个状态实际更新完毕之后，执行某些操作，那么可以以如下方式使用自定义的新状态：
 
 ```js
@@ -20,5 +20,5 @@ updateState({target}) {
  return { user: updatedUser }; // And what I return here will be set as the new state
  });
  }
-```jsx
+```
 # 高阶函数

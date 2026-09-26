@@ -26,7 +26,7 @@ function useWindowWidth() {
 
   return width;
 }
-```jsx
+```
 不过 Hooks 也并非全无代价，函数式组件本身会导致大量的临时函数被创建。
 
 # Links

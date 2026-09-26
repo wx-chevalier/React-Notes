@@ -13,7 +13,7 @@ const machine = Machine({
     //...
   },
 });
-```jsx
+```
 我们可以透过 withContext() 动态的给定初始资料，如下：
 
 ```js
@@ -23,7 +23,7 @@ const myMachine = machine.withContext({
     name: "Jerry",
   },
 });
-```jsx
+```
 在任何状态下，我们都可以拿到 context 的值：
 
 ```js
@@ -39,7 +39,7 @@ const service = interpret(machine.withContext({
 service.start();
 service.state.context;
 // { user: { name: 'Jerry' }, count: 10 }
-```jsx
+```
 至于要如何在特定的状态中改变 machine 内的 context 呢？我们会需要用到 Assign Actions。Actions 是一种 理射后不理 (Fire-and-forget)的 Effect，专门用来处理单一次的作用，另外在 XState 中还有许多不同种类的 Effects。
 
 # Effects
@@ -68,7 +68,7 @@ Action 本身就是一个 function，接收三个参数分别是 context, event 
 const action = (context, event, actionMeta) => {
   // do something...
 };
-```jsx
+```
 我们可以把 actions 写在任何 State 的任何事件裡，如下：
 
 ```js
@@ -96,7 +96,7 @@ const lightMachine = Machine({
     },
   },
 });
-```jsx
+```
 另外还有两种 actions，分别是在进入 state 以及离开 state 时触发，如下：
 
 ```js
@@ -117,7 +117,7 @@ const lightMachine = Machine({
     //...
   },
 });
-```jsx
+```
 在进入 red 状态时会触发 red 内部的 entry，在离开 red 状态时会触发 red 内部的 exit。这两种 actions 我们称为 entry actions 以及 exit actions。另外 actions 可以定义在 machine options 内，并透过 string 来指定执行的 action，如下：
 
 ```js
@@ -147,7 +147,7 @@ const lightMachine = Machine({
   },
 });
 
-```jsx
+```
 所有设定 actions 的地方都可以是一个 array，依序执行多个 actions，如下：
 
 ```js
@@ -180,7 +180,7 @@ const lightMachine = Machine(
     },
   }
 );
-```jsx
+```
 在实务开发上，不建议直接把 action function inline 在 machine config 裡，如下，这会造成之后难以除错、测试以及图像化。
 
 ```ts
@@ -188,7 +188,7 @@ const lightMachine = Machine(
     target: 'gerrn',
     actions: (context, event) => console.log('hello green')
   }
-```jsx
+```
 建议统一把 actions 放在 machine options 内，如下：
 
 ```js
@@ -211,7 +211,7 @@ const lightMachine = Machine(
     },
   }
 );
-```jsx
+```
 # Assign Action
 
 assign 是一个 function 专门用来更新 machine context，它吃一个 assigner 参数，这个参数会表示 context 要更新成什麽值。assigner 可以是一个 object (推荐用法)，用法如下：
@@ -226,7 +226,7 @@ actions: assign({
   message: "value 也可以直接是 static value",
 });
 // ...
-```jsx
+```
 assigner 也可以是一个 function，用法如下：
 
 ```js
@@ -240,7 +240,7 @@ assigner 也可以是一个 function，用法如下：
   }),
 // ...
 
-```jsx
+```
 让我们直接来看一个简单的例子吧：
 
 ```js
@@ -287,7 +287,7 @@ const counterMachine = Machine(
     },
   }
 );
-```jsx
+```
 从上面这个范例，可以看出使用 XState 能够很清楚的定义出什麽状态下可以接收哪些 event，例如在 DISABLED 的状态下就只会对 ENABLE 的 event 会有反应，对于 INC, RESET 等事件就不会有反应。另外从 DYNAMIC_INC 事件可以看出如何根据外部传入的参数控制增长数值，详细可以参考以下这段,程序码:
 
 ```js
@@ -315,7 +315,7 @@ actions: {
 />
 //...
 
-```jsx
+```
 注意事项
 
 - 永远不要从外部修改一个 machine 内的 context，任何改变 context 的行为都应该来自 event。

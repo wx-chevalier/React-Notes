@@ -18,7 +18,7 @@ A.componentWillUnmount
 B.componentDidMount
 
 Cooperative Scheduling -> Stack Reconciler -> Work-in-Progress Tree
-```jsx
+```
 将当前界面树上的指针指向 Work-in-Progress 树中的对应节点，从而通过简单的键值复制来实现对象复用；这种技术也就是所谓的 Double Buffering，其能够在内存分配与垃圾回收等多个方面进行性能优化。
 
 - Synchronous

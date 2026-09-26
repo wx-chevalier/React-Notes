@@ -18,7 +18,7 @@
   <Option value="2">列2</Option>
   <Option value="3">列3</Option>
 </Select>
-```jsx
+```
 这一特性常常用于在自定义组件中进行值设置，
 
 ## Initial Form Values
@@ -85,4 +85,4 @@ class CoolForm extends Component {
     );
   }
 }
-```jsx
+```

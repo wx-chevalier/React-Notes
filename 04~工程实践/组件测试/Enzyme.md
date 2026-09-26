@@ -6,7 +6,7 @@ Enzyme 是由 Airbnb 开源的一个 React 的 JavaScript 测试工具，允许�
 
 ```jsx
 $ npm i enzyme @types/enzyme enzyme-to-json enzyme-adapter-react-16 -D
-```jsx
+```
 然后在 jest.config.js 文件中添加 snapshotSerializers 与 setupTestFrameworkScriptFile 配置：
 
 ```js
@@ -17,7 +17,7 @@ module.exports = {
   snapshotSerializers: ["enzyme-to-json/serializer"],
   setupTestFrameworkScriptFile: "<rootDir>/src/setupEnzyme.ts"
 };
-```jsx
+```
 然后创建初始化文件：
 
 ```ts
@@ -25,7 +25,7 @@ module.exports = {
 import { configure } from "enzyme";
 import * as EnzymeAdapter from "enzyme-adapter-react-16";
 configure({ adapter: new EnzymeAdapter() });
-```jsx
+```
 简单的 React 组件如下：
 
 ```tsx
@@ -62,7 +62,7 @@ export class CheckboxWithLabel extends React.Component<
     );
   }
 }
-```jsx
+```
 其对应的测试文件如下：
 
 ```tsx
@@ -82,7 +82,7 @@ test("CheckboxWithLabel changes the text after click", () => {
   // Snapshot demo
   expect(checkbox).toMatchSnapshot();
 });
-```jsx
+```
 # 测试组件的渲染
 
 对于大部分没有交互的组件，下面的测试用例已经足够:
@@ -102,7 +102,7 @@ test("render a grayish label", () => {
   const wrapper = shallow(<Label light>Hello Jest!</Label>);
   expect(wrapper).toMatchSnapshot();
 });
-```jsx
+```
 # Props 测试
 
 有的时候如果你想测试的更精确和看到真实的值。那样的话需要在 Enzyme API 中使用 Jest 的 断言。
@@ -119,7 +119,7 @@ test("render a document title and a parent title", () => {
   );
   expect(wrapper.prop("title")).toEqual("Events — Event Radar");
 });
-```jsx
+```
 有的时候你不能用快照。比如组件里面有随机 ID 像下面的代码：
 
 ```js
@@ -127,7 +127,7 @@ test("render a popover with a random ID", () => {
   const wrapper = shallow(<Popover>Hello Jest!</Popover>);
   expect(wrapper.prop("id")).toMatch(/Popover\d+/);
 });
-```jsx
+```
 # 事件测试
 
 我们可以模拟类似 `click` 或者 `change` 这样的事件然后把组件和快照做比较：
@@ -139,7 +139,7 @@ test("render Markdown in preview mode", () => {
   wrapper.find('[name="toggle-preview"]').simulate("click");
   expect(wrapper).toMatchSnapshot();
 });
-```jsx
+```
 有的时候你想要测试一个子组件中一个元素是怎样影响组件的。你需要使用 Enzyme 的 mount 方法来渲染一个真实的 DOM。
 
 ```js
@@ -149,7 +149,7 @@ test("open a code editor", () => {
   wrapper.find("button").simulate("click");
   expect(wrapper.find(".ReactCodeMirror")).toHaveLength(1);
 });
-```jsx
+```
 # 测试事件处理
 
 类似于在事件测试中，由使用快照测试组件的输出呈现替换为使用 Jest 的 mock 函数来测试事件处理程序本身：
@@ -168,4 +168,4 @@ test("pass a selected value to the onChange handler", () => {
 
   expect(onChange).toBeCalledWith(value);
 });
-```jsx
+```
